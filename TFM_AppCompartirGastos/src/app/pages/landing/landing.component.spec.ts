@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CeateGroupComponent } from './ceate-group.component';
+import { LandingComponent } from './landing.component';
 
-describe('CeateGroupComponent', () => {
-  let component: CeateGroupComponent;
-  let fixture: ComponentFixture<CeateGroupComponent>;
+describe('LandingComponent', () => {
+  let component: LandingComponent;
+  let fixture: ComponentFixture<LandingComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CeateGroupComponent]
+      imports: [LandingComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(CeateGroupComponent);
+    fixture = TestBed.createComponent(LandingComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
