@@ -5,16 +5,20 @@ import { LoginComponent } from './pages/login/login.component';
 import { Error404Component } from './pages/error404/error404.component';
 import { UserDashboardComponent } from './pages/user-dashboard/user-dashboard.component';
 import { GroupDashboardComponent } from './pages/group-dashboard/group-dashboard.component';
+import { CreateGroupComponent } from './pages/create-group/create-group.component';
+import { LandingComponent } from './pages/landing/landing.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent },
+  { path: '', redirectTo: '/landing', pathMatch: 'full' },
+  { path: 'landing', component: LandingComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'dashboard', component: UserDashboardComponent, children: [
-      {
-        path: 'groups/:groupId', component: GroupDashboardComponent
-      },
-  ]},
+  { path: 'home', component: HomeComponent, 
+  children: [
+      { path: '', component: UserDashboardComponent},
+      { path: 'groups/createGroup', component: CreateGroupComponent },
+      { path: 'groups/:groupId', component: GroupDashboardComponent },
+    ],
+  },
   { path: '**', component: Error404Component },
 ];
