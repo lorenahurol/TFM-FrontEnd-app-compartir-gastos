@@ -1,1 +1,88 @@
-<p>Formulario para registro y edición de usuarios</p>
+<form class="row g-3" novalidate>
+<!-- Name -->
+  <div class="row g-2">
+    <div class="col-md-3">
+      <label for="name" class="form-label">Nombre *</label>
+    </div>
+    <div class="col-md-9">
+      <input type="text" class="form-control" id="name" required>
+    </div>
+  </div>
+<!-- Surname -->
+  <div class="row g-2">
+    <div class="col-md-3">
+      <label for="surname" class="form-label">Apellidos *</label>
+    </div>
+    <div class="col-md-9">
+      <input type="text" class="form-control" id="surname" required>
+    </div>
+  </div>
+<!-- Username -->
+  <div class="row g-2">
+    <div class="col-md-3">
+      <label for="username" class="form-label">Username *</label>
+    </div>
+    <div class="col-md-9">
+      <div class="input-group has-validation">
+        <span class="input-group-text" id="inputGroupPrepend">&#64;</span>
+        <input type="text" class="form-control" id="username" required>
+      </div>
+    </div>
+  </div>
+<!-- Telephone -->
+  <div class="row g-2">
+    <div class="col-md-3">
+      <label for="phone" class="form-label">Teléfono</label>
+    </div>
+    <div class="col-md-9">
+      <div class="row">
+        <div  class="col-md-4">
+          <select class="form-select" id="validationCustom04">
+            <option selected disabled value="">Choose...</option>
+            <option>...</option>
+          </select>
+        </div>
+        <div class="col-md-8">
+          <input type="text" class="form-control" id="phone" required>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- email -->
+  <div class="row g-2">
+    <div class="col-md-3">
+      <label for="email" class="form-label">Correo electrónico *</label>
+    </div>
+    <div class="col-md-9">
+      <input type="text" class="form-control" id="email" value="example@email.com" required>
+    </div>
+  </div>
+<!-- Password -->
+  <div class="row g-2">
+    <div class="col-md-3">
+      <label for="password" class="form-label">Contraseña *</label>
+    </div>
+    <div class="col-md-9">
+      <input type="password" class="form-control" id="password" required>
+    </div>
+  </div>
+
+<!-- Confirm password -->
+  <div class="row g-2">
+    <div class="col-md-3">
+      <label for="password" class="form-label">Confirmar contraseña *</label>
+    </div>
+    <div class="col-md-9">
+      <input type="password" class="form-control" id="password" required>
+    </div>
+  </div>
+
+  <div class="row justify-content-between  g-3">
+    <div class="col-8">
+      <p>¿Ya tienes una cuenta? <a href="">Accede</a> </p> 
+    </div>
+    <div class="col-4 pe-0">
+      <button class="btn btn-outline-dark ps-2 pe-2" type="submit">Regístrate</button>
+    </div>
+  </div>
+</form>
