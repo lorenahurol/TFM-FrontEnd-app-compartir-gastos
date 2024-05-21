@@ -1,1 +1,29 @@
-<p>create-group-form works!</p>
+<form [formGroup]="expenseGroupForm" (ngSubmit)="getDataForm()">
+    <div>
+        <label for="title" class="form-label">Título del grupo:</label>
+        <input type="text" class="form-control" id="title" formControlName="title">
+    </div>
+
+    <div>
+        <label for="description" class="form-label">Descripción:</label>
+        <input type="text" class="form-control" id="description" formControlName="description">
+    </div>
+
+    <div>
+        <label for="category" class="form-label">Categoría:</label>
+        <select class="form-select" id="category" formControlName="category">
+            <option value="">--Selecciona una Categoría--</option>
+            <option value="option-1">Opción 1</option>
+            <option value="option-2">Opción 2</option>
+            <option value="option-3">Opción 3</option>
+            <option value="option-4">Opción 4</option>
+        </select>
+    </div>
+
+
+<div class="row g-1 mt-4">
+    <div class="col-12 col-md-4 mt-2 mt-md-0 pe-2">
+        <button class="btn btn-outline-dark w-100" type="submit">Crear</button>
+    </div>
+</div>
+</form>
