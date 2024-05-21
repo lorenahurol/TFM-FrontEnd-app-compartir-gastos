@@ -1,84 +1,87 @@
-<form class="row g-3" novalidate>
-<!-- Name -->
+<form class="row g-3" novalidate [formGroup]="inputForm" (ngSubmit)="getDataForm()">
+<!-- Forst Name -->
   <div class="row g-2">
-    <div class="col-md-3">
-      <label for="name" class="form-label">Nombre *</label>
+    <div class="col-md-3  label">
+      <label for="first_name" class="form-label mb-0">Nombre *</label>
     </div>
     <div class="col-md-9">
-      <input type="text" class="form-control" id="name" required>
+      <input type="text" class="form-control" id="first_name" formControlName="first_name" required>
     </div>
   </div>
+
 <!-- Surname -->
   <div class="row g-2">
-    <div class="col-md-3">
-      <label for="surname" class="form-label">Apellidos *</label>
+    <div class="col-md-3 label">
+      <label for="surname" class="form-label mb-0">Apellidos *</label>
     </div>
     <div class="col-md-9">
-      <input type="text" class="form-control" id="surname" required>
+      <input type="text" class="form-control" id="surname" formControlName="surname" required>
     </div>
   </div>
 <!-- Username -->
   <div class="row g-2">
-    <div class="col-md-3">
-      <label for="username" class="form-label">Username *</label>
+    <div class="col-md-3 label">
+      <label for="username" class="form-label mb-0">Username *</label>
     </div>
     <div class="col-md-9">
       <div class="input-group has-validation">
         <span class="input-group-text" id="inputGroupPrepend">&#64;</span>
-        <input type="text" class="form-control" id="username" required>
+        <input type="text" class="form-control" id="username" formControlName="username" required>
       </div>
     </div>
   </div>
+
 <!-- Telephone -->
   <div class="row g-2">
-    <div class="col-md-3">
-      <label for="phone" class="form-label">Teléfono</label>
+    <div class="col-md-3  label">
+      <label for="phone" class="form-label mb-0">Teléfono</label>
     </div>
     <div class="col-md-9">
       <div class="row">
         <div  class="col-md-4">
-          <select class="form-select" id="validationCustom04">
-            <option selected disabled value="">Choose...</option>
+          <select class="form-select" id="country_code"  formControlName="">
+            <option selected disabled value="">País...</option>
             <option>...</option>
           </select>
         </div>
         <div class="col-md-8">
-          <input type="text" class="form-control" id="phone" required>
+          <input type="text" class="form-control" id="phone" formControlName="telephone" required>
         </div>
       </div>
     </div>
   </div>
+
 <!-- email -->
   <div class="row g-2">
-    <div class="col-md-3">
-      <label for="email" class="form-label">Correo electrónico *</label>
+    <div class="col-md-3 label">
+      <label for="email" class="form-label mb-0">Correo electrónico *</label>
     </div>
     <div class="col-md-9">
-      <input type="text" class="form-control" id="email" value="example@email.com" required>
+      <input type="text" class="form-control" id="email" value="example@email.com" formControlName="email" required>
     </div>
   </div>
 <!-- Password -->
   <div class="row g-2">
-    <div class="col-md-3">
-      <label for="password" class="form-label">Contraseña *</label>
+    <div class="col-md-3 label">
+      <label for="password" class="form-label mb-0">Contraseña *</label>
     </div>
     <div class="col-md-9">
-      <input type="password" class="form-control" id="password" required>
+      <input type="password" class="form-control" id="password" formControlName="password" required>
     </div>
   </div>
 
 <!-- Confirm password -->
   <div class="row g-2">
-    <div class="col-md-3">
-      <label for="password" class="form-label">Confirmar contraseña *</label>
+    <div class="col-md-3 label">
+      <label for="password" class="form-label mb-0">Confirmar contraseña *</label>
     </div>
     <div class="col-md-9">
-      <input type="password" class="form-control" id="password" required>
+      <input type="password" class="form-control" id="password" formControlName="password_confirm" required>
     </div>
   </div>
 
   <div class="row justify-content-between  g-3">
-    <div class="col-8">
+    <div class="col-8 ">
       <p>¿Ya tienes una cuenta? <a href="">Accede</a> </p> 
     </div>
     <div class="col-4 pe-0">
