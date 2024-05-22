@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { GroupsService } from '../../services/groups.service';
 
 @Component({
   selector: 'app-create-group-form',
@@ -10,6 +11,8 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 })
 export class CreateGroupFormComponent {
   expenseGroupForm: FormGroup;
+  // Inyectar el servicio:
+  groupService = inject(GroupsService);
 
   // Inicializar el formulario:
   constructor() {
@@ -21,6 +24,9 @@ export class CreateGroupFormComponent {
   }
 
   getDataForm(): void {
+    // Insertar el grupo a traves del servicio:
+    let message: string = this.groupService.insert(this.expenseGroupForm.value);
+    alert(message);
     console.log(this.expenseGroupForm.value);
 
   }
