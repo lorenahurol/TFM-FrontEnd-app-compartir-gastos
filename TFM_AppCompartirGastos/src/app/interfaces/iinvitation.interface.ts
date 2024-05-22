@@ -1,4 +1,4 @@
-export interface IInvitationInterface {
+export interface IInvitation {
   id: number;
   date: string;
   group_id: number;

@@ -1,4 +1,4 @@
-export interface IGroupInterface {
+export interface IGroup {
     id: number;
     description: string;
     category_id: number;
