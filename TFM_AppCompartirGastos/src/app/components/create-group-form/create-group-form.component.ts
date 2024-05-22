@@ -20,7 +20,7 @@ export class CreateGroupFormComponent {
     }, [])
   }
 
-  getDataForm() {
+  getDataForm(): void {
     console.log(this.expenseGroupForm.value);
 
   }
