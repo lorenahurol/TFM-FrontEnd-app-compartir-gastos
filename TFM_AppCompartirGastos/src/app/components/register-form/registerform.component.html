@@ -15,17 +15,17 @@
     </div>
   </div>
 
-<!-- Surname -->
+<!-- Last Name -->
   <div class="row g-2">
     <div class="col-md-3 label">
-      <label for="surname" class="form-label mb-0">Apellidos *</label>
+      <label for="last_name" class="form-label mb-0">Apellidos *</label>
     </div>
     <div class="col-md-9">
-      <input type="text" class="form-control" id="surname" formControlName="surname" placeholder="de Cervantes Saavedra"  required>
-      @if (checkControl ('surname','required')) {
+      <input type="text" class="form-control" id="last_name" formControlName="last_name" placeholder="de Cervantes Saavedra"  required>
+      @if (checkControl ('last_name','required')) {
         <p class="error-msg">Campo obligatorio</p>
       }
-      @if (checkControl ('surname','pattern')) {
+      @if (checkControl ('last_name','pattern')) {
         <p class="error-msg">Nombre invàlido</p>
       }
     </div>

@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UsersService } from '../../services/users.service';
 import { IUser } from '../../interfaces/iuser.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register-form',
@@ -11,12 +12,20 @@ import { IUser } from '../../interfaces/iuser.interface';
   styleUrl: './registerform.component.css',
 })
 export class RegisterFormComponent {
-
+  router = inject (Router)
+  usersServices = inject(UsersService);
+  
   inputForm: FormGroup;
 
-  usersService = inject(UsersService)
-  arrInternationalCodes: Array<any> = []
-  user: IUser|any
+  arrInternationalCodes: Array<any> = [];
+  user: IUser = {
+  email: '' ,
+    username: '',
+    password: '',
+    firstname: '',
+    lastname: '',
+    phone: '',
+  };
 
   constructor() {
     this.inputForm = new FormGroup(
@@ -25,7 +34,7 @@ export class RegisterFormComponent {
           Validators.required,
           Validators.pattern(/^\b[A-Za-z]{2,}(?:\s+[A-Za-z]{2,})*$/),
         ]),
-        surname: new FormControl(null, [
+        last_name: new FormControl(null, [
           Validators.required,
           Validators.pattern(/^\b[A-Za-z]{2,}(?:\s+[A-Za-z]{2,})*$/),
         ]),
@@ -46,14 +55,27 @@ export class RegisterFormComponent {
     );
   }
 
+  // Función que obtiene los datos del form y los envía al servicio
   getDataForm(): void {
-    console.log(this.inputForm.value);
-    this.user = this.inputForm.value
+    this.user = {
+      email: this.inputForm.value.email,
+      username: this.inputForm.value.username,
+      password: this.inputForm.value.password,
+      firstname: this.inputForm.value.first_name,
+      lastname: this.inputForm.value.last_name,
+      phone: `${this.inputForm.value.country_code} ${this.inputForm.value.telephone}`,
+    };
 
+    this.usersServices.createNewUser(this.user).subscribe((response: any) => {
+      this.router.navigate (['/home'])
+    });
   }
 
   // Función para la comprobación de todos los validadores
-  checkControl(formControlName: string, validatorName: string): boolean | undefined {
+  checkControl(
+    formControlName: string,
+    validatorName: string
+  ): boolean | undefined {
     return (
       this.inputForm.get(formControlName)?.hasError(validatorName) &&
       this.inputForm.get(formControlName)?.touched
@@ -61,26 +83,21 @@ export class RegisterFormComponent {
   }
 
   // Función para verificar que las las dos contraseñas coinciden
-  passwordControl(formValue: AbstractControl) : {passwordControl: boolean}|null {
+  passwordControl(
+    formValue: AbstractControl
+  ): { passwordControl: boolean } | null {
     const password = formValue.get('password')?.value;
     const passwordConfirm = formValue.get('password_confirm')?.value;
 
-    if (
-      password !== passwordConfirm
-    ) {
+    if (password !== passwordConfirm) {
       return { passwordControl: true };
     } else {
       return null;
     }
   }
 
-
   ngOnInit() {
     // Recupera los valores para losta de códigos de país
-    this.arrInternationalCodes = this.usersService.getAllInternationalCodes()
-    
+    this.arrInternationalCodes = this.usersServices.getAllInternationalCodes();
   }
-
-
-
 }
