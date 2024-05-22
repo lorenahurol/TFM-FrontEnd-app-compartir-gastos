@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { UsersService } from '../../services/users.service';
+import { IUser } from '../../interfaces/iuser.interface';
 
 @Component({
   selector: 'app-register-form',
@@ -11,6 +13,10 @@ import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validator
 export class RegisterFormComponent {
 
   inputForm: FormGroup;
+
+  usersService = inject(UsersService)
+  arrInternationalCodes: Array<any> = []
+  user: IUser|any
 
   constructor() {
     this.inputForm = new FormGroup(
@@ -42,6 +48,8 @@ export class RegisterFormComponent {
 
   getDataForm(): void {
     console.log(this.inputForm.value);
+    this.user = this.inputForm.value
+
   }
 
   // Función para la comprobación de todos los validadores
@@ -65,5 +73,14 @@ export class RegisterFormComponent {
       return null;
     }
   }
+
+
+  ngOnInit() {
+    // Recupera los valores para losta de códigos de país
+    this.arrInternationalCodes = this.usersService.getAllInternationalCodes()
+    
+  }
+
+
 
 }

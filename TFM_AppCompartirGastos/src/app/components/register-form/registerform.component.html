@@ -60,7 +60,9 @@
         <div  class="col-md-4">
           <select class="form-select" id="country_code"  formControlName="country_code">
             <option selected disabled value="">País...</option>
-            <option>...</option>
+            @for (code of arrInternationalCodes; track $index) {
+              <option value="{{code.code}}">{{code.name}} ({{code.code}})</option>
+            }
           </select>
         </div>
         <div class="col-md-8">
