@@ -1,4 +1,4 @@
-export interface IExpenseInterface {
+export interface IExpense {
   id: number;
   group_id: number;
   description: string;
