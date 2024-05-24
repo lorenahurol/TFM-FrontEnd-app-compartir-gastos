@@ -1,29 +1,62 @@
-<form [formGroup]="expenseGroupForm" (ngSubmit)="getDataForm()">
-    <div>
-        <label for="title" class="form-label">Título del grupo:</label>
-        <input type="text" class="form-control" id="title" formControlName="title">
+<form class="row g-1" novalidate [formGroup]="createGroupForm" (ngSubmit)="getDataForm()">
+    <!-- Group Name -->
+    <div class="row g-2">
+        <div class="col-md-3 label">
+            <label for="group_name" class="form-label">Título del grupo: *</label>
+        </div>
+        <div class="col-md-9">
+            <input type="text" class="form-control" id="group_name" formControlName="group_name" placeholder="Fiesta de Fin de Año" required>
+            @if (checkControl ('group_name', 'required')) {
+                <p class="error-msg">Campo Obligatorio</p>
+            }
+            @if (checkControl ('group_name', 'minlength')) {
+            <p class="error-msg">Introduce al menos 3 caracteres</p>
+            }
+        </div>
     </div>
 
-    <div>
-        <label for="description" class="form-label">Descripción:</label>
-        <input type="text" class="form-control" id="description" formControlName="description">
+    <!-- Description -->
+    <!-- ** Required? ** -->
+    <div class="row g-2">
+        <div class="col-md-3 label">
+            <label for="description" class="form-label">Descripción:</label>
+        </div>
+        <div class="col-md-9">
+            <input type="text-area" class="form-control" id="description" formControlName="description" placeholder="Cena de fin de año en 'Restaurante El Buen Sabor'">
+        </div>
     </div>
 
-    <div>
-        <label for="category" class="form-label">Categoría:</label>
-        <select class="form-select" id="category" formControlName="category">
-            <option value="">--Selecciona una Categoría--</option>
-            <option value="option-1">Opción 1</option>
-            <option value="option-2">Opción 2</option>
-            <option value="option-3">Opción 3</option>
-            <option value="option-4">Opción 4</option>
-        </select>
+    <!-- Category -->
+    <div class="row g-2">
+        <div class="col-md-3 label">
+            <label for="category" class="form-label">Categoría:</label>
+        </div>
+        <div class="col-md-9">
+            <div class="row">
+                <div class="col-md-4">
+                    <select class="form-select" id="category" formControlName="category">
+                        <option selected disabled value="">--Selecciona una Categoría--</option>
+                        <!-- Acceso categorias de DB -->
+                        <!-- @for (let category of arrCategories; track category.id) {
+                        <option [value]="category.id">{{category.name}}</option>
+                        } -->
+                        <option value="option-1">Opción 1</option>
+                        <option value="option-2">Opción 2</option>
+                        <option value="option-3">Opción 3</option>
+                        <option value="option-4">Opción 4</option>
+                    </select>
+                    @if (checkControl ('category', 'required')) {
+                    <p class="error-msg">Requerido: Selecciona una categoría</p>
+                    }
+                </div>
+            </div>
+        </div>
     </div>
 
 
 <div class="row g-1 mt-4">
     <div class="col-12 col-md-4 mt-2 mt-md-0 pe-2">
-        <button class="btn btn-outline-dark w-100" type="submit">Crear</button>
+        <input class="btn btn-outline-dark w-100" type="submit" [disabled]="!createGroupForm.valid" value="Crear">
     </div>
 </div>
 </form>

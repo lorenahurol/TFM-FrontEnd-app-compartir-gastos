@@ -6,8 +6,11 @@ import { IGroup } from '../interfaces/igroup.interface';
   providedIn: 'root'
 })
 export class GroupsService {
-  private httpClient = inject(HttpClient)
+  // Inyectar HttpClient:
+  private httpClient = inject(HttpClient);
+  // Array vacio de Grupo y de Categorias:
   private arrGroup: IGroup[] = [];
+  private arrCategories: Array<object> = [];
   private id: number = 1;
   
   // Getter:
@@ -15,9 +18,14 @@ export class GroupsService {
     return this.arrGroup;
   }
 
-  // Getter by ID:
+  // Get Group By Id:
   getById(id: number): IGroup | undefined {
     return this.arrGroup.find(group => group.id === id);
+  }
+
+  // Get All Categories:
+  getAllCategories(): Array<object> {
+    return this.arrCategories;
   }
 
   // Insertar grupo:
@@ -28,3 +36,11 @@ export class GroupsService {
     return "El grupo ha sido creado correctamente";
   }
 }
+
+
+  
+ 
+
+  
+
+  
