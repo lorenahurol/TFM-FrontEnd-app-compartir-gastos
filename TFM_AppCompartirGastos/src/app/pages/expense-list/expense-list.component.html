@@ -15,9 +15,9 @@
                             <th scope="col">#</th>
                             <th scope="col">Descripción</th>
                             <th scope="col">Pagado por</th>
-                            <th scope="col">Cantidad</th>
-                            <th scope="col">Fecha</th>
-                            <th scope="col">Editar</th>
+                            <th scope="col" class="amount">Cantidad</th>
+                            <th scope="col" class="date-text">Fecha</th>
+                            <th scope="col">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -25,10 +25,10 @@
                     <tr>
                         <th scope="row">{{expense.id}}</th>
                         <td>{{ expense.description }}</td>
-                        <td>{{ expense.payer_user_id }}</td>
-                        <td>{{ expense.amount }}</td>
-                        <td>{{ formatDate(expense.date) }}</td>
-                        <td><button class="btn btn-primary" (click)="editExpense(expense.id)">Editar</button></td>
+                        <td>{{ getUserName(expense.payer_user_id) }}</td>
+                        <td class="amount">{{ formatAmount(expense.amount) }}</td>
+                        <td class="date-text">{{ formatDate(expense.date) }}</td>
+                        <td><button class="btn btn-secondary" (click)="editExpense(expense.id)">Editar</button></td>
                     }
                     </tbody>
                 } @else {

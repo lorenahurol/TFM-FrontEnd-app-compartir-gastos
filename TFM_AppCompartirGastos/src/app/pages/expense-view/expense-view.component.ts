@@ -3,6 +3,8 @@ import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validator
 import { ExpensesService } from '../../services/expenses.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IExpense } from '../../interfaces/iexpense.interface';
+import { UsersService } from '../../services/users.service';
+import { IUser } from '../../interfaces/iuser.interface';
 
 @Component({
   selector: 'app-expense-view',
@@ -15,8 +17,10 @@ export class ExpenseViewComponent {
   tipo: string = 'NUEVO';
   btnText: string = 'Añadir gasto';
   groupId: string = '';
+  arrUsers: IUser[] = [];
   expenseForm: FormGroup;
   expensesService = inject(ExpensesService);
+  userService = inject(UsersService);
   router = inject(Router);
   activatedRoute = inject(ActivatedRoute);
 
@@ -40,6 +44,7 @@ export class ExpenseViewComponent {
       if (params.groupId) {
         this.groupId = params.groupId;
         this.expenseForm.get('group_id')?.setValue(this.groupId);
+        this.arrUsers = await this.userService.getUsersByGroup(params.groupId);
       }
       // si viene el expenseId es para editar
       if (params.expenseId) {

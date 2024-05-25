@@ -16,3 +16,19 @@
 .card-text {
     font-size: 0.8rem;
 }
+
+.btn-secondary {
+    background-color: #39556d !important;
+    border-color: #3c5972 !important;
+    font-size: small;
+}
+
+.amount {
+    text-align: right;
+    padding-right: 1em;
+    white-space: nowrap;
+}
+
+.date-text {
+    text-align: center;
+}
