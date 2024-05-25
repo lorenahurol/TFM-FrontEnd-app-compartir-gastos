@@ -1,0 +1,18 @@
+.bg-primary {
+    background-color: #263746 !important;
+    opacity: 0.8;
+}
+  
+  
+.card {
+    border: 0;
+}
+
+.card-body {
+    text-align: center;
+}
+
+
+.card-text {
+    font-size: 0.8rem;
+}

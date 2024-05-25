@@ -1,1 +1,45 @@
-<p>expense-list works!</p>
+<div class="signup-view">
+    <hr />
+    <section class="container mt-2">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-body">
+                <p class="card-text">
+                    <b>GASTOS DEL GRUPO</b>
+                </p>
+            </div>
+
+            <table class="table table-striped">
+                @if (arrExpenses.length > 0) {
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Descripción</th>
+                            <th scope="col">Pagado por</th>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Fecha</th>
+                            <th scope="col">Editar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @for(expense of arrExpenses; track expense.id) {
+                    <tr>
+                        <th scope="row">{{expense.id}}</th>
+                        <td>{{ expense.description }}</td>
+                        <td>{{ expense.payer_user_id }}</td>
+                        <td>{{ expense.amount }}</td>
+                        <td>{{ formatDate(expense.date) }}</td>
+                        <td><button class="btn btn-primary" (click)="editExpense(expense.id)">Editar</button></td>
+                    }
+                    </tbody>
+                } @else {
+                    <thead>
+                        <tr>
+                            <strong>NO HAY GASTOS ACTIVOS</strong>
+                        </tr>
+                    </thead>
+                }
+            </table>
+        </div>
+    </section>
+    <hr/>
+</div>
