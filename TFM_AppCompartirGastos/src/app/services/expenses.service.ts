@@ -31,4 +31,19 @@ export class ExpensesService {
   getExpenseById(expenseId: number): Promise<IExpense> {
     return lastValueFrom(this.httpClient.get<IExpense>(`${this.API_URL}/expenses/${expenseId}`));
   }
+
+  /**
+   * Método para añadir un gasto
+   */
+  addExpense(expense: IExpense): Promise<IExpense> {
+    return lastValueFrom(this.httpClient.post<IExpense>(`${this.API_URL}/expenses`, expense));
+  }
+
+  /**
+   * Método para editar un gasto
+   */
+  editExpense(expense: IExpense): Promise<IExpense> {
+    console.log(expense);
+    return lastValueFrom(this.httpClient.put<IExpense>(`${this.API_URL}/expenses/${expense.id}`, expense));
+  }
 }

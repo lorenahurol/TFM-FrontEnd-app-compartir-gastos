@@ -8,7 +8,7 @@
                 </p>
             </div>
 
-            <form class="card p-3 shadow" novalidate [formGroup]="expenseForm" (ngSubmit)="getDataForm()">
+            <form class="card p-3 shadow" [formGroup]="expenseForm" (ngSubmit)="getDataForm()">
                 <div class="my-2">
                     <label for="description" class="form-label">Descripción</label>
                         <input type="text" class="form-control" id="description" formControlName="description" placeholder="Descripción">
@@ -42,7 +42,7 @@
                     }
                 </div>
 
-                <input type="submit" value="Añadir" class="btn btn-secondary" [disabled]="!expenseForm.valid"/>
+                <input type="submit" value="{{btnText}}" class="btn btn-secondary my-2" [disabled]="!expenseForm.valid || !expenseForm.dirty"/>
             </form>
         </div>
     </section>
