@@ -1,0 +1,50 @@
+<div class="signup-view">
+    <hr />
+    <section class="container mt-2">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-body">
+                <p class="card-text">
+                    <b>{{tipo}}</b> GASTO
+                </p>
+            </div>
+
+            <form class="card p-3 shadow" novalidate [formGroup]="expenseForm" (ngSubmit)="getDataForm()">
+                <div class="my-2">
+                    <label for="description" class="form-label">Descripción</label>
+                        <input type="text" class="form-control" id="description" formControlName="description" placeholder="Descripción">
+                        @if (checkControl('description','required')) {
+                        <p class="error-msg">Campo obligatorio</p>
+                        }
+                </div>
+
+                <div class="my-2 amount-field">
+                    <label for="amount" class="form-label">Cantidad (€)</label>
+                    <input type="number" class="form-control" id="amount" formControlName="amount" placeholder="Cantidad">
+                    @if (checkControl ('amount','required')) {
+                    <p class="error-msg">Campo obligatorio</p>
+                    }
+                </div>
+
+                <div class="my-2 date-field">
+                    <label for="date" class="form-label">Fecha</label>
+                    <input type="date" class="form-control" id="date" formControlName="date"
+                        placeholder="miguel_de_cervantes@email.es" required>
+                    @if (checkControl ('date','required')) {
+                    <p class="error-msg">Campo obligatorio</p>
+                    }
+                </div>
+
+                <div class="my-2">
+                    <label for="payer_user_id" class="form-label">Usuario pagador</label>
+                    <input type="text" class="form-control" id="payer_user_id" formControlName="payer_user_id">
+                    @if (checkControl ('payer_user_id','required')) {
+                    <p class="error-msg">Campo obligatorio</p>
+                    }
+                </div>
+
+                <input type="submit" value="Añadir" class="btn btn-secondary" [disabled]="!expenseForm.valid"/>
+            </form>
+        </div>
+    </section>
+    <hr />
+</div>
