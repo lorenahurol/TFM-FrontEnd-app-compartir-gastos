@@ -1,26 +1,27 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import {internationalCodes} from '../db/international_codes.db'
+import { environment } from '../../environments/environments';
 import { IUser } from '../interfaces/iuser.interface';
-import { Observable } from 'rxjs';
+import { lastValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UsersService {
-  private httpClient = inject(HttpClient);
+  private httpClient = inject (HttpClient);
 
-  private arrInternationalCodes: Array<object> = internationalCodes;
+  // URL de entorno
+  private API_URL: string | undefined;
 
-  private url = 'http://localhost:3000/api';
-
-  // Recupera la lista de códigos de país del fichero ../db/international_codes.db
-  getAllInternationalCodes(): Array<object> {
-    return this.arrInternationalCodes;
+  constructor() { 
+    this.API_URL = environment.API_URL;
   }
 
-  // Registro de nuevo usuario
-  createNewUser(formValue: IUser): Observable<IUser> {
-    return this.httpClient.post <IUser>(`${this.url}`,formValue);
+  /**
+   * Método para obtener todos los usuarios activos de un grupo
+   */
+  getUsersByGroup(groupId: number): Promise<IUser[]> {
+    return lastValueFrom(this.httpClient.get<IUser[]>(`${this.API_URL}/users/bygroup/${groupId}`));
   }
+
 }
