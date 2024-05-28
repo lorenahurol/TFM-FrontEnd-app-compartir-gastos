@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { GroupsService } from '../../services/groups.service';
+import { Icategory } from '../../interfaces/icategory.interface';
 
 @Component({
   selector: 'app-create-group-form',
@@ -16,7 +17,7 @@ export class CreateGroupFormComponent {
   groupService = inject(GroupsService);
 
   // Array de Categorias:
-  arrCategories: Array<object> = [];
+  arrCategories: Icategory[] = [];
 
   // Inicializar el formulario:
   constructor() {

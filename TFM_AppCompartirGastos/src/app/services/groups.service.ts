@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { IGroup } from '../interfaces/igroup.interface';
+import { Icategory } from '../interfaces/icategory.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class GroupsService {
   private httpClient = inject(HttpClient);
   // Array vacio de Grupo y de Categorias:
   private arrGroup: IGroup[] = [];
-  private arrCategories: Array<object> = [];
+  private arrCategories: Icategory[] = [];
   private id: number = 1;
   
   // Getter:
@@ -24,7 +25,7 @@ export class GroupsService {
   }
 
   // Get All Categories:
-  getAllCategories(): Array<object> {
+  getAllCategories(): Icategory[] {
     return this.arrCategories;
   }
 

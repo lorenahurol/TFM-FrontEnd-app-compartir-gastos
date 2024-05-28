@@ -36,14 +36,9 @@
                 <div class="col-md-4">
                     <select class="form-select" id="category" formControlName="category">
                         <option selected disabled value="">--Selecciona una Categoría--</option>
-                        <!-- Acceso categorias de DB -->
-                        <!-- @for (let category of arrCategories; track category.id) {
-                        <option [value]="category.id">{{category.name}}</option>
-                        } -->
-                        <option value="option-1">Opción 1</option>
-                        <option value="option-2">Opción 2</option>
-                        <option value="option-3">Opción 3</option>
-                        <option value="option-4">Opción 4</option>
+                        @for(category of arrCategories; track category.id) {
+                            <option [value]="category.id">{{category.description}}</option>
+                        }
                     </select>
                     @if (checkControl ('category', 'required')) {
                     <p class="error-msg">Requerido: Selecciona una categoría</p>
