@@ -1,4 +1,4 @@
-export const internationalCodes: Array <object> =
+export const PHONE_CODES =
 [
   {name : "España",code:"+34"},
   {name : "Afganistán",code:"+93"},
