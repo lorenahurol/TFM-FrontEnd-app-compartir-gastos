@@ -1,4 +1,4 @@
-<form class="row g-1" novalidate [formGroup]="inputForm" (ngSubmit)="getDataForm()">
+<form class="row g-1 class card p-3 shadow" novalidate [formGroup]="inputForm" (ngSubmit)="getDataForm()">
 <!-- First Name -->
   <div class="row g-2">
     <div class="col-md-3  label">
@@ -38,9 +38,12 @@
     <div class="col-md-9">
       <div class="input-group has-validation">
         <span class="input-group-text" id="inputGroupPrepend">&#64;</span>
-        <input type="text" class="form-control" id="username" formControlName="username" placeholder="MiguelDeCervantes_1547" required>
+        <input type="text" class="form-control" id="username" formControlName="username" placeholder="MiguelDeCervantes_1547" required (input)="checkUsername($event)">
         
       </div>
+      @if (usernameExists.exists === true){
+        <p class="error-msg">Uix, alguien ya ha cojido este nombre de usuario!</p>
+      }
       @if (checkControl ('username','required')) {
         <p class="error-msg">Campo obligatorio</p>
       }

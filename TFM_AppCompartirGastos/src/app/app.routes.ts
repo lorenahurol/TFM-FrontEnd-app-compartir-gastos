@@ -9,6 +9,7 @@ import { CreateGroupComponent } from './pages/create-group/create-group.componen
 import { LandingComponent } from './pages/landing/landing.component';
 import { ExpenseListComponent } from './pages/expense-list/expense-list.component';
 import { ExpenseViewComponent } from './pages/expense-view/expense-view.component';
+import { authGuard } from './common/guards/auth.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/landing', pathMatch: 'full' },
@@ -23,8 +24,7 @@ export const routes: Routes = [
       { path: 'expenses/:groupId',  component: ExpenseListComponent },
       { path: 'expenses/:groupId/add', component: ExpenseViewComponent },
       { path: 'expenses/:groupId/edit/:expenseId', component: ExpenseViewComponent },
-
-    ],
+    ], canActivate:[authGuard],
   },
   { path: '**', component: Error404Component },
 ];

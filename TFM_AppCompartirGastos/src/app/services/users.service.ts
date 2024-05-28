@@ -20,7 +20,7 @@ type RegisterBody = {
 }
 
 type LoginBody = {
-  email: string,
+  mail: string,
   password: string,
   rememberMe: boolean
 }
@@ -28,6 +28,7 @@ type LoginBody = {
 type LoginResponse = {
   message?: string,
   error?: string,
+  errno?: number,
   token?: string
 }
 
@@ -46,8 +47,11 @@ export class UsersService {
     this.API_URL = environment.API_URL;
   }
 
+  /**
+   * Método que devuelve la lista de códigos telefónicos internacionales a parir del json almacenado en ./src/app/db/international_codes.db
+   */
   getAllInternationalCodes() {
-    return this.phoneCodesArr
+    return this.phoneCodesArr;
   }
 
   /**
@@ -56,6 +60,20 @@ export class UsersService {
   getUsersByGroup(groupId: number): Promise<IUser[]> {
     return lastValueFrom(
       this.httpClient.get<IUser[]>(`${this.API_URL}/users/bygroup/${groupId}`)
+    );
+  }
+
+  /**
+   * Checks if a username already exists by sending a GET request to the /register/checkUsername/:username endpoint.
+   *
+   * @param {string} username - The username to be checked.
+   * @returns {Promise<{exists: boolean}>} - A promise that resolves to an object indicating whether the username exists.
+   */
+  checkUsename(username: string) {
+    return lastValueFrom(
+      this.httpClient.get<{ exists: boolean }>(
+        `${this.API_URL}/register/checkUsername/${username}`
+      )
     );
   }
 
@@ -71,15 +89,4 @@ export class UsersService {
     );
   }
 
-  /**
-   * Logs in a user by sending a POST request to the /login endpoint.
-   *
-   * @param {loginBody} loginBody - The login data containing email and password.
-   * @returns {Promise<loginResponse>} - A promise that resolves to the response of the login request.
-   */
-  login(loginBody: LoginBody): Promise<LoginResponse> {
-    return lastValueFrom(
-      this.httpClient.post<LoginResponse>(`${this.API_URL}/login`, loginBody)
-    );
-  }
 }

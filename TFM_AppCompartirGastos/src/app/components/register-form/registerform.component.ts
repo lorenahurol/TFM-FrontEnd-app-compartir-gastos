@@ -12,12 +12,14 @@ import { Router } from '@angular/router';
   styleUrl: './registerform.component.css',
 })
 export class RegisterFormComponent {
-  router = inject (Router)
+  router = inject(Router);
   usersServices = inject(UsersService);
-  
+
   inputForm: FormGroup;
 
   arrInternationalCodes: Array<any> = [];
+
+  usernameExists: { exists: boolean } = { exists: false };
 
   constructor() {
     this.inputForm = new FormGroup(
@@ -46,8 +48,10 @@ export class RegisterFormComponent {
       [this.passwordControl]
     );
   }
-
-  // Función que obtiene los datos del form y los envía al servicio
+  /**
+   *  Método que obtiene los datos del form y los envía al servicio.
+   *  Verifica si
+   */
   async getDataForm(): Promise<void> {
     const newUser = {
       mail: this.inputForm.value.email,
@@ -58,23 +62,33 @@ export class RegisterFormComponent {
       phone: `${this.inputForm.value.country_code} ${this.inputForm.value.telephone}`,
     };
 
-  try {
-    const response = await this.usersServices.createNewUser(newUser)
-    console.log (response)
-    if (!response.token) { 
-      alert(response.message)
-    } else {
-      localStorage.setItem('token', response.token!)
-      alert("Usuario creado correctamente")
-      this.router.navigateByUrl('/home')
-    }  
-  } catch (error: any) {
-    alert (error.message)
-  }
+    try {
+      const response = await this.usersServices.createNewUser(newUser);
+      if (!response.token) {
+        // Verifica si se recibe error de email duplicado en BBDD
+        if (response.errno === 1062) {
+          const redirect = confirm(
+            `El email ${this.inputForm.value.email} ya existe en base de datos.\n¿Quieres ir a la página de login?`
+          );
+          if (redirect) this.router.navigateByUrl('/login');
+        } else {
+          alert(response.message);
+        }
+      } else {
+        // En caso el registro sea correcto se recibe y almacena el token de login
+        localStorage.setItem('token', response.token!);
+        alert('Usuario creado correctamente');
+        this.router.navigateByUrl('/home');
+      }
+    } catch (error: any) {
+      alert(error.message);
+    }
     // this.router.navigate (['/home']);
   }
 
-  // Función para la comprobación de todos los validadores
+  /**
+   * Método para la comprobación de todos los validadores
+   */
   checkControl(
     formControlName: string,
     validatorName: string
@@ -85,7 +99,9 @@ export class RegisterFormComponent {
     );
   }
 
-  // Función para verificar que las las dos contraseñas coinciden
+  /**
+   * Método para verificar que las las dos contraseñas coinciden
+   */
   passwordControl(
     formValue: AbstractControl
   ): { passwordControl: boolean } | null {
@@ -100,7 +116,21 @@ export class RegisterFormComponent {
   }
 
   ngOnInit() {
-    // Recupera los valores para los de códigos de país
+    /**
+     * Recupera los valores para los de códigos de país
+     */
     this.arrInternationalCodes = this.usersServices.getAllInternationalCodes();
+  }
+
+  /**
+   * Método que veriifica si el username tecleado existe en BBDD
+   */
+  async checkUsername($event: any) {
+    const username = $event.target.value;
+    try {
+      this.usernameExists = await this.usersServices.checkUsename(username);
+    } catch (error: any) {
+      console.log(error.message);
+    }
   }
 }
