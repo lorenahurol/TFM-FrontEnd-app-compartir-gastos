@@ -16,6 +16,15 @@ type LoginResponse = {
   token?: string;
 };
 
+type TokenVerification = {
+  exp?: number;
+  id?: number;
+  username?: string;
+  name?: string;
+  iat?: number;
+  error?: object
+};
+
 @Injectable({
   providedIn: 'root',
 })
@@ -41,7 +50,9 @@ export class AuthService {
     );
   }
 
-  checkToken() {
-    
+  verifyToken(token: string) {
+    return lastValueFrom<TokenVerification>(
+      this.httpClient.get(`${this.API_URL}/login/${token}`)
+    );
   }
 }
