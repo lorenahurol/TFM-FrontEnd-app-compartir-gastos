@@ -18,14 +18,6 @@ export class RegisterFormComponent {
   inputForm: FormGroup;
 
   arrInternationalCodes: Array<any> = [];
-  user: IUser = {
-  email: '' ,
-    username: '',
-    password: '',
-    firstname: '',
-    lastname: '',
-    phone: '',
-  };
 
   constructor() {
     this.inputForm = new FormGroup(
@@ -56,9 +48,9 @@ export class RegisterFormComponent {
   }
 
   // Función que obtiene los datos del form y los envía al servicio
-  getDataForm(): void {
-    this.user = {
-      email: this.inputForm.value.email,
+  async getDataForm(): Promise<void> {
+    const newUser = {
+      mail: this.inputForm.value.email,
       username: this.inputForm.value.username,
       password: this.inputForm.value.password,
       firstname: this.inputForm.value.first_name,
@@ -66,9 +58,20 @@ export class RegisterFormComponent {
       phone: `${this.inputForm.value.country_code} ${this.inputForm.value.telephone}`,
     };
 
-    this.usersServices.createNewUser(this.user).subscribe((response: any) => {
-      this.router.navigate (['/home'])
-    });
+  try {
+    const response = await this.usersServices.createNewUser(newUser)
+    console.log (response)
+    if (!response.token) { 
+      alert(response.message)
+    } else {
+      localStorage.setItem('token', response.token!)
+      alert("Usuario creado correctamente")
+      this.router.navigateByUrl('/home')
+    }  
+  } catch (error: any) {
+    alert (error.message)
+  }
+    // this.router.navigate (['/home']);
   }
 
   // Función para la comprobación de todos los validadores
@@ -97,7 +100,7 @@ export class RegisterFormComponent {
   }
 
   ngOnInit() {
-    // Recupera los valores para losta de códigos de país
+    // Recupera los valores para los de códigos de país
     this.arrInternationalCodes = this.usersServices.getAllInternationalCodes();
   }
 }
