@@ -54,7 +54,12 @@ export class AuthService {
    * Verifies a token by sending a GET request to the /login/:token endpoint.
    *
    * @param {string} token - The token to be verified.
-   * @returns {Promise<TokenVerification>} - A promise that resolves to the token verification result.
+   * @returns {Promise<TokenVerification>} - A promise that resolves to the token payload 
+   * {"exp": expiration date (unix), 
+   *  "id": logged user id, 
+   *  "username": logged username, 
+   *  "name": name of logged user, 
+   *  "iat": emission date (unix)}
    */
   verifyToken(token: string) {
     return lastValueFrom<TokenVerification>(

@@ -40,7 +40,7 @@ export class RegisterFormComponent {
         telephone: new FormControl(null, []),
         email: new FormControl(null, [
           Validators.required,
-          Validators.pattern(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/),
+          Validators.pattern(/^[\w-.]+@([\w-]+\.)+[a-z]{2,4}$/),
         ]),
         password: new FormControl(null, [Validators.required]),
         password_confirm: new FormControl(null, [Validators.required]),
@@ -116,6 +116,8 @@ export class RegisterFormComponent {
   }
 
   ngOnInit() {
+    
+
     /**
      * Recupera los valores para los de códigos de país
      */
