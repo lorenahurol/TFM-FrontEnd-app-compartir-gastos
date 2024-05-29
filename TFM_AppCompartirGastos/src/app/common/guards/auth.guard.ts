@@ -7,7 +7,7 @@ export const authGuard: CanActivateFn = async (route, state) => {
   const authServices = inject (AuthService)
   const token = localStorage.getItem('login_token')
 
-  // comprueba que hay token en local storage y lo verifica
+  // comprueba que hay token en local storage y lo verifica en la API
   if (token) {
     const response = await(authServices.verifyToken(token))
     if (response.error) return false

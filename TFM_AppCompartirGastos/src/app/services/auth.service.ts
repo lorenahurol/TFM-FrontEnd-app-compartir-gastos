@@ -50,6 +50,12 @@ export class AuthService {
     );
   }
 
+  /**
+   * Verifies a token by sending a GET request to the /login/:token endpoint.
+   *
+   * @param {string} token - The token to be verified.
+   * @returns {Promise<TokenVerification>} - A promise that resolves to the token verification result.
+   */
   verifyToken(token: string) {
     return lastValueFrom<TokenVerification>(
       this.httpClient.get(`${this.API_URL}/login/${token}`)
