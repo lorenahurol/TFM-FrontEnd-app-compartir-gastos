@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UsersService } from '../../services/users.service';
-import { IUser } from '../../interfaces/iuser.interface';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-register-form',
@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 export class RegisterFormComponent {
   router = inject(Router);
   usersServices = inject(UsersService);
+  authServices = inject(AuthService)
 
   inputForm: FormGroup;
 
@@ -115,8 +116,18 @@ export class RegisterFormComponent {
     }
   }
 
-  ngOnInit() {
-    
+
+  async ngOnInit() {
+    // Antes de cargar la página verifico que el usuario no tenga ya el token de login. En caso afirmativo redirecciono a /home
+    const token = localStorage.getItem('login_token');
+    if (token) {
+      try {
+        const response = await this.authServices.verifyToken(token);
+        if (!response.error) this.router.navigateByUrl('/home');
+      } catch (error) {
+        alert(error);
+      }
+    }
 
     /**
      * Recupera los valores para los de códigos de país
