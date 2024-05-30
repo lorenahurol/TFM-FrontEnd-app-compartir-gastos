@@ -1,4 +1,4 @@
-<form class="row g-1" novalidate [formGroup]="createGroupForm" (ngSubmit)="getDataForm()">
+<form class="row g-1" novalidate [formGroup]="groupFormulario" (ngSubmit)="getDataForm()">
     <!-- Group Name -->
     <div class="row g-2">
         <div class="col-md-3 label">
@@ -36,9 +36,12 @@
                 <div class="col-md-4">
                     <select class="form-select" id="category" formControlName="category">
                         <option selected disabled value="">--Selecciona una Categoría--</option>
+                        <option> Opcion 1</option>
+                        <option> Opcion 2</option>
+                        <!--
                         @for(category of arrCategories; track category.id) {
                             <option [value]="category.id">{{category.description}}</option>
-                        }
+                        } -->
                     </select>
                     @if (checkControl ('category', 'required')) {
                     <p class="error-msg">Requerido: Selecciona una categoría</p>
@@ -51,7 +54,7 @@
 
 <div class="row g-1 mt-4">
     <div class="col-12 col-md-4 mt-2 mt-md-0 pe-2">
-        <input class="btn btn-outline-dark w-100" type="submit" [disabled]="!createGroupForm.valid" value="Crear">
+        <input class="btn btn-outline-dark w-100" type="submit" [disabled]="!groupFormulario.valid" value={{btnText}}>
     </div>
 </div>
 </form>

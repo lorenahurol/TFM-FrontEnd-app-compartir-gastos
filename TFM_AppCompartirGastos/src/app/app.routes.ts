@@ -5,8 +5,8 @@ import { LoginComponent } from './pages/login/login.component';
 import { Error404Component } from './pages/error404/error404.component';
 import { UserDashboardComponent } from './pages/user-dashboard/user-dashboard.component';
 import { GroupDashboardComponent } from './pages/group-dashboard/group-dashboard.component';
-import { CreateGroupComponent } from './pages/create-group/create-group.component';
 import { LandingComponent } from './pages/landing/landing.component';
+import { GroupFormPageComponent } from './pages/group-form/group-form-page.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/landing', pathMatch: 'full' },
@@ -16,7 +16,7 @@ export const routes: Routes = [
   { path: 'home', component: HomeComponent, 
   children: [
       { path: '', component: UserDashboardComponent},
-      { path: 'groups/createGroup', component: CreateGroupComponent },
+      { path: 'groups/groupForm', component: GroupFormPageComponent },
       { path: 'groups/:groupId', component: GroupDashboardComponent },
     ],
   },
