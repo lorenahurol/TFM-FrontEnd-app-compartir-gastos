@@ -2,12 +2,10 @@
     <hr />
     <section class="container mt-2">
         <div class="card text-white bg-primary mb-3">
-            <div class="card-body">
-                <p class="card-text">
-                    <b>GASTOS DEL GRUPO</b>
-                </p>
+            <div class="d-flex justify-content-between align-items-center pt-3 pb-3">
+                <h5 class="mb-0 text-center flex-grow-1 ">GASTOS DEL GRUPO</h5>
+                <button class="btn btn-primary" [routerLink]="['./add']" >Añadir gasto</button>
             </div>
-
             <table class="table table-striped">
                 @if (arrExpenses.length > 0) {
                     <thead>
