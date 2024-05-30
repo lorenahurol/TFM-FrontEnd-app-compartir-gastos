@@ -49,6 +49,18 @@ export class UsersService {
   }
 
   /**
+   * Fetches a user object by ID using a GET request to the `/users/:userId` endpoint.
+   *
+   * @param {number} userId - The ID of the user to retrieve.
+   * @returns {Promise<IUser>} - A promise that resolves to the retrieved user object or throws an error if the request fails. The user object conforms to the `IUser` interface.
+   */
+  getUserById(userId: number) {
+    return lastValueFrom(
+      this.httpClient.get<IUser>(`${this.API_URL}/users/${userId}`)
+    );
+  }
+
+  /**
    * Método para obtener todos los usuarios activos de un grupo
    */
   getUsersByGroup(groupId: number): Promise<IUser[]> {
@@ -83,4 +95,17 @@ export class UsersService {
     );
   }
 
+  /**
+   * Updates a user using a PUT request to the `/users/update/:id` endpoint.
+   *
+   * @param {number} id - The ID of the user to update.
+   * @param {RegisterBody} newUser - The updated user data object conforming to the `RegisterBody` interface.
+   * @returns {Promise<any>} - A promise that resolves after the update request is sent.
+   * @throws {Error} - If the request fails (e.g., network error, server-side error).
+   */
+  updateUser(id: number, newUser: RegisterBody) {
+    return lastValueFrom(
+      this.httpClient.put<any>(`${this.API_URL}/users/${id}`, newUser)
+    );
+  }
 }
