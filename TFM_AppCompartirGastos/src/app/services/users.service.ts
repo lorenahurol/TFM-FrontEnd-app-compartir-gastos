@@ -19,12 +19,6 @@ type RegisterBody = {
   phone?: string
 }
 
-type LoginBody = {
-  mail: string,
-  password: string,
-  rememberMe: boolean
-}
-
 type LoginResponse = {
   message?: string,
   error?: string,
