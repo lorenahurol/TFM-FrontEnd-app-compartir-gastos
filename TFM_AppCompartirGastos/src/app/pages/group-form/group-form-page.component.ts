@@ -9,5 +9,7 @@ import { GroupFormComponent } from '../../components/group-form/group-form.compo
   styleUrl: './group-form-page.component.css'
 })
 export class GroupFormPageComponent {
+  typeH2: string = "Crear";
+  typeH3: string = "Nuevo";
 
 }

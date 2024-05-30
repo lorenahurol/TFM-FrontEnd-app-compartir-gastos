@@ -3,6 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { IGroup } from '../interfaces/igroup.interface';
 import { Icategory } from '../interfaces/icategory.interface';
 import { lastValueFrom } from 'rxjs';
+import { environment } from '../../environments/environments';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class GroupsService {
   private API_URL: string | undefined;
 
   constructor() {
-    this.API_URL = "http://localhost:3000/api/groups" // Reemplazar por environment url 
+    this.API_URL = environment.API_URL
   }
 
   // Array vacio de Grupo y de Categorias:

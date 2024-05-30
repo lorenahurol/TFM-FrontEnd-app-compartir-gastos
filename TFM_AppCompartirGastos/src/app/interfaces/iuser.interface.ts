@@ -5,7 +5,7 @@ export interface IUser {
     password: string;
     firstname: string;
     lastname: string;
-    phone: string;
-    image: string;
-    active: boolean
+    phone?: string;
+    image?: string;
+    active?: boolean
 }

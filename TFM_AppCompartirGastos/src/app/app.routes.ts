@@ -6,6 +6,9 @@ import { Error404Component } from './pages/error404/error404.component';
 import { UserDashboardComponent } from './pages/user-dashboard/user-dashboard.component';
 import { GroupDashboardComponent } from './pages/group-dashboard/group-dashboard.component';
 import { LandingComponent } from './pages/landing/landing.component';
+import { ExpenseListComponent } from './pages/expense-list/expense-list.component';
+import { ExpenseViewComponent } from './pages/expense-view/expense-view.component';
+import { authGuard } from './common/guards/auth.guard';
 import { GroupFormPageComponent } from './pages/group-form/group-form-page.component';
 
 export const routes: Routes = [
@@ -18,7 +21,10 @@ export const routes: Routes = [
       { path: '', component: UserDashboardComponent},
       { path: 'groups/groupForm', component: GroupFormPageComponent },
       { path: 'groups/:groupId', component: GroupDashboardComponent },
-    ],
+      { path: 'expenses/:groupId',  component: ExpenseListComponent },
+      { path: 'expenses/:groupId/add', component: ExpenseViewComponent },
+      { path: 'expenses/:groupId/edit/:expenseId', component: ExpenseViewComponent },
+    ], canActivate:[authGuard],
   },
   { path: '**', component: Error404Component },
 ];

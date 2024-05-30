@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { GroupsService } from '../../services/groups.service';
 import { Icategory } from '../../interfaces/icategory.interface';
@@ -12,6 +12,9 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrl: './group-form.component.css'
 })
 export class GroupFormComponent {
+  @Output() typeH2 = new EventEmitter<string>();
+  @Output() typeH3 = new EventEmitter<string>();
+
   btnText: string = "Crear";
   arrCategories: Icategory[] = [];
   groupFormulario: FormGroup;
@@ -44,6 +47,8 @@ export class GroupFormComponent {
     this.activatedRoute.params.subscribe(async (params: any) => {
       if (params.groupId) {
         this.groupId = params.groupId;
+        this.typeH2.emit("Actualiza tu");
+        this.typeH3.emit("Editar");
         this.btnText = "Actualizar";
         try {
           const group = await this.groupsService.getGroupById(params.groupId);
@@ -54,9 +59,11 @@ export class GroupFormComponent {
           })
         } catch (error) {
           console.log(error);
-        }
+        }  } else {
+        this.typeH2.emit("Crear");
+        this.typeH3.emit("Nuevo");
       }
-    })
+      })
 
   }
 
