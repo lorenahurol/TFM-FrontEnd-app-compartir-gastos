@@ -10,6 +10,7 @@ import { LandingComponent } from './pages/landing/landing.component';
 import { ExpenseListComponent } from './pages/expense-list/expense-list.component';
 import { ExpenseViewComponent } from './pages/expense-view/expense-view.component';
 import { authGuard } from './common/guards/auth.guard';
+import { UpdateUserComponent } from './pages/update-user/update-user.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/landing', pathMatch: 'full' },
@@ -19,6 +20,7 @@ export const routes: Routes = [
   { path: 'home', component: HomeComponent, 
   children: [
       { path: '', component: UserDashboardComponent},
+      { path: 'users/update', component: UpdateUserComponent},
       { path: 'groups/createGroup', component: CreateGroupComponent },
       { path: 'groups/:groupId', component: GroupDashboardComponent },
       { path: 'expenses/:groupId',  component: ExpenseListComponent },
