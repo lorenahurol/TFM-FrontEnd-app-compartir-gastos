@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UsersService } from '../../services/users.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -14,13 +14,18 @@ import { AuthService } from '../../services/auth.service';
 export class RegisterFormComponent {
   router = inject(Router);
   usersServices = inject(UsersService);
-  authServices = inject(AuthService)
+  authServices = inject(AuthService);
+  activatedRoute = inject(ActivatedRoute);
 
   inputForm: FormGroup;
 
   arrInternationalCodes: Array<any> = [];
 
   usernameExists: { exists: boolean } = { exists: false };
+
+  isUpdate: boolean = false;
+  username: string = '';
+  id: number = 0
 
   constructor() {
     this.inputForm = new FormGroup(
@@ -49,9 +54,69 @@ export class RegisterFormComponent {
       [this.passwordControl]
     );
   }
+
+  async ngOnInit() {
+    const currentRoute = this.router.url;
+    const token = localStorage.getItem('login_token');
+
+    // Verifica si hay token y recupera el payload
+    if (token) {
+      const tokenResponse = await this.verifyToken(token);
+      // Si no es update y el token es válido, redirecciono a la home
+      if (tokenResponse.success && currentRoute !== '/home/users/update') {
+        alert('Ya estás registrado! \nTe llevamos a casa');
+        this.router.navigateByUrl('/home');
+      }
+
+      // Si es update instancio formulario rellenado
+      if (tokenResponse.success && currentRoute === '/home/users/update') {
+        this.id = tokenResponse.data.id;
+        this.isUpdate = true
+
+        const currentUser = await this.usersServices.getUserById(this.id);
+
+        // defino a nivel global el valor de username para usarlo como discriminante en la función checkusername
+        this.username = currentUser.username;
+
+        this.inputForm = new FormGroup(
+          {
+            first_name: new FormControl(currentUser.firstname, [
+              Validators.required,
+              Validators.pattern(/^\b[A-Za-z]{2,}(?:\s+[A-Za-z]{2,})*$/),
+            ]),
+            last_name: new FormControl(currentUser.lastname, [
+              Validators.required,
+              Validators.pattern(/^\b[A-Za-z]{2,}(?:\s+[A-Za-z]{2,})*$/),
+            ]),
+            username: new FormControl(currentUser.username, [
+              Validators.required,
+              Validators.pattern(/^(?!.*\s)[a-zA-Z0-9\S]{4,}$/),
+            ]),
+            country_code: new FormControl(currentUser.countryCode, []),
+            telephone: new FormControl(currentUser.phone, []),
+            email: new FormControl(currentUser.mail, [
+              Validators.required,
+              Validators.pattern(/^[\w-.]+@([\w-]+\.)+[a-z]{2,4}$/),
+            ]),
+            password: new FormControl(currentUser.password, [
+              Validators.required,
+            ]),
+            password_confirm: new FormControl(currentUser.password, [
+              Validators.required,
+            ]),
+          },
+          [this.passwordControl]
+        );
+      }
+    }
+    /**
+     * Recupera los valores para los de códigos de país
+     */
+    this.arrInternationalCodes = this.usersServices.getAllInternationalCodes();
+  }
+
   /**
    *  Método que obtiene los datos del form y los envía al servicio.
-   *  Verifica si
    */
   async getDataForm(): Promise<void> {
     const newUser = {
@@ -63,28 +128,47 @@ export class RegisterFormComponent {
       phone: `${this.inputForm.value.country_code} ${this.inputForm.value.telephone}`,
     };
 
-    try {
-      const response = await this.usersServices.createNewUser(newUser);
-      if (!response.token) {
-        // Verifica si se recibe error de email duplicado en BBDD
-        if (response.errno === 1062) {
-          const redirect = confirm(
-            `El email ${this.inputForm.value.email} ya existe en base de datos.\n¿Quieres ir a la página de login?`
-          );
-          if (redirect) this.router.navigateByUrl('/login');
+    // Petición de update de usuario
+    if (this.isUpdate) {
+      try {
+        const response = await this.usersServices.updateUser(this.id, newUser)
+        if (response.success) {
+          alert("Actualización realizada correctamente")
+          this.router.navigateByUrl('/home')
+        } else if (response.errno === 1062) {
+          // Verifica si se recibe error de email duplicado en BBDD
+          alert(`El email ${this.inputForm.value.email} ya existe en base de datos.`);
         } else {
-          alert(response.message);
+          alert (response.message)
         }
-      } else {
-        // En caso el registro sea correcto se recibe y almacena el token de login
-        localStorage.setItem('token', response.token!);
-        alert('Usuario creado correctamente');
-        this.router.navigateByUrl('/home');
+        } catch (error) {
+          alert (error)
       }
-    } catch (error: any) {
-      alert(error.message);
+    // Petición de registro de nuevo usuario
+    } else {
+      try {
+        const response = await this.usersServices.createNewUser(newUser);
+        if (!response.token) {
+          // Verifica si se recibe error de email duplicado en BBDD
+          if (response.errno === 1062) {
+            const redirect = confirm(
+              `El email ${this.inputForm.value.email} ya existe en base de datos.\n¿Quieres ir a la página de login?`
+            );
+            if (redirect) this.router.navigateByUrl('/login');
+          } else {
+            alert(response.message);
+          }
+        } else {
+          // En caso el registro sea correcto se recibe y almacena el token de login
+          localStorage.setItem('login_token', response.token!);
+          alert('Usuario creado correctamente');
+          this.router.navigateByUrl('/home');
+        }
+      } catch (error: any) {
+        alert(error.message);
+      }
+      // this.router.navigate (['/home']);
     }
-    // this.router.navigate (['/home']);
   }
 
   /**
@@ -116,34 +200,33 @@ export class RegisterFormComponent {
     }
   }
 
-
-  async ngOnInit() {
-    // Antes de cargar la página verifico que el usuario no tenga ya el token de login. En caso afirmativo redirecciono a /home
-    const token = localStorage.getItem('login_token');
-    if (token) {
-      try {
-        const response = await this.authServices.verifyToken(token);
-        if (!response.error) this.router.navigateByUrl('/home');
-      } catch (error) {
-        alert(error);
-      }
+  /**
+   * Método para verificar si el token de localStorage es válido
+   * @returns una promesa que se resuelve con un ojeto contenente el payload del token o un error
+   */
+  async verifyToken(token: string): Promise<any> {
+    try {
+      const tokenResponse = await this.authServices.verifyToken(token);
+      return { success: true, data: tokenResponse };
+    } catch (error) {
+      alert(error);
+      return { success: false, error: error };
     }
-
-    /**
-     * Recupera los valores para los de códigos de país
-     */
-    this.arrInternationalCodes = this.usersServices.getAllInternationalCodes();
   }
 
   /**
    * Método que veriifica si el username tecleado existe en BBDD
    */
   async checkUsername($event: any) {
-    const username = $event.target.value;
-    try {
-      this.usernameExists = await this.usersServices.checkUsename(username);
-    } catch (error: any) {
-      console.log(error.message);
+    const currentUsername = $event.target.value;
+    if (this.username !== currentUsername) {
+      try {
+        this.usernameExists = await this.usersServices.checkUsename(
+          currentUsername
+        );
+      } catch (error: any) {
+        console.log(error.message);
+      }
     }
   }
 }

@@ -9,6 +9,7 @@ import { LandingComponent } from './pages/landing/landing.component';
 import { ExpenseListComponent } from './pages/expense-list/expense-list.component';
 import { ExpenseViewComponent } from './pages/expense-view/expense-view.component';
 import { authGuard } from './common/guards/auth.guard';
+import { UpdateUserComponent } from './pages/update-user/update-user.component';
 import { GroupFormPageComponent } from './pages/group-form/group-form-page.component';
 
 export const routes: Routes = [
@@ -19,6 +20,7 @@ export const routes: Routes = [
   { path: 'home', component: HomeComponent, 
   children: [
       { path: '', component: UserDashboardComponent},
+      { path: 'users/update', component: UpdateUserComponent},
       { path: 'groups/groupForm', component: GroupFormPageComponent },
       { path: 'groups/:groupId', component: GroupDashboardComponent },
       { path: 'expenses/:groupId',  component: ExpenseListComponent },

@@ -36,12 +36,10 @@
                 <div class="col-md-4">
                     <select class="form-select" id="category" formControlName="category">
                         <option selected disabled value="">--Selecciona una Categoría--</option>
-                        <option> Opcion 1</option>
-                        <option> Opcion 2</option>
-                        <!--
+                        
                         @for(category of arrCategories; track category.id) {
                             <option [value]="category.id">{{category.description}}</option>
-                        } -->
+                        }
                     </select>
                     @if (checkControl ('category', 'required')) {
                     <p class="error-msg">Requerido: Selecciona una categoría</p>
