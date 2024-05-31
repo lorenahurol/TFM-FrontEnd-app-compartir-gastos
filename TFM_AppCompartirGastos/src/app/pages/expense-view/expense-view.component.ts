@@ -16,6 +16,7 @@ import { IUser } from '../../interfaces/iuser.interface';
 export class ExpenseViewComponent {
   tipo: string = 'NUEVO';
   btnText: string = 'Añadir gasto';
+  btnTextback: string = 'Volver';
   groupId: string = '';
   arrUsers: IUser[] = [];
   expenseForm: FormGroup;
@@ -92,4 +93,10 @@ export class ExpenseViewComponent {
       this.expenseForm.get(formControlName)?.touched
     );
   }
+
+  backExpensesGroup()
+  {
+    this.router.navigate([`/home/expenses/${this.groupId}`]);
+  }
+  
 }

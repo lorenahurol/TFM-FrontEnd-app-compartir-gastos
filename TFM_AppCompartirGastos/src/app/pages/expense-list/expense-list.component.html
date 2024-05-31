@@ -26,7 +26,13 @@
                         <td>{{ getUserName(expense.payer_user_id) }}</td>
                         <td class="amount">{{ formatAmount(expense.amount) }}</td>
                         <td class="date-text">{{ formatDate(expense.date) }}</td>
-                        <td><button class="btn btn-secondary" (click)="editExpense(expense.id)">Editar</button></td>
+                        <td>
+                            <div>
+                                <button class="btn btn-secondary" (click)="editExpense(expense.id)">Editar</button>
+                                <button class="btn btn-danger ms-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="saveIdExpense(expense.id)">Borrar</button>
+                            </div>
+                        </td>
+
                     }
                     </tbody>
                 } @else {
@@ -41,3 +47,22 @@
     </section>
     <hr/>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Eliminar Gasto</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Se procedera a eliminar el gasto definitivamente. ¿Esta seguro?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" (click)="deleteExpense()" data-bs-dismiss="modal">Eliminar</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>

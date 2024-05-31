@@ -5,6 +5,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import dayjs from 'dayjs';
 import { IUser } from '../../interfaces/iuser.interface';
 import { UsersService } from '../../services/users.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-expense-list',
@@ -21,7 +22,8 @@ export class ExpenseListComponent {
   userService = inject(UsersService);
   activatedRoute = inject(ActivatedRoute);
   router = inject(Router);
-
+  expenseId: number = -1;
+  
   ngOnInit() {
     this.activatedRoute.params.subscribe(async (params: any) => {
       if (params.groupId) {
@@ -39,6 +41,24 @@ export class ExpenseListComponent {
   editExpense(expenseId: number) {
     console.log(expenseId);
     this.router.navigate([`/home/expenses/${this.groupId}/edit/${expenseId}`]);
+  }
+
+  async deleteExpense() {
+    if(this.expenseId != -1)
+      {
+        const exp = await this.expenseService.deleteExpenseById(this.expenseId);
+        try {
+          this.arrExpenses = await this.expenseService.getExpensesByGroup(Number(this.groupId));
+          this.arrUsers = await this.userService.getUsersByGroup(Number(this.groupId));
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+  }
+
+  saveIdExpense(expenseId: number){
+    this.expenseId = expenseId;
   }
 
   formatDate(date: Date): string {

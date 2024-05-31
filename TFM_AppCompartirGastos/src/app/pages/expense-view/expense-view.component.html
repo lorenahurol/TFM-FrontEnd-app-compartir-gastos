@@ -48,6 +48,9 @@
 
 
                 <input type="submit" value="{{btnText}}" class="btn btn-secondary my-2" [disabled]="!expenseForm.valid || !expenseForm.dirty"/>
+
+                <input type="submit" value="{{btnTextback}}" class="btn btn-secondary my-2" (click)="backExpensesGroup"/>
+
             </form>
         </div>
     </section>
