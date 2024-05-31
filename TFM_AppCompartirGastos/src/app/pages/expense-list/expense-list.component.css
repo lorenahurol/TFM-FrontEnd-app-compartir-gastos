@@ -23,6 +23,14 @@
     font-size: small;
 }
 
+.btn-primary {
+    font-size: small;
+    background-color: rgb(19, 94, 192);
+    border-color: rgb(7, 67, 146);
+    font-weight: bold;
+    margin-right: 2em;
+}
+
 .amount {
     text-align: right;
     padding-right: 1em;

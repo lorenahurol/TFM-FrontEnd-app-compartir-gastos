@@ -29,7 +29,6 @@ export class ExpenseListComponent {
         try {
           this.arrExpenses = await this.expenseService.getExpensesByGroup(params.groupId);
           this.arrUsers = await this.userService.getUsersByGroup(params.groupId);
-          console.log(this.arrUsers);
         } catch (error) {
           console.error(error);
         }
