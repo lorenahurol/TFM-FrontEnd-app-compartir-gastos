@@ -38,10 +38,10 @@
     <div class="col-md-9">
       <div class="input-group has-validation">
         <span class="input-group-text" id="inputGroupPrepend">&#64;</span>
-        <input type="text" class="form-control" id="username" formControlName="username" placeholder="MiguelDeCervantes_1547" required (input)="checkUsername($event)">
+        <input type="text" class="form-control" id="username" formControlName="username" placeholder="MiguelDeCervantes_1547" required (input)="checkUsername ($event)">
         
       </div>
-      @if (usernameExists.exists === true){
+      @if (this.usernameExists){
         <p class="error-msg">Uix, alguien ya ha cojido este nombre de usuario!</p>
       }
       @if (checkControl ('username','required')) {
@@ -92,34 +92,36 @@
 
   </div>
 
-<!-- Password -->
-  <div class="row g-2">
-    <div class="col-md-3 label">
-      <label for="password" class="form-label mb-0">Contraseña *</label>
+  @if (!this.isUpdate) {
+      <!-- Password -->
+    <div class="row g-2">
+      <div class="col-md-3 label">
+        <label for="password" class="form-label mb-0">Contraseña *</label>
+      </div>
+      <div class="col-md-9">
+        <input type="password" class="form-control" id="password" formControlName="password" required>
+        @if (checkControl ('password','required')) {
+          <p class="error-msg">Campo obligatorio</p>
+        }
+      </div>
     </div>
-    <div class="col-md-9">
-      <input type="password" class="form-control" id="password" formControlName="password" required>
-      @if (checkControl ('password','required')) {
-        <p class="error-msg">Campo obligatorio</p>
-      }
-    </div>
-  </div>
 
-<!-- Confirm password -->
-  <div class="row g-2">
-    <div class="col-md-3 label">
-      <label for="password_confirm" class="form-label mb-0">Confirmar contraseña *</label>
-    </div>
-    <div class="col-md-9">
-      <input type="password" class="form-control" id="password_confirm" formControlName="password_confirm" required>
-      @if (inputForm.hasError('passwordControl')){
-        <p class="error-msg">Las contraseñas no coinciden</p>
-      }
-    </div>
-  </div>
+  <!-- Confirm password -->
+    <div class="row g-2">
+      <div class="col-md-3 label">
+        <label for="password_confirm" class="form-label mb-0">Confirmar contraseña *</label>
+      </div>
+      <div class="col-md-9">
+        <input type="password" class="form-control" id="password_confirm" formControlName="password_confirm" required>
+        @if (inputForm.hasError('passwordControl')){
+          <p class="error-msg">Las contraseñas no coinciden</p>
+        }
+      </div>
+    </div>}
 
   <div class="row g-1 mt-4  g-3">
-  @if (isUpdate === false) {
+  <!-- Form de registro: enlace a login y botón submit -->
+  @if (!isUpdate) {
     <div class="col-12 col-md-8">
       <p class="mb-0">¿Ya tienes una cuenta? <a href="">Accede</a> </p> 
     </div>
@@ -128,10 +130,16 @@
       <input class="btn btn-outline-dark w-100" type="submit" [disabled]="!inputForm.valid" value="Regístrate" >
     </div>
   } @else {
-    <div class="col-12 col-md-8">
+    <!-- Form de update: botón al modal change-pwd-modal y validar datos-->
+    <div class="col-12 col-lg-4  col-sm-0 mt-2 mt-md-0 pe-0">
     </div>
-    <div class="col-12 col-md-4 mt-2 mt-md-0 pe-0">
-      <input class="btn btn-outline-dark w-100" type="submit" [disabled]="!inputForm.valid" value="Actualizar" >
+    <div class="col-12 col-lg-4 col-md-6  col-sm-6 mt-2 mt-md-0 pe-0">
+      <button  type="button" class="btn btn-outline-warning w-100" data-bs-toggle="modal" data-bs-target="#changePwdModal"> Modificar contraseña </button>
+      <app-change-pwd-modal></app-change-pwd-modal>
+    </div>
+
+    <div class="col-12 col-lg-4 col-md-6  col-sm-6 mt-2 mt-md-0 pe-0">
+      <input  type="submit"  class="btn btn-outline-dark w-100"[disabled]="!inputForm.valid" value="Actualizar" >
     </div>
   }
   </div>

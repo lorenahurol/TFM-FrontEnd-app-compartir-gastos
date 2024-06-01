@@ -13,7 +13,7 @@ type PhoneCode = {
 type RegisterBody = {
   mail: string,
   username: string,
-  password: string,
+  password?: string,
   firstname: string,
   lastname: string,
   phone?: string
@@ -24,6 +24,11 @@ type LoginResponse = {
   error?: string,
   errno?: number,
   token?: string
+}
+
+type updateResponse = {
+  error?: string,
+  success?:boolean
 }
 
 @Injectable({
@@ -98,14 +103,26 @@ export class UsersService {
   /**
    * Updates a user using a PUT request to the `/users/update/:id` endpoint.
    *
-   * @param {number} id - The ID of the user to update.
    * @param {RegisterBody} newUser - The updated user data object conforming to the `RegisterBody` interface.
    * @returns {Promise<any>} - A promise that resolves after the update request is sent.
    * @throws {Error} - If the request fails (e.g., network error, server-side error).
    */
-  updateUser(id: number, newUser: RegisterBody) {
+  updateUser(newUser: RegisterBody) {
     return lastValueFrom(
-      this.httpClient.put<any>(`${this.API_URL}/users/${id}`, newUser)
+      this.httpClient.put<any>(`${this.API_URL}/users/update`, newUser)
+    );
+  }
+
+  /**
+   * Updates a user's password using a PUT request to the `/users/update/:id` endpoint.
+   *
+   * @param {RegisterBody} password - The updated user data object conforming to the `RegisterBody` interface.
+   * @returns {Promise<any>} - A promise that resolves after the update request is sent.
+   * @throws {Error} - If the request fails (e.g., network error, server-side error).
+   */
+  updatePassword(newPassword: object) {
+    return lastValueFrom(
+      this.httpClient.put<updateResponse>(`${this.API_URL}/users/updatePwd`, newPassword)
     );
   }
 }
