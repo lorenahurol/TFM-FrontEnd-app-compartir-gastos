@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 import { IUser } from '../../interfaces/iuser.interface';
 import { UsersService } from '../../services/users.service';
 import { firstValueFrom } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-expense-list',
@@ -39,22 +40,24 @@ export class ExpenseListComponent {
   }
 
   editExpense(expenseId: number) {
-    console.log(expenseId);
     this.router.navigate([`/home/expenses/${this.groupId}/edit/${expenseId}`]);
   }
 
   async deleteExpense() {
-    if(this.expenseId != -1)
-      {
+    if(this.expenseId !== -1) {
+      try {
         const exp = await this.expenseService.deleteExpenseById(this.expenseId);
-        try {
-          this.arrExpenses = await this.expenseService.getExpensesByGroup(Number(this.groupId));
-          this.arrUsers = await this.userService.getUsersByGroup(Number(this.groupId));
-        } catch (error) {
-          console.error(error);
-        }
-      }
 
+        /* Como sólo el admin puede eliminar, no tiene sentido recgargar con BD */ 
+        this.arrExpenses = this.arrExpenses.filter(expense => expense.id !== this.expenseId);
+        
+      } catch (error: HttpErrorResponse | any) {
+        console.error(error);
+        alert(`Se produjo el siguiente problema: ${error.error.error}`);
+      }
+    } else {
+      console.error('No expense selected');
+    }
   }
 
   saveIdExpense(expenseId: number){
