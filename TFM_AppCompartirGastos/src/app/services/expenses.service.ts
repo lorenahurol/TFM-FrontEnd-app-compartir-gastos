@@ -28,24 +28,10 @@ export class ExpensesService {
     /**
    * Método para obtener todos los gastos del grupo
    */
-    getPaymentsGroup(groupId: number) {
-      // let expenses :IExpense[] =[];
-      // lastValueFrom(this.httpClient.get<IExpense[]>(`${this.API_URL}/expenses/bygroup/actives/${groupId}`));
-      // const amounts: number [] = expenses.map(expensesItem =>{ return expensesItem.amount});
-      // let average: number = 0;
-      // let total : number = 0;
+    getExpensesGroupingByUser(groupId: number) {
 
-      // for (let item of expenses)
-      // {
-      //   total += item.amount;
-      // }
+      return lastValueFrom(this.httpClient.get<any>(`${this.API_URL}/expenses/bygroup/actives/totalexpensesbyuser/${groupId}`));
 
-      // if(total > 0 && expenses.length > 0)
-      // {
-      //   average = total / expenses.length;
-      // }
-
-      //Necesito el total de gasto de cada usuario del grupo
       
     }
 
