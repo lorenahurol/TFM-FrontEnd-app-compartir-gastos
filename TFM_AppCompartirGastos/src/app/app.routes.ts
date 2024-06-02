@@ -10,6 +10,7 @@ import { LandingComponent } from './pages/landing/landing.component';
 import { ExpenseListComponent } from './pages/expense-list/expense-list.component';
 import { ExpenseViewComponent } from './pages/expense-view/expense-view.component';
 import { authGuard } from './common/guards/auth.guard';
+import { rolesGuard } from './common/guards/roles.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/landing', pathMatch: 'full' },
@@ -20,10 +21,10 @@ export const routes: Routes = [
   children: [
       { path: '', component: UserDashboardComponent},
       { path: 'groups/createGroup', component: CreateGroupComponent },
-      { path: 'groups/:groupId', component: GroupDashboardComponent },
-      { path: 'expenses/:groupId',  component: ExpenseListComponent },
-      { path: 'expenses/:groupId/add', component: ExpenseViewComponent },
-      { path: 'expenses/:groupId/edit/:expenseId', component: ExpenseViewComponent },
+      { path: 'groups/:groupId', component: GroupDashboardComponent, canActivate:[rolesGuard] },
+      { path: 'expenses/:groupId',  component: ExpenseListComponent, canActivate:[rolesGuard] },
+      { path: 'expenses/:groupId/add', component: ExpenseViewComponent, canActivate:[rolesGuard] },
+      { path: 'expenses/:groupId/edit/:expenseId', component: ExpenseViewComponent, canActivate:[rolesGuard] },
     ], canActivate:[authGuard],
   },
   { path: '**', component: Error404Component },
