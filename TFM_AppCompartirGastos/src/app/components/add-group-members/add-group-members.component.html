@@ -1,0 +1,41 @@
+<form class="row g-1" novalidate [formGroup]="inviteMembersForm" (ngSubmit)="getDataForm()">
+    <!-- Correo electronico  -->
+    <div class="row g-2">
+        <div class="col-md-3 label">
+            <label for="email" class="form-label">Correo electronico: *</label>
+        </div>
+        <div class="col-md-9">
+            <input type="text" class="form-control" id="email" formControlName="email"
+                placeholder="usuario@email.com" required>
+            @if (checkControl ('email', 'required')) {
+            <p class="error-msg">Campo Obligatorio</p>
+            }
+            @if (checkControl ('email', 'pattern')) {
+            <p class="error-msg">Introduce un email válido</p>
+            }
+        </div>
+    </div>
+
+    <!-- ** Añadir más usuarios por email ** -->
+
+    <!-- Mensaje -->
+    <div class="row g-2">
+        <div class="col-md-3 label">
+            <label for="message" class="form-label">Mensaje:</label>
+        </div>
+        <div class="col-md-9">
+            <input type="text-area" class="form-control" id="message" formControlName="message"
+                placeholder="Acepta mi invitación para unirte al grupo">
+            @if (checkControl ('email', 'pattern')) {
+            <p class="error-msg">Máximo 400 caracteres</p>
+            }
+        </div>
+    </div>
+
+
+    <div class="row g-1 mt-4">
+        <div class="col-12 col-md-4 mt-2 mt-md-0 pe-2">
+            <input class="btn btn-outline-dark w-100" type="submit" [disabled]="!inviteMembersForm.valid" value="Enviar">
+        </div>
+    </div>
+</form>

@@ -1,0 +1,61 @@
+.btn {
+    width: 100%;
+}
+
+.label {
+    align-content: center;
+}
+
+input.ng-invalid.ng-touched {
+    border-bottom: 2px solid tomato;
+}
+
+
+input.ng-valid.ng-touched{
+    border-bottom: 2px solid rgb(35, 128, 7)
+}
+
+.error-msg {
+    font-size: small;
+    color: tomato;
+}
+
+.bg-primary {
+    background-color: #263746 !important;
+    opacity: 0.8;
+}
+  
+  
+.card {
+    border: 0;
+}
+
+.card-body {
+    text-align: center;
+}
+
+.form-control {
+    font-size: 0.8rem;
+}
+
+.card-text {
+    font-size: 0.8rem;
+}
+
+.form-label {
+    font-size: 0.7rem;
+}
+
+.container {
+    max-width: 650px;
+    align-items: center;
+}
+
+
+.date-field {
+    width: 150px;
+}
+
+.amount-field {
+    width: 150px;
+}
