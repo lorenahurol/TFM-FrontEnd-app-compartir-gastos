@@ -24,6 +24,7 @@ export class ExpenseListComponent {
   activatedRoute = inject(ActivatedRoute);
   router = inject(Router);
   expenseId: number = -1;
+  arrMembers: Array<ImemberGroup> = [];
   
   ngOnInit() {
     this.activatedRoute.params.subscribe(async (params: any) => {
@@ -58,6 +59,9 @@ export class ExpenseListComponent {
 
   }
 
+  /**
+   * Metodo para 
+   */
   async getPayments(){
     //Recupero todos los gastos del grupo agrupados por usuario
     const totalExpenses:any [] = await this.expenseService.getExpensesGroupingByUser(Number(this.groupId));
@@ -117,11 +121,11 @@ export class ExpenseListComponent {
 
     //Calculo los que tienen un porcentaje 0 y comparten a partes iguales
     const equitableMembers : Array<ImemberGroup> = membersAll.filter(m => m.equitable === true);
-    console.log(equitableMembers.length);
+
     if(equitableMembers.length > 0)
     {
       let avegareExpenses: number = (totalE - totalNoEquitable) / equitableMembers.length ;
-      console.log("La media a pagar es : "+avegareExpenses);
+
       for(let member of equitableMembers)
       {
         let xcredit = avegareExpenses - member.totalEx;
@@ -130,19 +134,7 @@ export class ExpenseListComponent {
       }
     }
 
-    console.log(totalE);
-
-    membersAll.forEach(x => console.log(x));
-
-
-  
-
-    
-
-
-
-
-
+    this.arrMembers = membersAll;
   }
 
   saveIdExpense(expenseId: number){

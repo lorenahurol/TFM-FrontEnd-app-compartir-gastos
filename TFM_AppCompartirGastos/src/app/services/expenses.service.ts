@@ -31,8 +31,6 @@ export class ExpensesService {
     getExpensesGroupingByUser(groupId: number) {
 
       return lastValueFrom(this.httpClient.get<any>(`${this.API_URL}/expenses/bygroup/actives/totalexpensesbyuser/${groupId}`));
-
-      
     }
 
 
@@ -65,5 +63,13 @@ export class ExpensesService {
   {
     return firstValueFrom(this.httpClient.delete<IExpense>(`${this.API_URL}/expenses/${expenseId}`));
   }
+
+  /**
+   * Metodo para desactivar todos los gastos de un grupo
+   */
+    deleteExpensesByGroupId(group_id: number)
+    {
+      return firstValueFrom(this.httpClient.delete<IExpense>(`${this.API_URL}/expenses/bygroup/desactive/${group_id}`));
+    }
   
 }
