@@ -2,12 +2,10 @@
     <hr />
     <section class="container mt-2">
         <div class="card text-white bg-primary mb-3">
-            <div class="card-body">
-                <p class="card-text">
-                    <b>GASTOS DEL GRUPO</b>
-                </p>
+            <div class="d-flex justify-content-between align-items-center pt-3 pb-3">
+                <h5 class="mb-0 text-center flex-grow-1 ">GASTOS DEL GRUPO</h5>
+                <button class="btn btn-primary" [routerLink]="['./add']" >Añadir gasto</button>
             </div>
-
             <table class="table table-striped">
                 @if (arrExpenses.length > 0) {
                     <thead>
@@ -28,7 +26,13 @@
                         <td>{{ getUserName(expense.payer_user_id) }}</td>
                         <td class="amount">{{ formatAmount(expense.amount) }}</td>
                         <td class="date-text">{{ formatDate(expense.date) }}</td>
-                        <td><button class="btn btn-secondary" (click)="editExpense(expense.id)">Editar</button></td>
+                        <td>
+                            <div>
+                                <button class="btn btn-secondary" (click)="editExpense(expense.id)">Editar</button>
+                                <button class="btn btn-danger ms-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="saveIdExpense(expense.id)">Borrar</button>
+                            </div>
+                        </td>
+
                     }
                     </tbody>
                 } @else {
@@ -42,4 +46,81 @@
         </div>
     </section>
     <hr/>
+    <div class="row justify-content-between">
+        <div></div>
+        <div>
+            <button class="btn btn-primary" (click)="getPayments()" data-bs-toggle="modal" data-bs-target="#staticBackdropPayments" >Liquidar</button>
+        </div>
+        
+    </div>
+    
+</div>
+
+<!-- Modal Eliminar -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Eliminar Gasto</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Se procedera a eliminar el gasto definitivamente. ¿Esta seguro?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" (click)="deleteExpense()" data-bs-dismiss="modal">Eliminar</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<!-- Modal Pagos -->
+<div class="modal fade" id="staticBackdropPayments" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Registro de pagos del grupo</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          
+            <table class="table table-striped">
+                @if (arrMembers.length > 0) {
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Miembro</th>
+                            <th scope="col" class="amount">Gastos pagados</th>
+                            <th scope="col">Porcentaje</th>
+                            <th scope="col" class="amount">Credito</th>
+                            <th scope="col" >Equitativo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @for(member of arrMembers; track member.id) {
+                    <tr>
+                        <td scope="row">{{member.id}}</td>
+                        <td>{{ getUserName(member.id) }}
+                        <td class="amount">{{ member.totalEx.toFixed(2) }}</td>
+                        <td scope="row">{{member.percent}}</td>
+                        <td class="amount">{{ member.credit.toFixed(2) }}</td>
+                        <td scope="row">{{member.equitable}}</td>
+                    }
+                    </tbody>
+                } @else {
+                    <thead>
+                        <tr>
+                            <strong>NO HAY GASTOS ACTIVOS</strong>
+                        </tr>
+                    </thead>
+                }
+            </table>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+      </div>
+    </div>
 </div>

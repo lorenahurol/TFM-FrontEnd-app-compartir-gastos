@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { environment } from '../../environments/environments';
 import { IExpense } from '../interfaces/iexpense.interface';
-import { lastValueFrom } from 'rxjs';
+import { firstValueFrom, lastValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +25,15 @@ export class ExpensesService {
     return lastValueFrom(this.httpClient.get<IExpense[]>(`${this.API_URL}/expenses/bygroup/actives/${groupId}`));
   }
 
+    /**
+   * Método para obtener todos los gastos del grupo
+   */
+    getExpensesGroupingByUser(groupId: number) {
+
+      return lastValueFrom(this.httpClient.get<any>(`${this.API_URL}/expenses/bygroup/actives/totalexpensesbyuser/${groupId}`));
+    }
+
+
   /**
    * Método para obtener un gasto
    */
@@ -46,4 +55,21 @@ export class ExpensesService {
     console.log(expense);
     return lastValueFrom(this.httpClient.put<IExpense>(`${this.API_URL}/expenses/${expense.id}`, expense));
   }
+
+  /**
+   * Metodo para eliminar un gasto por id
+   */
+  deleteExpenseById(expenseId: number)
+  {
+    return firstValueFrom(this.httpClient.delete<IExpense>(`${this.API_URL}/expenses/${expenseId}`));
+  }
+
+  /**
+   * Metodo para desactivar todos los gastos de un grupo
+   */
+    deleteExpensesByGroupId(group_id: number)
+    {
+      return firstValueFrom(this.httpClient.delete<IExpense>(`${this.API_URL}/expenses/bygroup/desactive/${group_id}`));
+    }
+  
 }

@@ -27,8 +27,7 @@
 
                 <div class="my-2 date-field">
                     <label for="date" class="form-label">Fecha</label>
-                    <input type="date" class="form-control" id="date" formControlName="date"
-                        placeholder="miguel_de_cervantes@email.es" required>
+                    <input type="date" class="form-control" id="date" formControlName="date">
                     @if (checkControl ('date','required')) {
                     <p class="error-msg">Campo obligatorio</p>
                     }
@@ -37,6 +36,7 @@
                 <div class="my-2">
                     <label for="payer_user_id" class="form-label">Usuario pagador</label>
                     <select class="form-control" name="payer_user_id" id="payer_user_id" formControlName="payer_user_id">
+                        <option value="" disabled selected>- Selecciona un usuario -</option>
                         @for (user of arrUsers; track user.id){
                             <option [value]="user.id">{{ user.firstname }}</option>
                         }
@@ -46,8 +46,9 @@
                     }
                 </div>
 
+                <input type="submit" value="{{btnText}}" class="btn btn-primary my-2" [disabled]="!expenseForm.valid || !expenseForm.dirty"/>
+                <button class="btn btn-secondary my-2" (click)="backExpensesGroup" >Volver</button>
 
-                <input type="submit" value="{{btnText}}" class="btn btn-secondary my-2" [disabled]="!expenseForm.valid || !expenseForm.dirty"/>
             </form>
         </div>
     </section>
