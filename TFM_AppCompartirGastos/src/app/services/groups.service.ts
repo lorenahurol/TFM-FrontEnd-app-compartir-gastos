@@ -17,11 +17,6 @@ export class GroupsService {
   constructor() {
     this.API_URL = environment.API_URL
   }
-
-  // Array vacio de Grupo y de Categorias:
-  private arrGroup: IGroup[] = [];
-  private arrCategories: Icategory[] = [];
-  private id: number = 1;
   
   // Getter: Obtener todos los grupos:
   getAllGroups(): Promise<IGroup[]> {
