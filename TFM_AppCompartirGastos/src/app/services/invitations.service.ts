@@ -24,5 +24,4 @@ export class InvitationsService {
   }
 
   // Comprobar si existe el email del usuario:
-  
 }
