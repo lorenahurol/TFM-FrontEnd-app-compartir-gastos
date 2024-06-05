@@ -1,0 +1,43 @@
+<div class="modal fade" id="changePwdModal" tabindex="-1" aria-labelledby="changePwdModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="changePwdModalLabel">Actualización de contraseña</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            <form class="row g-1 class card p-3 shadow" novalidate [formGroup]="passwordForm" (ngSubmit)="UpdatePassword()">    
+              <!-- Password -->
+              <div class="row g-2">
+                <div class="col-md-5 label">
+                  <label for="password" class="form-label mb-0">Contraseña *</label>
+                </div>
+                <div class="col-md-7">
+                  <input type="password" class="form-control" id="password" formControlName="password" required>
+                  @if (checkControl ('password','required')) {
+                    <p class="error-msg">Campo obligatorio</p>
+                  }
+                </div>
+              </div>
+
+            <!-- Confirm password -->
+              <div class="row g-2">
+                <div class="col-md-5 label">
+                  <label for="password_confirm" class="form-label mb-0">Confirmar contraseña *</label>
+                </div>
+                <div class="col-md-7">
+                  <input type="password" class="form-control" id="password_confirm" formControlName="password_confirm" required>
+                  @if (passwordForm.hasError('passwordControl')){
+                    <p class="error-msg">Las contraseñas no coinciden</p>
+                  }
+                </div>
+              </div>
+            </form>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Volver</button>
+            <button type="button" class="btn btn-danger"  data-bs-dismiss="modal" (click)="UpdatePassword()">Actualizar</button>            
+        </div>
+    </div>
+</div>
+</div>
