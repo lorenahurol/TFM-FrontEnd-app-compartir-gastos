@@ -24,7 +24,7 @@ export const routes: Routes = [
       { path: 'users/update', component: UpdateUserComponent},
       { path: 'groups/groupForm', component: GroupFormPageComponent },
       { path: 'groups/:groupId', component: GroupDashboardComponent },
-      { path: 'groups/:groupId/add', component:AddGroupMembersPageComponent },
+      { path: 'groups/:groupId/invitation', component:AddGroupMembersPageComponent },
       { path: 'expenses/:groupId',  component: ExpenseListComponent },
       { path: 'expenses/:groupId/add', component: ExpenseViewComponent },
       { path: 'expenses/:groupId/edit/:expenseId', component: ExpenseViewComponent },

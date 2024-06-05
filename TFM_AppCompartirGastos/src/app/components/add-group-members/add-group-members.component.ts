@@ -3,6 +3,8 @@ import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InvitationsService } from '../../services/invitations.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { IInvitation } from '../../interfaces/iinvitation.interface';
+import { UsersService } from '../../services/users.service';
 
 @Component({
   selector: 'app-add-group-members',
@@ -13,20 +15,21 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class AddGroupMembersComponent {
 
-  inviteMembersForm: FormGroup;
+  invitationForm: FormGroup;
   HttpClient = inject(HttpClient);
   router = inject(Router);
   activatedRoute = inject(ActivatedRoute);
   invitationsService = inject(InvitationsService);
-
-  groupId: string = "";
+  usersService = inject(UsersService);
+  groupId: number | null = null;
+  userId: number | null = null;
+  username: string = "";
 
   constructor() {
-    this.inviteMembersForm = new FormGroup({
+    this.invitationForm = new FormGroup({
       username: new FormControl("", [
         // Validadores:
         Validators.required
-        // ** Comprobar que existe en BD ** //
       ]),
       message: new FormControl("", [
         Validators.maxLength(400)
@@ -36,36 +39,59 @@ export class AddGroupMembersComponent {
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params: any) => {
-      if (params.groupId) {
-        this.groupId = params.groupId;
+      if (params['groupId']) {
+        this.groupId = parseInt(params['groupId']);
       }
-    });
+    })
+    this.getUsername();
   }
 
   async getDataForm(): Promise<void> {
-    if (this.inviteMembersForm.valid) {
+    if (this.invitationForm.valid) {
+      const { username } = this.invitationForm.value;
       try {
-        const data = {
-          username: this.inviteMembersForm.value.username,
-          groupId: this.groupId,
-          message: this.inviteMembersForm.value.message
+        const userId = await this.invitationsService.getUserIdFromUsername(username);
+
+        const invitation: IInvitation = {
+          group_id: this.groupId!,
+          user_id: userId,
+          accepted: 0,
+          active: 1
         }
-        const result = await this.invitationsService.createInvitation(data);
-        console.log(result);
-        this.inviteMembersForm.reset();
-        this.router.navigate(['/groups']);
-        
-      } catch (error) {
-        console.error(error);
+
+        const result = await this.invitationsService.createInvitation(invitation);
+        console.log("Invitation created:", result);
+      }
+      catch (error) {
+        console.error('Error creating invitation:', error);
       }
     }
   }
 
+  async getUsername(): Promise<void> {
+  const username = this.invitationForm.value['username'];
+  if (username) {
+    try {
+      const userId = await this.invitationsService.getUserIdFromUsername(username);
+      if (userId) {
+        const user = await this.usersService.getUserById(userId);
+        this.username = user.username;
+      } else {
+        console.error('User not found with the given username');
+      }
+    } catch (error) {
+      console.error('Error getting username:', error);
+    }
+  }
+}
+
+
+
   // Comprobar validadores:
   checkControl(formControlName: string, validatorName: string): boolean | undefined {
     return (
-      this.inviteMembersForm.get(formControlName)?.hasError(validatorName) &&
-      this.inviteMembersForm.get(formControlName)?.touched
+      this.invitationForm.get(formControlName)?.hasError(validatorName) &&
+      this.invitationForm.get(formControlName)?.touched
     );
   }
 }

@@ -15,13 +15,28 @@ export class InvitationsService {
   // URL de entorno:
   private API_URL: string = environment.API_URL;
   
-  // Getter: Obtener todos los usuarios:
-  getAllUsers(): Promise<IUser[]> {
-    return lastValueFrom(this.HttpClient.get<IUser[]>(`${this.API_URL}/users`));
+  // Send invitation to DB:
+  async createInvitation(invitation: IInvitation): Promise<IInvitation> {
+    try {
+      const result = await lastValueFrom(this.HttpClient.post<IInvitation>(`${this.API_URL}/api/invitations/create`, invitation));
+      return result;
+    } catch (error) {
+      throw new Error("Error creating invitation");
+    }
   }
 
-  // Send invitation to DB:
-  createInvitation(data: { username: string, groupId: string, message?: string }): Promise<IInvitation> {
-    return lastValueFrom(this.HttpClient.post<IInvitation>(`${this.API_URL}/invitations`, data));
+  // Get user_id associated to username:
+  async getUserIdFromUsername(userId: number): Promise<number> {
+    try {
+      const result = await lastValueFrom(this.HttpClient.get<IUser[]>(`${this.API_URL}/api/users/${userId}`));
+      if (result.length > 0) {
+        return result[0].id;
+      } else {
+        throw new Error("User not found");
+      }
+
+    } catch (error) {
+      throw new Error("User ID not found");
+    }
   }
 }
