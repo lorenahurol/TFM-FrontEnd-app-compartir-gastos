@@ -3,6 +3,9 @@ import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validator
 import { UsersService } from '../../services/users.service';
 import { AuthService } from '../../services/auth.service';
 import { CommonFunctionsService } from '../../common/utils/common-functions.service';
+import { AlertModalService } from '../../services/alert-modal.service';
+import { MatDialogRef } from '@angular/material/dialog';
+import { AlertModalComponent, IAlertData } from '../alert-modal/alert-modal.component';
 
 @Component({
   selector: 'app-change-pwd-modal',
@@ -12,9 +15,12 @@ import { CommonFunctionsService } from '../../common/utils/common-functions.serv
   styleUrl: './change-pwd-modal.component.css',
 })
 export class ChangePwdModalComponent {
+  alertModalService = inject(AlertModalService);
+  alertModal: MatDialogRef<AlertModalComponent, any> | undefined;
+
   usersServices = inject(UsersService);
   authServices = inject(AuthService);
-  commonFunc = inject(CommonFunctionsService)
+  commonFunc = inject(CommonFunctionsService);
 
   passwordForm: FormGroup;
 
@@ -25,13 +31,18 @@ export class ChangePwdModalComponent {
   id: number = 0;
 
   constructor() {
-    this.passwordForm = new FormGroup (
+    this.passwordForm = new FormGroup(
       {
         password: new FormControl(null, [Validators.required]),
         password_confirm: new FormControl(null, [Validators.required]),
       },
       [this.commonFunc.passwordControl]
     );
+  }
+
+  // Instancia el modal alert-modal-component para alertas
+  openAlertModal(modalData: IAlertData): void {
+    this.alertModal = this.alertModalService.open(modalData);
   }
 
   checkControl(
@@ -44,14 +55,25 @@ export class ChangePwdModalComponent {
     );
   }
 
-
   async UpdatePassword() {
-    const password = { password: this.passwordForm.value.password}
-    const pwdResponse = await this.usersServices.updatePassword(password)
+    const password = { password: this.passwordForm.value.password };
+    const pwdResponse = await this.usersServices.updatePassword(password);
     if (pwdResponse.success) {
-      alert("Contraseña actualizada correctamente")
+      this.openAlertModal({
+        icon: 'done_all',
+        title: 'Genial!',
+        body: 'Contraseña actualizada correctamente ',
+        acceptAction: true,
+        backAction: false,
+      });
     } else {
-      alert ("Se ha verificado un error durante la actualización")
+      this.openAlertModal({
+        icon: 'warning',
+        title: 'Atención!',
+        body: 'Se ha verificado un error durante la actualización',
+        acceptAction: true,
+        backAction: false,
+      });
     }
   }
 }
