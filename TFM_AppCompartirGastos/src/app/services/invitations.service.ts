@@ -18,7 +18,7 @@ export class InvitationsService {
   // Send invitation to DB:
   async createInvitation(invitation: IInvitation): Promise<IInvitation> {
     try {
-      const result = await lastValueFrom(this.HttpClient.post<IInvitation>(`${this.API_URL}/api/invitations/create`, invitation));
+      const result = await lastValueFrom(this.HttpClient.post<IInvitation>(`${this.API_URL}/invitations/create`, invitation));
       return result;
     } catch (error) {
       throw new Error("Error creating invitation");
@@ -26,17 +26,16 @@ export class InvitationsService {
   }
 
   // Get user_id associated to username:
-  async getUserIdFromUsername(userId: number): Promise<number> {
-    try {
-      const result = await lastValueFrom(this.HttpClient.get<IUser[]>(`${this.API_URL}/api/users/${userId}`));
-      if (result.length > 0) {
-        return result[0].id;
-      } else {
-        throw new Error("User not found");
-      }
-
-    } catch (error) {
-      throw new Error("User ID not found");
+  async getUserIdFromUsername(username: string): Promise<number> {
+  try {
+    const result = await lastValueFrom(this.HttpClient.get<IUser[]>(`${this.API_URL}/users/${username}`));
+    if (result.length > 0) {
+      return result[0].id;
+    } else {
+      throw new Error("User not found");
     }
+  } catch (error) {
+    throw new Error("User ID not found");
   }
+}
 }
