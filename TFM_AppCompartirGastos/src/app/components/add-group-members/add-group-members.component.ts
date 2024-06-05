@@ -43,18 +43,18 @@ export class AddGroupMembersComponent {
         this.groupId = parseInt(params['groupId']);
       }
     })
-    this.getUsername();
   }
 
   async getDataForm(): Promise<void> {
     if (this.invitationForm.valid) {
       const { username } = this.invitationForm.value;
       try {
-        const userId = await this.invitationsService.getUserIdFromUsername(username);
+        const user = await this.invitationsService.getUserFromUsername(username);
+        console.log(user);
 
         const invitation: IInvitation = {
           group_id: this.groupId!,
-          user_id: userId,
+          user_id: user.id,
           accepted: 0,
           active: 1
         }
@@ -68,22 +68,23 @@ export class AddGroupMembersComponent {
     }
   }
 
+  /*
   async getUsername(): Promise<void> {
   const username = this.invitationForm.value['username'];
   if (username) {
     try {
-      const userId = await this.invitationsService.getUserIdFromUsername(username);
-      if (userId) {
-        const user = await this.usersService.getUserById(userId);
+      const user = await this.invitationsService.getUserFromUsername(username);
+      if (user) {
+        const user = await this.usersService.getUserById(user.id);
         this.username = user.username;
       } else {
         console.error('User not found with the given username');
       }
     } catch (error) {
       console.error('Error getting username:', error);
-    }
-  }
-}
+    } 
+  } 
+} */
 
 
 
