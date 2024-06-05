@@ -2,16 +2,13 @@
     <!-- Correo electronico  -->
     <div class="row g-2">
         <div class="col-md-3 label">
-            <label for="email" class="form-label">Correo electronico: *</label>
+            <label for="username" class="form-label">Nombre de usuario: *</label>
         </div>
         <div class="col-md-9">
             <input type="text" class="form-control" id="email" formControlName="email"
-                placeholder="usuario@email.com" required>
-            @if (checkControl ('email', 'required')) {
+                placeholder="miguel2024" required>
+            @if (checkControl ('username', 'required')) {
             <p class="error-msg">Campo Obligatorio</p>
-            }
-            @if (checkControl ('email', 'pattern')) {
-            <p class="error-msg">Introduce un email válido</p>
             }
         </div>
     </div>

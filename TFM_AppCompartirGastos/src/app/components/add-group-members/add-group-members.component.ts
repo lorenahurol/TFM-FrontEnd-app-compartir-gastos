@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { InvitationsService } from '../../services/invitations.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-group-members',
@@ -11,13 +14,18 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 export class AddGroupMembersComponent {
 
   inviteMembersForm: FormGroup;
+  HttpClient = inject(HttpClient);
+  router = inject(Router);
+  activatedRoute = inject(ActivatedRoute);
+  invitationsService = inject(InvitationsService);
+
+  groupId: string = "";
 
   constructor() {
     this.inviteMembersForm = new FormGroup({
-      email: new FormControl("", [
+      username: new FormControl("", [
         // Validadores:
-        Validators.required,
-        Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$") // Email válido
+        Validators.required
         // ** Comprobar que existe en BD ** //
       ]),
       message: new FormControl("", [
@@ -26,8 +34,31 @@ export class AddGroupMembersComponent {
     }, [])
   }
 
-  getDataForm(): void {
-    console.log(this.inviteMembersForm.value);
+  ngOnInit(): void {
+    this.activatedRoute.params.subscribe((params: any) => {
+      if (params.groupId) {
+        this.groupId = params.groupId;
+      }
+    });
+  }
+
+  async getDataForm(): Promise<void> {
+    if (this.inviteMembersForm.valid) {
+      try {
+        const data = {
+          username: this.inviteMembersForm.value.username,
+          groupId: this.groupId,
+          message: this.inviteMembersForm.value.message
+        }
+        const result = await this.invitationsService.createInvitation(data);
+        console.log(result);
+        this.inviteMembersForm.reset();
+        this.router.navigate(['/groups']);
+        
+      } catch (error) {
+        console.error(error);
+      }
+    }
   }
 
   // Comprobar validadores:
