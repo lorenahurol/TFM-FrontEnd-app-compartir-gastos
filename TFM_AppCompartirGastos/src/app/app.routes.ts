@@ -11,6 +11,7 @@ import { ExpenseViewComponent } from './pages/expense-view/expense-view.componen
 import { authGuard } from './common/guards/auth.guard';
 import { UpdateUserComponent } from './pages/update-user/update-user.component';
 import { GroupFormPageComponent } from './pages/group-form/group-form-page.component';
+import { AddGroupMembersPageComponent } from './pages/add-group-members-page/add-group-members-page.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/landing', pathMatch: 'full' },
@@ -23,6 +24,7 @@ export const routes: Routes = [
       { path: 'users/update', component: UpdateUserComponent},
       { path: 'groups/groupForm', component: GroupFormPageComponent },
       { path: 'groups/:groupId', component: GroupDashboardComponent },
+      { path: 'groups/:groupId/invitation', component:AddGroupMembersPageComponent },
       { path: 'expenses/:groupId',  component: ExpenseListComponent },
       { path: 'expenses/:groupId/add', component: ExpenseViewComponent },
       { path: 'expenses/:groupId/edit/:expenseId', component: ExpenseViewComponent },
