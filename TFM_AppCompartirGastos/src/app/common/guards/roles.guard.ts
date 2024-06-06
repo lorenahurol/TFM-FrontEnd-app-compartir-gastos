@@ -2,10 +2,12 @@ import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { GroupsService } from '../../services/groups.service';
 import { IRoles } from '../../interfaces/iroles.interface';
+import { CommonFunctionsService } from '../utils/common-functions.service';
 
 export const rolesGuard: CanActivateFn = async (route, state) => {
   const router = inject(Router);
-  const groupService = inject(GroupsService)
+  const groupService = inject(GroupsService);
+  const commonFunc = inject(CommonFunctionsService);
   let roles: IRoles | any = {};
   let isGranted: boolean = false;
   let message: string = '';
@@ -54,10 +56,18 @@ export const rolesGuard: CanActivateFn = async (route, state) => {
   }
 
   if (!isGranted) {
-    alert(message);
+    commonFunc.openDialog({
+      icon: 'notifications',
+      title: 'Acceso no permitido',
+      body: `${message}`,
+      acceptAction: true,
+      backAction: false,
+    });
     router.navigateByUrl(redirectTo);
   }
 
   return isGranted;
 
 };
+
+
