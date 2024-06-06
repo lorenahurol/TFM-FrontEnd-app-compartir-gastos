@@ -5,10 +5,10 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import dayjs from 'dayjs';
 import { IUser } from '../../interfaces/iuser.interface';
 import { UsersService } from '../../services/users.service';
-import { firstValueFrom } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { GroupsService } from '../../services/groups.service';
 import { IRoles } from '../../interfaces/iroles.interface';
+import { CommonFunctionsService } from '../../common/utils/common-functions.service';
 
 @Component({
   selector: 'app-expense-list',
@@ -25,6 +25,7 @@ export class ExpenseListComponent {
   userService = inject(UsersService);
   groupService = inject(GroupsService);
   activatedRoute = inject(ActivatedRoute);
+  commonFunc = inject(CommonFunctionsService);
   router = inject(Router);
   expenseId: number = -1;
   isAdmin: boolean = false;
@@ -57,7 +58,13 @@ export class ExpenseListComponent {
         this.arrExpenses = this.arrExpenses.filter((expense) => expense.id !== this.expenseId);
       } catch (error: HttpErrorResponse | any) {
         console.error(error);
-        alert(`Se produjo el siguiente problema: ${error.error.error}`);
+        this.commonFunc.openDialog({
+          icon: 'notifications',
+          title: 'Problema al eliminar gasto',
+          body: `Se produjo el siguiente problema: ${error.error.error}`,
+          acceptAction: true,
+          backAction: false,
+        });
       }
     } else {
       console.error('No expense selected');
@@ -99,7 +106,13 @@ export class ExpenseListComponent {
       }
     } catch (error: HttpErrorResponse | any) {
       console.error(error);
-      alert(`Se produjo el siguiente problema: ${error.error.error}`);
+      this.commonFunc.openDialog({
+        icon: 'notifications',
+        title: 'Problema al eliminar gasto',
+        body: `Se produjo el siguiente problema: ${error.error.error}`,
+        acceptAction: true,
+        backAction: false,
+      });
     }
   }
 }
