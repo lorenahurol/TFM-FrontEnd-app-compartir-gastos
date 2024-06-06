@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ExpensesService } from '../../services/expenses.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { IExpense } from '../../interfaces/iexpense.interface';
 import { UsersService } from '../../services/users.service';
 import { IUser } from '../../interfaces/iuser.interface';
@@ -9,7 +9,7 @@ import { IUser } from '../../interfaces/iuser.interface';
 @Component({
   selector: 'app-expense-view',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './expense-view.component.html',
   styleUrl: './expense-view.component.css'
 })
@@ -31,7 +31,7 @@ export class ExpenseViewComponent {
       description: new FormControl('', [Validators.required]),
       amount: new FormControl('', [Validators.required]),
       date: new FormControl('', [Validators.required]),
-      payer_user_id: new FormControl(null, [Validators.required]),
+      payer_user_id: new FormControl('', [Validators.required]),
       active: new FormControl(1)
     }, []);
   }
@@ -92,4 +92,10 @@ export class ExpenseViewComponent {
       this.expenseForm.get(formControlName)?.touched
     );
   }
+
+  backExpensesGroup()
+  {
+    this.router.navigate([`/home/expenses/${this.groupId}`]);
+  }
+  
 }

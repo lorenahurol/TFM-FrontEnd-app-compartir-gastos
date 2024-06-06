@@ -5,6 +5,8 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import dayjs from 'dayjs';
 import { IUser } from '../../interfaces/iuser.interface';
 import { UsersService } from '../../services/users.service';
+import { firstValueFrom } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-expense-list',
@@ -21,7 +23,8 @@ export class ExpenseListComponent {
   userService = inject(UsersService);
   activatedRoute = inject(ActivatedRoute);
   router = inject(Router);
-
+  expenseId: number = -1;
+  
   ngOnInit() {
     this.activatedRoute.params.subscribe(async (params: any) => {
       if (params.groupId) {
@@ -29,7 +32,6 @@ export class ExpenseListComponent {
         try {
           this.arrExpenses = await this.expenseService.getExpensesByGroup(params.groupId);
           this.arrUsers = await this.userService.getUsersByGroup(params.groupId);
-          console.log(this.arrUsers);
         } catch (error) {
           console.error(error);
         }
@@ -38,8 +40,28 @@ export class ExpenseListComponent {
   }
 
   editExpense(expenseId: number) {
-    console.log(expenseId);
     this.router.navigate([`/home/expenses/${this.groupId}/edit/${expenseId}`]);
+  }
+
+  async deleteExpense() {
+    if(this.expenseId !== -1) {
+      try {
+        const exp = await this.expenseService.deleteExpenseById(this.expenseId);
+
+        /* Como sólo el admin puede eliminar, no tiene sentido recgargar con BD */ 
+        this.arrExpenses = this.arrExpenses.filter(expense => expense.id !== this.expenseId);
+        
+      } catch (error: HttpErrorResponse | any) {
+        console.error(error);
+        alert(`Se produjo el siguiente problema: ${error.error.error}`);
+      }
+    } else {
+      console.error('No expense selected');
+    }
+  }
+
+  saveIdExpense(expenseId: number){
+    this.expenseId = expenseId;
   }
 
   formatDate(date: Date): string {
