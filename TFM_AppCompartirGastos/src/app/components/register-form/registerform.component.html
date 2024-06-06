@@ -5,7 +5,7 @@
       <label for="first_name" class="form-label mb-0">Nombre *</label>
     </div>
     <div class="col-md-9">
-      <input type="text" class="form-control" id="first_name" formControlName="first_name" placeholder="Miguel" required>
+      <input type="text" class="form-control" id="first_name" formControlName="first_name" maxlength="45"  placeholder="Miguel" required>
       @if (checkControl ('first_name','required')) {
         <p class="error-msg">Campo obligatorio</p>
       }
@@ -21,7 +21,7 @@
       <label for="last_name" class="form-label mb-0">Apellidos *</label>
     </div>
     <div class="col-md-9">
-      <input type="text" class="form-control" id="last_name" formControlName="last_name" placeholder="de Cervantes Saavedra"  required>
+      <input type="text" class="form-control" id="last_name" formControlName="last_name" placeholder="de Cervantes Saavedra" maxlength="45"  required>
       @if (checkControl ('last_name','required')) {
         <p class="error-msg">Campo obligatorio</p>
       }
@@ -38,7 +38,7 @@
     <div class="col-md-9">
       <div class="input-group has-validation">
         <span class="input-group-text" id="inputGroupPrepend">&#64;</span>
-        <input type="text" class="form-control" id="username" formControlName="username" placeholder="MiguelDeCervantes_1547" required (input)="checkUsername ($event)">
+        <input type="text" class="form-control" id="username" formControlName="username" placeholder="MiguelDeCervantes_1547"  maxlength="45" required (input)="checkUsername ($event)">
         
       </div>
       @if (this.usernameExists){
@@ -69,7 +69,7 @@
           </select>
         </div>
         <div class="col-md-8">
-          <input type="text" class="form-control" id="telephone" formControlName="telephone" placeholder="123456789">
+          <input type="text" class="form-control" id="telephone" formControlName="telephone" placeholder="123456789"  maxlength="20">
         </div>
       </div>
     </div>
@@ -81,7 +81,7 @@
       <label for="email" class="form-label mb-0">Correo electrónico *</label>
     </div>
     <div class="col-md-9">
-      <input type="text" class="form-control" id="email" formControlName="email" placeholder="miguel_de_cervantes@email.es" required>
+      <input type="text" class="form-control" id="email" formControlName="email" placeholder="miguel_de_cervantes@email.es"  maxlength="45" required>
       @if (checkControl ('email','required')) {
         <p class="error-msg">Campo obligatorio</p>
       }
@@ -99,7 +99,7 @@
         <label for="password" class="form-label mb-0">Contraseña *</label>
       </div>
       <div class="col-md-9">
-        <input type="password" class="form-control" id="password" formControlName="password" required>
+        <input type="password" class="form-control" id="password" formControlName="password"  maxlength="30" required>
         @if (checkControl ('password','required')) {
           <p class="error-msg">Campo obligatorio</p>
         }
@@ -144,3 +144,6 @@
   }
 </div>
 </form>
+
+<a href=""></a>
+<b></b>
