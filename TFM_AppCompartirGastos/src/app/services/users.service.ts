@@ -74,6 +74,14 @@ export class UsersService {
     );
   }
 
+    /**
+   * Método para obtener todos los miembros de un grupo
+   */
+  getMemberUserByGroup(groupId: number)
+  {
+    return lastValueFrom(this.httpClient.get<any>(`${this.API_URL}/users/members/bygroup/${groupId}`));
+  }
+
   /**
    * Checks if a username already exists by sending a GET request to the /register/checkUsername/:username endpoint.
    *
