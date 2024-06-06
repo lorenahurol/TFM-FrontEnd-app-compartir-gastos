@@ -2,6 +2,9 @@ import { Injectable, inject } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { UsersService } from '../../services/users.service';
+import { AlertModalComponent, IAlertData } from '../../components/alert-modal/alert-modal.component';
+import { AlertModalService } from '../../services/alert-modal.service';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Injectable({
   providedIn: 'root',
@@ -9,6 +12,10 @@ import { UsersService } from '../../services/users.service';
 export class CommonFunctionsService {
   authServices = inject(AuthService);
   usersServices = inject (UsersService)
+  alertModalService = inject(AlertModalService);
+  alertModal: MatDialogRef<AlertModalComponent, any> | undefined;
+
+
   constructor() {}
 
   /**
@@ -58,5 +65,12 @@ export class CommonFunctionsService {
       }
     }
     return false;
+  }
+
+  /**
+   * Método para mostrar un mensaje de alerta
+   */
+  async openDialog(modalData: IAlertData) {
+    this.alertModal = this.alertModalService.open(modalData);
   }
 }
