@@ -35,7 +35,6 @@ export class EmailsService {
       subject: template.subject,
       html: template.html 
     }
-    console.log (emailBody)
     
     try {
       return lastValueFrom (this.httpClient.post<any>(`${this.API_URL}/mails/`, emailBody))
