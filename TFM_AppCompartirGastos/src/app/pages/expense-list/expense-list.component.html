@@ -3,7 +3,7 @@
     <section class="container mt-2">
         <div class="card text-white bg-primary mb-3">
             <div class="d-flex justify-content-between align-items-center pt-3 pb-3">
-                <h5 class="mb-0 text-center flex-grow-1 ">GASTOS DEL GRUPO</h5>
+                <h4 class="mb-0 text-center flex-grow-1 ">GASTOS DEL GRUPO</h4>
                 @if (isAdmin) {
                     <button class="btn btn-primary" [routerLink]="['./add']" >Añadir gasto</button>
                 }
@@ -17,7 +17,7 @@
                             <th scope="col">Pagado por</th>
                             <th scope="col" class="amount">Cantidad</th>
                             <th scope="col" class="date-text">Fecha</th>
-                            <th scope="col">Acciones</th>
+                            <th scope="col" class="action-field">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -28,15 +28,15 @@
                         <td>{{ getUserName(expense.payer_user_id) }}</td>
                         <td class="amount">{{ formatAmount(expense.amount) }}</td>
                         <td class="date-text">{{ formatDate(expense.date) }}</td>
-                        <td>
+                        <td class="action-field">
                             <div>
                                 <button class="btn btn-secondary" (click)="editExpense(expense.id)">Editar</button>
                                 @if (isAdmin) {
-                                    <button class="btn btn-danger ms-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="saveIdExpense(expense.id)">Borrar</button>
+                                    <button class="btn btn-danger ms-2" (click)="deleteExpenseById(expense.id)">Borrar</button>
                                 }
                             </div>
                         </td>
-
+                    </tr>
                     }
                     </tbody>
                 } @else {
@@ -51,22 +51,3 @@
     </section>
     <hr/>
 </div>
-
-<!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="staticBackdropLabel">Eliminar Gasto</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <p>Se procedera a eliminar el gasto definitivamente. ¿Esta seguro?</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" (click)="deleteExpense()" data-bs-dismiss="modal">Eliminar</button>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        </div>
-      </div>
-    </div>
-  </div>

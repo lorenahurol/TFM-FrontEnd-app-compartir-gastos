@@ -9,6 +9,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { GroupsService } from '../../services/groups.service';
 import { IRoles } from '../../interfaces/iroles.interface';
 import { CommonFunctionsService } from '../../common/utils/common-functions.service';
+import { AlertModalService } from '../../services/alert-modal.service';
+import { MatDialogRef } from '@angular/material/dialog';
+import { AlertModalComponent, IAlertData } from '../../components/alert-modal/alert-modal.component';
 
 @Component({
   selector: 'app-expense-list',
@@ -27,6 +30,11 @@ export class ExpenseListComponent {
   activatedRoute = inject(ActivatedRoute);
   commonFunc = inject(CommonFunctionsService);
   router = inject(Router);
+
+  // manejo de la ventana modal de borrado
+  alertModalService = inject(AlertModalService);
+  alertModal: MatDialogRef<AlertModalComponent, any> | undefined;
+  
   expenseId: number = -1;
   isAdmin: boolean = false;
 
@@ -71,9 +79,31 @@ export class ExpenseListComponent {
     }
   }
 
-  saveIdExpense(expenseId: number) {
+  deleteExpenseById(expenseId: number) {
     this.expenseId = expenseId;
+
+    this.openDialog({
+      icon: 'notifications',
+      title: 'Eliminar gasto',
+      body: '¿Estás seguro de que quieres eliminar este gasto?',
+      acceptAction: true,
+      backAction: true,
+    });
+    this.alertModal?.componentInstance.sendModalAccept.subscribe(
+      (isAccepted) => {
+        if (isAccepted) {
+          this.deleteExpense();
+        }
+      }
+    );
+  
   }
+
+  // Instancia el modal alert-modal-component para el dialog de borrado
+  openDialog(modalData: IAlertData): void {
+    this.alertModal = this.alertModalService.open(modalData);
+  }
+
 
   formatDate(date: Date): string {
     return dayjs(date).format('DD/MM/YYYY');
