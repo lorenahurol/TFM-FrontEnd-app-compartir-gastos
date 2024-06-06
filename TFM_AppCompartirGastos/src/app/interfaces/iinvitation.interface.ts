@@ -5,4 +5,5 @@ export interface IInvitation {
   user_id: number;
   accepted: number;
   active: number;
+  message: string;
 }

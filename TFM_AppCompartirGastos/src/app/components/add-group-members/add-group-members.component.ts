@@ -5,6 +5,9 @@ import { InvitationsService } from '../../services/invitations.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IInvitation } from '../../interfaces/iinvitation.interface';
 import { UsersService } from '../../services/users.service';
+import { AlertModalService } from '../../services/alert-modal.service';
+import { MatDialogRef } from '@angular/material/dialog';
+import { AlertModalComponent, IAlertData } from '../alert-modal/alert-modal.component';
 
 @Component({
   selector: 'app-add-group-members',
@@ -16,15 +19,21 @@ import { UsersService } from '../../services/users.service';
 export class AddGroupMembersComponent {
 
   invitationForm: FormGroup;
+
   HttpClient = inject(HttpClient);
   router = inject(Router);
   activatedRoute = inject(ActivatedRoute);
+
   invitationsService = inject(InvitationsService);
   usersService = inject(UsersService);
+  alertModalService = inject(AlertModalService);
+
+  alertModal: MatDialogRef<AlertModalComponent, any> | undefined;
   groupId: number | null = null;
   userId: number | null = null;
   username: string = "";
 
+  // Inicializar el formulario:
   constructor() {
     this.invitationForm = new FormGroup({
       username: new FormControl("", [
@@ -37,6 +46,12 @@ export class AddGroupMembersComponent {
     }, [])
   }
 
+  // Instancia el modal alert-modal-component para alertas
+  openAlertModal(modalData: IAlertData): void {
+    this.alertModal = this.alertModalService.open(modalData);
+  }
+
+  // Recoger groupId:
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params: any) => {
       if (params['groupId']) {
@@ -45,48 +60,60 @@ export class AddGroupMembersComponent {
     })
   }
 
+  // Recoger los datos del formulario:
   async getDataForm(): Promise<void> {
     if (this.invitationForm.valid) {
-      const { username } = this.invitationForm.value;
+      const { username, message } = this.invitationForm.value;
       try {
         const user = await this.invitationsService.getUserFromUsername(username);
-        console.log(user);
 
+        // Check if a pending invitation exists for group + user:
+        const existingInvitation = await this.invitationsService.getInvitation(this.groupId!, user.id);
+
+          if (existingInvitation !== null) {
+            this.openAlertModal({
+              icon: 'error',
+              title: 'Error!',
+              body: 'La invitación ya existe',
+              acceptAction: true,
+              backAction: false,
+            });
+            return;
+          }
+        
         const invitation: IInvitation = {
           group_id: this.groupId!,
           user_id: user.id,
           accepted: 0,
-          active: 1
+          active: 1,
+          message: message
         }
 
+        // Crear la invitacion:
         const result = await this.invitationsService.createInvitation(invitation);
-        console.log("Invitation created:", result);
-      }
-      catch (error) {
-        console.error('Error creating invitation:', error);
+        console.log(result);
+
+        if (result) {
+          this.openAlertModal({
+            icon: 'done_all',
+            title: 'Perfecto!',
+            body: 'Invitación creada correctamente ',
+            acceptAction: true,
+            backAction: false,
+          });
+          this.alertModal?.componentInstance.sendModalAccept.subscribe(
+            (isAccepted) => {
+              if (isAccepted) {
+                this.router.navigateByUrl('/home');
+              }
+            }
+          );
+        }
+      } catch (error) {
+        console.log('Error al crear la invitacion:', error);
       }
     }
   }
-
-  /*
-  async getUsername(): Promise<void> {
-  const username = this.invitationForm.value['username'];
-  if (username) {
-    try {
-      const user = await this.invitationsService.getUserFromUsername(username);
-      if (user) {
-        const user = await this.usersService.getUserById(user.id);
-        this.username = user.username;
-      } else {
-        console.error('User not found with the given username');
-      }
-    } catch (error) {
-      console.error('Error getting username:', error);
-    } 
-  } 
-} */
-
-
 
   // Comprobar validadores:
   checkControl(formControlName: string, validatorName: string): boolean | undefined {
