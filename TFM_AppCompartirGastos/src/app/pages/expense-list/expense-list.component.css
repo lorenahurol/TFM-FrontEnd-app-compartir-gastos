@@ -31,7 +31,6 @@
     font-size: small;
     background-color: rgb(19, 94, 192);
     border-color: rgb(7, 67, 146);
-    font-weight: bold;
     margin-right: 2em;
 }
 
@@ -42,5 +41,9 @@
 }
 
 .date-text {
+    text-align: center;
+}
+
+.action-field {
     text-align: center;
 }
