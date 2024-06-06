@@ -8,6 +8,7 @@ import { CommonFunctionsService } from '../../common/utils/common-functions.serv
 import { AlertModalComponent, IAlertData } from '../alert-modal/alert-modal.component';
 import { AlertModalService } from '../../services/alert-modal.service';
 import { MatDialogRef } from '@angular/material/dialog';
+import { EmailsService, IEmailData } from '../../services/emails.service';
 
 @Component({
   selector: 'app-register-form',
@@ -26,6 +27,7 @@ export class RegisterFormComponent {
   usersServices = inject(UsersService);
   authServices = inject(AuthService);
   commonFunc = inject(CommonFunctionsService);
+  emailService = inject(EmailsService)
 
   inputForm: FormGroup;
 
@@ -218,6 +220,20 @@ export class RegisterFormComponent {
         } else {
           // En caso el registro sea correcto se recibe y almacena el token de login
           localStorage.setItem('login_token', response.token!);
+
+          // Envío email de confirmación
+          const to: string = newUser.mail
+          const firstname: string = newUser.firstname 
+          
+          const emailData :IEmailData = {
+            to: to,
+            name: firstname,
+            selectedTemplate: 'welcome',
+          };
+
+          const emailResponse = await this.emailService.sendEmail(emailData)
+
+          // instancio mensaje de confirmación de registro y llevo a home
           this.openAlertModal({
             icon: 'done_all',
             title: 'Perfecto!',
