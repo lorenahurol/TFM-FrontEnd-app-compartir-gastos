@@ -3,6 +3,10 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { GroupsService } from '../../services/groups.service';
 import { Icategory } from '../../interfaces/icategory.interface';
 import { ActivatedRoute, Router } from '@angular/router';
+import { IGroup } from '../../interfaces/igroup.interface';
+import { AlertModalService } from '../../services/alert-modal.service';
+import { MatDialogRef } from '@angular/material/dialog';
+import { AlertModalComponent, IAlertData } from '../alert-modal/alert-modal.component';
 
 @Component({
   selector: 'app-group-form',
@@ -18,28 +22,37 @@ export class GroupFormComponent {
   btnText: string = "Crear";
   arrCategories: Icategory[] = [];
   groupFormulario: FormGroup;
-  groupId: number | null = null;
+  groupId: number = 0;
+  userId: number = 0;
   groupsService = inject(GroupsService);
   router = inject(Router);
   activatedRoute = inject(ActivatedRoute);
+
+  alertModalService = inject(AlertModalService);
+
+  alertModal: MatDialogRef<AlertModalComponent, any> | undefined;
+  
   
   // Inicializar el formulario:
   constructor() {
     this.groupFormulario = new FormGroup({
-      group_name: new FormControl("", [
-        // Validadores:
+      description: new FormControl("", [
         Validators.required,
         Validators.minLength(3)
       ]),
-      description: new FormControl("", []),
       category: new FormControl("", [
         Validators.required
       ])
     }, [])
   }
 
+  // Instancia el modal alert-modal-component para alertas
+  openAlertModal(modalData: IAlertData): void {
+    this.alertModal = this.alertModalService.open(modalData);
+  }
+
   // Reutilizar el formulario para edicion:
-  ngOnInit() {
+ngOnInit(): void {
     // Obtener las categorias:
     // this.arrCategories = this.groupsService.getAllCategories();
 
@@ -51,9 +64,8 @@ export class GroupFormComponent {
         this.typeH3.emit("Editar");
         this.btnText = "Actualizar";
         try {
-          const group = await this.groupsService.getGroupById(params.groupId);
+          const group = await this.groupsService.getGroupById(this.groupId);
           this.groupFormulario.setValue({
-            group_name: group.name,
             description: group.description,
             category: group.category_id
           })
@@ -68,27 +80,63 @@ export class GroupFormComponent {
   }
 
   // Trabajar con los datos del formulario:
-  getDataForm(): void {
+ async getDataForm(): Promise<void> {
     if (this.groupFormulario.valid) {
+      const { description, category } = this.groupFormulario.value;
+
+      const group: IGroup = {
+        description: description,
+        category_id: category,
+        creator_user_id: this.userId,
+        active: 1 
+      };
+
+// Insertar nuevo grupo:
       if (this.btnText === "Crear") {
-        // Insertar nuevo grupo:
+        
         try {
-          const result = this.groupsService.addGroup(this.groupFormulario.value);
-          this.groupFormulario.reset();
-          this.router.navigate(['/groups']);
-          console.log(result)
-        } catch (error) {
-          console.error(error);
+        await this.groupsService.addGroup(group);
+        this.openAlertModal({
+          icon: 'done_all',
+          title: 'Perfecto!',
+          body: 'Grupo creado correctamente',
+          acceptAction: true,
+          backAction: false,
+        });
+        this.alertModal?.componentInstance.sendModalAccept.subscribe(
+          (isAccepted) => {
+            if (isAccepted) {
+              this.router.navigateByUrl('/home');
+            }
+          }
+        );
+
+        this.groupFormulario.reset();
+          await this.router.navigate(['/groups']);
+          
+        } catch (error: any) {
+          // Error 409: Conflict (Group already exists):
+        if (error.status === 409) {
+          this.openAlertModal({
+            icon: 'error',
+            title: 'Error!',
+            body: 'El grupo ya existe',
+            acceptAction: true,
+            backAction: false,
+          });
+        } else {
+          console.log('Error al crear el grupo', error);
         }
-    
+        }
+        
+// Editar el grupo: btnText === "Actualizar"
       } else {
         try {
-          // Editar el grupo:
-          const result = this.groupsService.editGroup(this.groupFormulario.value);
-          this.router.navigate([`home/groups/${this.groupId}`]);
+          const result = await this.groupsService.editGroup(this.groupFormulario.value);
+          await this.router.navigate([`home/groups/${this.groupId}`]);
           console.log(result);
         } catch (error) {
-          console.error(error);
+          console.log('Error al actualizar el grupo:', error);
         }
       }
     }

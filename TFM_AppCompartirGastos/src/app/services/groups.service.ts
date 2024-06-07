@@ -5,6 +5,7 @@ import { Icategory } from '../interfaces/icategory.interface';
 import { lastValueFrom } from 'rxjs';
 import { environment } from '../../environments/environments';
 import { IRoles } from '../interfaces/iroles.interface';
+import { IUser } from '../interfaces/iuser.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -38,11 +39,16 @@ export class GroupsService {
     return lastValueFrom(this.httpClient.get<Icategory[]>(`${this.API_URL}/categories`))
   } **/
 
+  getUserById(userId: number) {
+    return lastValueFrom(
+      this.httpClient.get<IUser>(`${this.API_URL}/users/${userId}`)
+    );
+  }
+
   // Insertar grupo:
   addGroup(group: IGroup): Promise<IGroup> {
     return lastValueFrom(
-      this.httpClient.post<IGroup>(`${this.API_URL}/`, group)
-    );
+      this.httpClient.post<IGroup>(`${this.API_URL}/groups`, group));
   }
 
   // Editar un grupo:
