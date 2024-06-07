@@ -50,9 +50,21 @@ export const rolesGuard: CanActivateFn = async (route, state) => {
     
       }
     }
+  } else if (route.url[0].path.includes('groups')) {
+    /* Comprobaciones para rutas de grupos */
+
+    roles = await groupService.getUserRolesByGroup();
+
+    if (roles.membergroups.includes(groupId)) {
+      isGranted = true;
+    } else {
+      message = 'No tienes permisos para acceder a la información de este grupo';
+      redirectTo = '/home';
+      isGranted = false;
+    }
+    
   } else {
-    /* Comprobaciones para otras rutas */
-    console.log('No es una ruta de gasto: ', route.url);
+    console.log('No es una ruta conocida por el guard de roles: ', route.url);
   }
 
   if (!isGranted) {

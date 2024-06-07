@@ -11,28 +11,72 @@ import { IInvitation } from '../interfaces/iinvitation.interface';
 export class InvitationsService {
 
   // Inject HTTP client:
-  private HttpClient = inject(HttpClient);
+  private httpClient = inject(HttpClient);
   // URL de entorno:
   private API_URL: string = environment.API_URL;
   
   // Send invitation to DB:
   async createInvitation(invitation: IInvitation): Promise<IInvitation> {
     try {
-      const result = await lastValueFrom(this.HttpClient.post<IInvitation>(`${this.API_URL}/invitations`, invitation));
+      const result = await lastValueFrom(this.httpClient.post<IInvitation>(`${this.API_URL}/invitations`, invitation));
       return result;
     } catch (error) {
-      throw new Error("Error creating invitation");
+      throw new Error("Error al crear la invitation");
     }
   }
 
   // Get user_id associated to username:
   async getUserFromUsername(username: string): Promise<IUser> {
     try {
-      const result = await lastValueFrom(this.HttpClient.get<IUser>(`${this.API_URL}/users/byusername/${username}`));
+      // Get usernames from DB:
+      const result = await lastValueFrom(this.httpClient.get<IUser>(`${this.API_URL}/users/byusername/${username}`));
       return result
 
   } catch (error) {
-    throw new Error("User ID not found");
+    throw new Error("No se ha encontrado el usuario");
+  }
+  }
+
+  // Get invitation associated with group and user:
+async getInvitation(groupId: number, userId: number): Promise<IInvitation | null> {
+  try {
+    // Get PENDING (not accepted) invitations from DB:
+    const result = await lastValueFrom(this.httpClient.get<IInvitation[]>(`${this.API_URL}/invitations/bygroupanduser/${groupId}/${userId}`));
+    // Para evitar error si devuelve un array vacio:
+    return result.length > 0 ? result[0] : null;
+  } catch (error) {
+    throw new Error("No se ha encontrado la invitación");
   }
 }
+
+  
+  // Accept invitation:
+  async acceptInvitation(invitationId: number, userId: number): Promise<any> {
+    try {
+      const result = await lastValueFrom(this.httpClient.put(`${this.API_URL}/invitations/${invitationId}/accept`, { user_id: userId }));
+      return result
+    } catch (error) {
+      throw new Error("Error al aceptar la invitación");
+    }
+  }
+
+  // Reject invitation:
+  async rejectInvitation(invitationId: number, userId: number): Promise<any> {
+    try {
+      const result = await lastValueFrom(this.httpClient.put(`${this.API_URL}/invitations/${invitationId}/reject`, { user_id: userId }));
+      return result
+    } catch (error) {
+      throw new Error("Error al rechazar la invitación");
+    }
+  }
+
+  // Deactivate invitation:
+  async deleteInvitation(invitationId: number, userId: number): Promise<any> {
+    try {
+      const result = await lastValueFrom(this.httpClient.delete(`${this.API_URL}/invitations/${invitationId}`));
+      return result
+    } catch (error) {
+      throw new Error("Error al eliminar la invitación");
+    }
+  }
 }
