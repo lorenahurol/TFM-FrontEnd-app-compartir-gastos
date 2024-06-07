@@ -47,7 +47,7 @@
                 </div>
 
                 <input type="submit" value="{{btnText}}" class="btn btn-primary my-2" [disabled]="!expenseForm.valid || !expenseForm.dirty"/>
-                <button class="btn btn-secondary my-2" [routerLink]="['../..']" >Volver</button>
+                <button class="btn btn-secondary my-2" (click)="backExpensesGroup" >Volver</button>
 
             </form>
         </div>
