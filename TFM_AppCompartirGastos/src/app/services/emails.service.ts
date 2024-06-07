@@ -26,20 +26,28 @@ export class EmailsService {
 
   constructor() { }
 
+
   sendEmail({ to, name, selectedTemplate }: IEmailData) {
-    let template = this.emailTemplates[selectedTemplate]
-    template.subject = template.subject.replace ("#name", `${name}`)
-    template.html = template.html.replace("#name", `${name}`)
+    // mapeo los email importados de app/db/emailTemplates.db
+    let template = this.emailTemplates[selectedTemplate];
+
+    // modifico el contenido para personalizar el email sustituyendo los tags por los valores
+    template.subject = template.subject.replace('#name', `${name}`);
+    template.html = template.html.replace('#name', `${name}`);
+
+    // creo el objeto cuerpo de la petición
     const emailBody: IEmailBody = {
       to: to,
       subject: template.subject,
-      html: template.html 
-    }
-    
+      html: template.html,
+    };
+
     try {
-      return lastValueFrom (this.httpClient.post<any>(`${this.API_URL}/mails/`, emailBody))
+      return lastValueFrom(
+        this.httpClient.post<any>(`${this.API_URL}/mails/`, emailBody)
+      );
     } catch (error) {
-      return (error)
+      return error;
     }
   }
 

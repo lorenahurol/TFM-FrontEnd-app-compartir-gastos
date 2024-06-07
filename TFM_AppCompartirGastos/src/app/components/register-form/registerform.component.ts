@@ -231,7 +231,7 @@ export class RegisterFormComponent {
             selectedTemplate: 'welcome',
           };
 
-          const emailResponse = await this.emailService.sendEmail(emailData)
+          await this.emailService.sendEmail(emailData)
 
           // instancio mensaje de confirmación de registro y llevo a home
           this.openAlertModal({
