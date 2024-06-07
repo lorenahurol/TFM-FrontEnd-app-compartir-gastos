@@ -62,8 +62,8 @@ export class GroupFormComponent {
 
   
 async ngOnInit(): Promise<void> {
-    // Obtener las categorias:
-    // this.arrCategories = this.groupsService.getAllCategories();
+    //Obtener las categorias:
+    this.arrCategories = await this.groupsService.getAllCategories();
   
   // AuthService: get current user's ID:
   const token = localStorage.getItem("token");

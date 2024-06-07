@@ -34,10 +34,10 @@ export class GroupsService {
     );
   }
 
-  /** Crear categories.js en backend
-  getAllCategories(): Icategory[] {
+  // Obtener todas las categorias
+  getAllCategories(): Promise<Icategory[]> {
     return lastValueFrom(this.httpClient.get<Icategory[]>(`${this.API_URL}/categories`))
-  } **/
+  }
 
   getUserById(userId: number) {
     return lastValueFrom(
