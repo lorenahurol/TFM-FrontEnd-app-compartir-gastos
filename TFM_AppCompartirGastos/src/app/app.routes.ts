@@ -19,39 +19,16 @@ export const routes: Routes = [
   { path: 'landing', component: LandingComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
-  {
-    path: 'home',
-    component: HomeComponent,
+  { path: 'home', component: HomeComponent, 
     children: [
       { path: '', component: UserDashboardComponent },
       { path: 'users/update', component: UpdateUserComponent },
       { path: 'groups/groupForm', component: GroupFormPageComponent },
-      {
-        path: 'groups/:groupId',
-        component: GroupDashboardComponent,
-        canActivate: [rolesGuard],
-      },
-      {
-        path: 'groups/:groupId/invitation',
-        component: AddGroupMembersPageComponent,
-      },
-      {
-        path: 'expenses/:groupId',
-        component: ExpenseListComponent,
-        canActivate: [rolesGuard],
-      },
-      {
-        path: 'expenses/:groupId/add',
-        component: ExpenseViewComponent,
-        canActivate: [rolesGuard],
-      },
-      {
-        path: 'expenses/:groupId/edit/:expenseId',
-        component: ExpenseViewComponent,
-        canActivate: [rolesGuard],
-      },
-    ],
-    canActivate: [authGuard],
-  },
+      { path: 'groups/:groupId', component: GroupDashboardComponent, canActivate: [rolesGuard]},
+      { path: 'groups/:groupId/invitation', component: AddGroupMembersPageComponent},
+      { path: 'expenses/:groupId', component: ExpenseListComponent, canActivate: [rolesGuard]},
+      { path: 'expenses/:groupId/add', component: ExpenseViewComponent, canActivate: [rolesGuard]},
+      { path: 'expenses/:groupId/edit/:expenseId', component: ExpenseViewComponent, canActivate: [rolesGuard]},
+    ], canActivate: [authGuard]},
   { path: '**', component: Error404Component },
 ];
