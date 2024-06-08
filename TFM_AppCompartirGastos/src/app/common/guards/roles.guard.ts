@@ -64,7 +64,7 @@ export const rolesGuard: CanActivateFn = async (route, state) => {
   } else {
     // Si el usuario no es admin, no se le permite crear invitaciones y se le redirige:
     message = 'No tienes permisos para crear invitaciones en este grupo';
-    redirectTo = '/home/'
+    redirectTo = '/home'
     isGranted = false;
   }
   
