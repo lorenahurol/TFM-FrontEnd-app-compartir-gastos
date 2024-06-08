@@ -53,24 +53,24 @@ export const rolesGuard: CanActivateFn = async (route, state) => {
     /* Comprobaciones para rutas de grupos */
   } else if (route.url[0].path.includes('groups')) {
   
-  roles = await groupService.getUserRolesByGroup();
+    roles = await groupService.getUserRolesByGroup();
 
-  if (roles.admingroups.includes(groupId)) {
-    isGranted = true;
-    /* Comprobaciones para que solo el admin del grupo pueda crear invitaciones */
-    if (route.url.length > 2 && route.url[2].path === "invitation") {
+    if (roles.admingroups.includes(groupId)) {
       isGranted = true;
+      /* Comprobaciones para que solo el admin del grupo pueda crear invitaciones */
+      if (route.url.length > 2 && route.url[2].path === "invitation") {
+        isGranted = true;
+      }
+    } else {
+      // Si el usuario no es admin, no se le permite crear invitaciones y se le redirige:
+      message = 'No tienes permisos para crear invitaciones en este grupo';
+      redirectTo = '/home'
+      isGranted = false;
     }
+    
   } else {
-    // Si el usuario no es admin, no se le permite crear invitaciones y se le redirige:
-    message = 'No tienes permisos para crear invitaciones en este grupo';
-    redirectTo = '/home/'
-    isGranted = false;
+    console.log('No es una ruta conocida por el guard de roles: ', route.url);
   }
-  
-} else {
-  console.log('No es una ruta conocida por el guard de roles: ', route.url);
-}
 
   if (!isGranted) {
     commonFunc.openDialog({

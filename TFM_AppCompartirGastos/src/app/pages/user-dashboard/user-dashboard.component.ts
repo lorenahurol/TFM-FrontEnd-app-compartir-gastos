@@ -13,6 +13,7 @@ import { IRoles } from '../../interfaces/iroles.interface';
 export class UserDashboardComponent {
   arrInfoGroups: IUserGroups[] = [];
   roles: IRoles | any = {};
+  filter: string = 'todos';
   groupService = inject(GroupsService);
   
 
@@ -27,6 +28,22 @@ export class UserDashboardComponent {
     this.arrInfoGroups.forEach((group: IUserGroups) => {
       group.is_admin = this.roles.admingroups.includes(group.group_id);
     });
+
+    /* aplicamos el filtro */
+    if (this.filter === 'admin') {
+      this.arrInfoGroups = this.arrInfoGroups.filter((group: IUserGroups) => group.is_admin === true);
+    } else if (this.filter === 'member') {
+      this.arrInfoGroups = this.arrInfoGroups.filter((group: IUserGroups) => group.is_admin !== true);
+    }
+
+  }
+
+
+  updateFilterTable(filter: string) {
+    this.filter = filter;
+
+    /* recargar tabla aplicando filtro */
+    this.ngOnInit();
 
   }
 }
