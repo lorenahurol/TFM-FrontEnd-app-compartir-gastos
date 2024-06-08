@@ -3,4 +3,6 @@ export interface IUserGroups {
     description: string;
     category:    string;
     is_admin?:   boolean;
+    totalexpenses?: number;
+    balance?: number;
 }
