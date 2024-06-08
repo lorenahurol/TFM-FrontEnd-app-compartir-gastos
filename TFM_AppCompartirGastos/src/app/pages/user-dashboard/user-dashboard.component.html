@@ -39,8 +39,29 @@
             </div>
             <div>
                 <table class="table table-striped">
-                    ...
-                  </table>
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Descripción</th>
+                            <th scope="col">Categoría</th>
+                            <th scope="col">es admin</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (infoGroup of arrInfoGroups; track infoGroup.group_id) {
+                            <tr>
+                                <th scope="row">{{infoGroup.group_id}}</th>
+                                <td>{{infoGroup.description}}</td>
+                                <td>{{infoGroup.category}}</td>
+                                @if (infoGroup.is_admin) {
+                                    <td>Administrador</td>   
+                                } @else {
+                                    <td></td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
  
