@@ -7,6 +7,7 @@ import { AlertModalService } from '../../services/alert-modal.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ImemberGroup } from '../../interfaces/imember-group';
 import { ExpensesService } from '../../services/expenses.service';
+import { ITokenVerification } from '../../interfaces/itoken-verification.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -153,6 +154,21 @@ export class CommonFunctionsService {
     }
 
     return membersAll;
+  }
+
+  /**
+   * Método para el id_usuario logueado
+   */
+  async getUserId(): Promise<number | undefined> {
+    // AuthService: get current user's ID:
+    const token: string | any = localStorage.getItem("login_token");
+    if (token) {
+      const tokenVerification: ITokenVerification = await this.authServices.verifyToken(token);
+      if (tokenVerification && tokenVerification.id) {
+        return tokenVerification.id;
+      }
+    }
+    return undefined; // Add a return statement at the end of the function
   }
   
 }

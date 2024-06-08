@@ -2,28 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { environment } from '../../environments/environments';
 import { lastValueFrom } from 'rxjs';
+import { ITokenVerification } from '../interfaces/itoken-verification.interface';
+import { ILoginBody } from '../interfaces/ilogin-body.interface';
+import { ILoginResponse } from '../interfaces/ilogin-response.interface';
 
-type LoginBody = {
-  mail: string;
-  password: string;
-  rememberMe: boolean;
-};
-
-type LoginResponse = {
-  message?: string;
-  error?: string;
-  errno?: number;
-  token?: string;
-};
-
-type TokenVerification = {
-  exp?: number;
-  id?: number;
-  username?: string;
-  name?: string;
-  iat?: number;
-  error?: object
-};
 
 @Injectable({
   providedIn: 'root',
@@ -41,12 +23,12 @@ export class AuthService {
   /**
    * Logs in a user by sending a POST request to the /login endpoint.
    *
-   * @param {loginBody} loginBody - The login data containing email and password.
-   * @returns {Promise<loginResponse>} - A promise that resolves to the response of the login request.
+   * @param {ILoginBody} loginBody - The login data containing email and password.
+   * @returns {Promise<ILoginResponse>} - A promise that resolves to the response of the login request.
    */
-  login(loginBody: LoginBody): Promise<LoginResponse> {
+  login(loginBody: ILoginBody): Promise<ILoginResponse> {
     return lastValueFrom(
-      this.httpClient.post<LoginResponse>(`${this.API_URL}/login`, loginBody)
+      this.httpClient.post<ILoginResponse>(`${this.API_URL}/login`, loginBody)
     );
   }
 
@@ -62,7 +44,7 @@ export class AuthService {
    *  "iat": emission date (unix)}
    */
   verifyToken(token: string) {
-    return lastValueFrom<TokenVerification>(
+    return lastValueFrom<ITokenVerification>(
       this.httpClient.get(`${this.API_URL}/login/${token}`)
     );
   }

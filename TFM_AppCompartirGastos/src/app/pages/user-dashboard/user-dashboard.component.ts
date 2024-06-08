@@ -20,10 +20,7 @@ export class UserDashboardComponent {
   groupService = inject(GroupsService);
   commonFunc = inject(CommonFunctionsService);
   router = inject(Router);
-  userId = 103;
-
-  // TO DO
-  // 1. Obtener el ID usuario logueado
+  userId: number | any;
   
 
   async ngOnInit() {
@@ -32,6 +29,7 @@ export class UserDashboardComponent {
     });
 
     this.roles = await this.groupService.getUserRolesByGroup();
+    this.userId = await this.commonFunc.getUserId();
 
     /* recorrer arrInfoGroups y añadimos isAdmin a true si el group_id está en this.roles.admingroups */
     this.arrInfoGroups.forEach((group: IUserGroups) => {
@@ -70,10 +68,11 @@ export class UserDashboardComponent {
   formatAmount(amount: number | undefined): string {
     if (amount === undefined) {
       return '';
+    } else {
+      amount = Math.round((amount + Number.EPSILON) * 100) / 100;
     }
     let strAmount: string = amount.toString();
     strAmount = strAmount.replace('.', ',');
-    strAmount = strAmount.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
     return strAmount + ' €';
   }
 }
