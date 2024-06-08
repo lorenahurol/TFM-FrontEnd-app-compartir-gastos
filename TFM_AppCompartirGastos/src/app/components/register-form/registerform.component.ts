@@ -9,6 +9,7 @@ import { AlertModalComponent, IAlertData } from '../alert-modal/alert-modal.comp
 import { AlertModalService } from '../../services/alert-modal.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { EmailsService, IEmailData } from '../../services/emails.service';
+import { Subject, debounceTime, distinctUntilChanged } from 'rxjs'
 
 @Component({
   selector: 'app-register-form',
@@ -17,9 +18,9 @@ import { EmailsService, IEmailData } from '../../services/emails.service';
   templateUrl: './registerform.component.html',
   styleUrl: './registerform.component.css',
 })
-  
 export class RegisterFormComponent {
-  
+  private usernameInputSubject: Subject<string> = new Subject<string>();
+
   alertModalService = inject(AlertModalService);
   alertModal: MatDialogRef<AlertModalComponent, any> | undefined;
 
@@ -27,7 +28,7 @@ export class RegisterFormComponent {
   usersServices = inject(UsersService);
   authServices = inject(AuthService);
   commonFunc = inject(CommonFunctionsService);
-  emailService = inject(EmailsService)
+  emailService = inject(EmailsService);
 
   inputForm: FormGroup;
 
@@ -40,7 +41,7 @@ export class RegisterFormComponent {
   id: number = 0;
 
   constructor() {
-    this.inputForm = new FormGroup (
+    this.inputForm = new FormGroup(
       {
         first_name: new FormControl(null, [
           Validators.required,
@@ -76,6 +77,7 @@ export class RegisterFormComponent {
     this.alertModal = this.alertModalService.open(modalData);
   }
 
+
   async ngOnInit() {
     const currentRoute = this.router.url;
     const token = localStorage.getItem('login_token');
@@ -90,7 +92,7 @@ export class RegisterFormComponent {
           title: 'Ya estás registrado!',
           body: 'Te llevamos a casa ',
           acceptAction: true,
-          backAction: false
+          backAction: false,
         });
         this.alertModal?.componentInstance.sendModalAccept.subscribe(
           (isAccepted) => {
@@ -141,6 +143,18 @@ export class RegisterFormComponent {
      * Recupera los valores para los de códigos de país
      */
     this.arrInternationalCodes = this.usersServices.getAllInternationalCodes();
+
+    /** 
+     * Función de debounce para reducir llamadas a ls API desde checkusername. Espera 300ms desde el ultimo evento de input y elimina las llamadas duplicadas antes de llamar a checkUsername
+     */
+    this.usernameInputSubject
+      .pipe(
+        debounceTime(300), // Espera 300 ms después del último evento de entrada
+        distinctUntilChanged() // Evita llamadas duplicadas consecutivas
+      )
+      .subscribe((currentUsername) => {
+        this.checkUsername(currentUsername);
+      });
   }
 
   /**
@@ -175,7 +189,6 @@ export class RegisterFormComponent {
               }
             }
           );
-
         } else if (response.errno === 1062) {
           // Verifica si se recibe error de email duplicado en BBDD
           this.openAlertModal({
@@ -186,10 +199,10 @@ export class RegisterFormComponent {
             backAction: true,
           });
         } else {
-          alert(response.message);
+          this.commonFunc.generalAlertModal(response.message);
         }
       } catch (error) {
-        alert(error);
+        this.commonFunc.generalAlertModal(error);
       }
       // Petición de registro de nuevo usuario
     } else {
@@ -213,25 +226,24 @@ export class RegisterFormComponent {
                 }
               }
             );
-            
           } else {
-            alert(response.message);
+            this.commonFunc.generalAlertModal(response.message);
           }
         } else {
           // En caso el registro sea correcto se recibe y almacena el token de login
           localStorage.setItem('login_token', response.token!);
 
           // Envío email de confirmación
-          const to: string = newUser.mail
-          const firstname: string = newUser.firstname 
-          
-          const emailData :IEmailData = {
+          const to: string = newUser.mail;
+          const firstname: string = newUser.firstname;
+
+          const emailData: IEmailData = {
             to: to,
             name: firstname,
             selectedTemplate: 'welcome',
           };
 
-          await this.emailService.sendEmail(emailData)
+          await this.emailService.sendEmail(emailData);
 
           // instancio mensaje de confirmación de registro y llevo a home
           this.openAlertModal({
@@ -249,10 +261,9 @@ export class RegisterFormComponent {
               }
             }
           );
-
         }
       } catch (error: any) {
-        alert(error.message);
+        this.commonFunc.generalAlertModal(error.message);
       }
     }
   }
@@ -271,12 +282,20 @@ export class RegisterFormComponent {
   }
 
   /**
+   * Método que llama al debounce para las llamadas a checkUsername
+   */
+  onUsernameInput(event: any) {
+    const currentUsername = event.target.value;
+    this.usernameInputSubject.next(currentUsername);
+  }
+
+  /**
    * Método que veriifica si el username tecleado existe en BBDD
    */
-  async checkUsername($event: any) {
+  async checkUsername(currentUsername: any) {
     this.usernameExists = await this.commonFunc.checkUsername(
       this.username,
-      $event
+      currentUsername
     );
   }
 }

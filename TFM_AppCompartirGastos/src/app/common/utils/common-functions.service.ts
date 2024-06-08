@@ -11,10 +11,9 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class CommonFunctionsService {
   authServices = inject(AuthService);
-  usersServices = inject (UsersService)
+  usersServices = inject(UsersService);
   alertModalService = inject(AlertModalService);
   alertModal: MatDialogRef<AlertModalComponent, any> | undefined;
-
 
   constructor() {}
 
@@ -51,17 +50,16 @@ export class CommonFunctionsService {
   /**
    * Método que veriifica si el username tecleado existe en BBDD
    */
-  async checkUsername(username: string, $event: any) {
-    const currentUsername = $event.target.value;
+  async checkUsername(username: string, currentUsername: any) {
     if (username !== currentUsername) {
       try {
         const usernameExists = await this.usersServices.checkUsename(
           currentUsername
         );
-        return usernameExists.exists
+        return usernameExists.exists;
       } catch (error: any) {
-        console.log(error.message)
-        return false
+        console.log(error.message);
+        return false;
       }
     }
     return false;
@@ -71,6 +69,17 @@ export class CommonFunctionsService {
    * Método para mostrar un mensaje de alerta
    */
   async openDialog(modalData: IAlertData) {
+    this.alertModal = this.alertModalService.open(modalData);
+  }
+
+  generalAlertModal(error: any): void {
+    const modalData = ({
+      icon: 'warning',
+      title: 'Atención!',
+      body: `${error}`,
+      acceptAction: false,
+      backAction: true,
+    });
     this.alertModal = this.alertModalService.open(modalData);
   }
 }

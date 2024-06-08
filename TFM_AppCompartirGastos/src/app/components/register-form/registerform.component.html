@@ -38,7 +38,7 @@
     <div class="col-md-9">
       <div class="input-group has-validation">
         <span class="input-group-text" id="inputGroupPrepend">&#64;</span>
-        <input type="text" class="form-control" id="username" formControlName="username" placeholder="MiguelDeCervantes_1547"  maxlength="45" required (input)="checkUsername ($event)">
+        <input type="text" class="form-control" id="username" formControlName="username" placeholder="MiguelDeCervantes_1547"  maxlength="45" required (input)="onUsernameInput ($event)">
         
       </div>
       @if (this.usernameExists){
