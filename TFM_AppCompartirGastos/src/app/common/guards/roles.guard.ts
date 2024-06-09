@@ -55,22 +55,29 @@ export const rolesGuard: CanActivateFn = async (route, state) => {
   
     roles = await groupService.getUserRolesByGroup();
 
-    if (roles.admingroups.includes(groupId)) {
+    if (roles.membergroups.includes(groupId)) {
       isGranted = true;
-      /* Comprobaciones para que solo el admin del grupo pueda crear invitaciones */
+      /* Comprobaciones para por si además está intentando crear invitaciones */
       if (route.url.length > 2 && route.url[2].path === "invitation") {
-        isGranted = true;
-      }
+        if (roles.admingroups.includes(groupId)) {
+          isGranted = true;
+        } else {
+          // Si el usuario no es admin del grupo, no puede crear invitaciones
+          message = 'No tienes permisos para crear invitaciones de este grupo';
+          redirectTo = '/home'
+          isGranted = false;
+        }
+      } 
     } else {
-      // Si el usuario no es admin, no se le permite crear invitaciones y se le redirige:
-      message = 'No tienes permisos para crear invitaciones en este grupo';
+      // Si el usuario no es miembro del grupo, no puede ver la información del grupo
+      message = 'No tienes permisos para ver información de este grupo';
       redirectTo = '/home'
       isGranted = false;
     }
     
   } else {
-    // Si el usuario no es admin, no se le permite crear invitaciones y se le redirige:
-    message = 'No tienes permisos para crear invitaciones en este grupo';
+    // Si pasa por aquí, la ruta no es de gastos ('expenses') ni de grupos ('groups')
+    message = 'Está intentando acceder a una ruta desconocida';
     redirectTo = '/home'
     isGranted = false;
   }
