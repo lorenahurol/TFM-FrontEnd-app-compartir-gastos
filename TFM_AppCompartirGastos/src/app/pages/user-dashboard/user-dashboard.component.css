@@ -22,7 +22,7 @@
 }
 
 #infoGroupAccordion {
-    width: 100%;
+    min-width: 450px;
     max-width: 600px;
 }
 
@@ -38,4 +38,16 @@
 .payments-field {
     align-items: center;
     text-align: center;
+}
+
+.nav-link {
+    color: #135496 !important;
+}
+
+.menu-option {
+    font-weight: 700;
+}
+
+.filter-option {
+    text-decoration: underline;
 }
