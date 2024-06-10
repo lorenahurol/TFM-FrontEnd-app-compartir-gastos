@@ -22,7 +22,6 @@ export class RegisterFormComponent {
   private usernameInputSubject: Subject<string> = new Subject<string>();
 
   alertModalService = inject(AlertModalService);
-  alertModal: MatDialogRef<AlertModalComponent, any> | undefined;
 
   router = inject(Router);
   usersServices = inject(UsersService);
@@ -72,11 +71,6 @@ export class RegisterFormComponent {
     );
   }
 
-  // Instancia el modal alert-modal-component para alertas
-  openAlertModal(modalData: IAlertData): void {
-    this.alertModal = this.alertModalService.open(modalData);
-  }
-
 
   async ngOnInit() {
     const currentRoute = this.router.url;
@@ -87,14 +81,14 @@ export class RegisterFormComponent {
       const tokenResponse = await this.commonFunc.verifyToken(token);
       // Si no es update y el token es válido, redirecciono a la home
       if (tokenResponse.success && currentRoute !== '/home/users/update') {
-        this.openAlertModal({
+        const alertModal = this.alertModalService.newAlertModal({
           icon: 'notifications',
           title: 'Ya estás registrado!',
           body: 'Te llevamos a casa ',
           acceptAction: true,
           backAction: false,
         });
-        this.alertModal?.componentInstance.sendModalAccept.subscribe(
+        alertModal?.componentInstance.sendModalAccept.subscribe(
           (isAccepted) => {
             if (isAccepted) {
               this.router.navigateByUrl('/home');
@@ -175,14 +169,14 @@ export class RegisterFormComponent {
       try {
         const response = await this.usersServices.updateUser(newUser);
         if (response.success) {
-          this.openAlertModal({
+          const alertModal = this.alertModalService.newAlertModal({
             icon: 'done_all',
             title: 'Perfecto!',
             body: 'Actualización realizada correctamente ',
             acceptAction: true,
             backAction: false,
           });
-          this.alertModal?.componentInstance.sendModalAccept.subscribe(
+          alertModal?.componentInstance.sendModalAccept.subscribe(
             (isAccepted) => {
               if (isAccepted) {
                 this.router.navigateByUrl('/home');
@@ -191,7 +185,7 @@ export class RegisterFormComponent {
           );
         } else if (response.errno === 1062) {
           // Verifica si se recibe error de email duplicado en BBDD
-          this.openAlertModal({
+          this.alertModalService.newAlertModal({
             icon: 'warning',
             title: 'Atención!',
             body: `El email ${newUser.mail} ya existe en base de datos.`,
@@ -199,10 +193,10 @@ export class RegisterFormComponent {
             backAction: true,
           });
         } else {
-          this.commonFunc.generalAlertModal(response.message);
+          this.alertModalService.newAlertModal({body: response.message});
         }
       } catch (error) {
-        this.commonFunc.generalAlertModal(error);
+        this.alertModalService.newAlertModal({body: error});
       }
       // Petición de registro de nuevo usuario
     } else {
@@ -211,7 +205,7 @@ export class RegisterFormComponent {
         if (!response.token) {
           // Verifica si se recibe error de email duplicado en BBDD
           if (response.errno === 1062) {
-            this.openAlertModal({
+            const alertModal = this.alertModalService.newAlertModal({
               icon: 'warning',
               title: 'Atención!',
               body: `El email ${newUser.mail} ya existe en base de datos.\n
@@ -219,7 +213,7 @@ export class RegisterFormComponent {
               acceptAction: true,
               backAction: true,
             });
-            this.alertModal?.componentInstance.sendModalAccept.subscribe(
+            alertModal?.componentInstance.sendModalAccept.subscribe(
               (isAccepted) => {
                 if (isAccepted) {
                   this.router.navigateByUrl('/login');
@@ -227,7 +221,7 @@ export class RegisterFormComponent {
               }
             );
           } else {
-            this.commonFunc.generalAlertModal(response.message);
+            this.alertModalService.newAlertModal({body: response.message});
           }
         } else {
           // En caso el registro sea correcto se recibe y almacena el token de login
@@ -246,7 +240,7 @@ export class RegisterFormComponent {
           await this.emailService.sendEmail(emailData);
 
           // instancio mensaje de confirmación de registro y llevo a home
-          this.openAlertModal({
+          const alertModal = this.alertModalService.newAlertModal({
             icon: 'done_all',
             title: 'Perfecto!',
             body: `Usuario creado.\n
@@ -254,7 +248,7 @@ export class RegisterFormComponent {
             acceptAction: true,
             backAction: false,
           });
-          this.alertModal?.componentInstance.sendModalAccept.subscribe(
+          alertModal?.componentInstance.sendModalAccept.subscribe(
             (isAccepted) => {
               if (isAccepted) {
                 this.router.navigateByUrl('/home');
@@ -263,7 +257,7 @@ export class RegisterFormComponent {
           );
         }
       } catch (error: any) {
-        this.commonFunc.generalAlertModal(error.message);
+        this.alertModalService.newAlertModal({body: error.message});
       }
     }
   }

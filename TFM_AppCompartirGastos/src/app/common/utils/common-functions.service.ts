@@ -70,24 +70,6 @@ export class CommonFunctionsService {
   }
 
   /**
-   * Método para mostrar un mensaje de alerta
-   */
-  async openDialog(modalData: IAlertData) {
-    this.alertModal = this.alertModalService.open(modalData);
-  }
-
-  generalAlertModal(error: any): void {
-    const modalData = ({
-      icon: 'warning',
-      title: 'Atención!',
-      body: `${error}`,
-      acceptAction: false,
-      backAction: true,
-    });
-    this.alertModal = this.alertModalService.open(modalData);
-  }
-  
-  /**
      * Metodo para calcular los pagos de un grupo
      */
   async getPayments(groupId: number): Promise<ImemberGroup[]> {

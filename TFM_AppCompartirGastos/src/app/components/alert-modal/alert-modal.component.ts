@@ -3,9 +3,9 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { MatButtonModule } from '@angular/material/button';
 
 export interface IAlertData {
-  icon: string;
-  title: string;
-  body: string;
+  icon?: string;
+  title?: string;
+  body?: string | unknown;
   acceptAction?: boolean;
   backAction?: boolean
 }
@@ -19,13 +19,7 @@ export interface IAlertData {
   styleUrl: './alert-modal.component.css',
 })
 export class AlertModalComponent {
-  modalData: IAlertData = {
-    icon: 'notifications',
-    title: 'Atención',
-    body: 'Texto del cuerpo',
-    acceptAction: true,
-    backAction: false
-  };
+  modalData: IAlertData
 
   @Output() sendModalAccept: EventEmitter<boolean> = new EventEmitter();
 
