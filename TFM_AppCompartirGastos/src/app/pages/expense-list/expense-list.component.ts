@@ -35,7 +35,6 @@ export class ExpenseListComponent {
 
   // manejo de la ventana modal de borrado
   alertModalService = inject(AlertModalService);
-  alertModal: MatDialogRef<AlertModalComponent, any> | undefined;
   expenseId_a: number = -1;
   arrMembers: Array<ImemberGroup> = [];
   
@@ -70,7 +69,7 @@ export class ExpenseListComponent {
         this.arrExpenses = this.arrExpenses.filter((expense) => expense.id !== this.expenseId);
       } catch (error: HttpErrorResponse | any) {
         console.error(error);
-        this.commonFunc.openDialog({
+        this.alertModalService.newAlertModal({
           icon: 'notifications',
           title: 'Problema al eliminar gasto',
           body: `Se produjo el siguiente problema: ${error.error.error}`,
@@ -86,14 +85,14 @@ export class ExpenseListComponent {
   deleteExpenseById(expenseId: number) {
     this.expenseId = expenseId;
 
-    this.openDialog({
+    const alertModal = this.alertModalService.newAlertModal({
       icon: 'notifications',
       title: 'Eliminar gasto',
       body: '¿Estás seguro de que quieres eliminar este gasto?',
       acceptAction: true,
       backAction: true,
     });
-    this.alertModal?.componentInstance.sendModalAccept.subscribe(
+    alertModal?.componentInstance.sendModalAccept.subscribe(
       (isAccepted) => {
         if (isAccepted) {
           this.deleteExpense();
@@ -103,10 +102,6 @@ export class ExpenseListComponent {
   
   }
 
-  // Instancia el modal alert-modal-component para el dialog de borrado
-  openDialog(modalData: IAlertData): void {
-    this.alertModal = this.alertModalService.open(modalData);
-  }
 
   /**
    * Metodo para calcular los pagos
@@ -222,7 +217,7 @@ export class ExpenseListComponent {
       }
     } catch (error: HttpErrorResponse | any) {
       console.error(error);
-      this.commonFunc.openDialog({
+      this.alertModalService.newAlertModal({
         icon: 'notifications',
         title: 'Problema al eliminar gasto',
         body: `Se produjo el siguiente problema: ${error.error.error}`,

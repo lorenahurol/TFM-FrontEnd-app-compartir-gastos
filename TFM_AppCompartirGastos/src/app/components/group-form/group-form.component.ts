@@ -9,7 +9,6 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { AlertModalComponent, IAlertData } from '../alert-modal/alert-modal.component';
 import { AuthService } from '../../services/auth.service';
 import { CommonFunctionsService } from '../../common/utils/common-functions.service';
-import { IRoles } from '../../interfaces/iroles.interface';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -36,7 +35,6 @@ export class GroupFormComponent {
   activatedRoute = inject(ActivatedRoute);
 
   alertModalService = inject(AlertModalService);
-  alertModal: MatDialogRef<AlertModalComponent, any> | undefined;
 
   authService = inject(AuthService);
   commonFunc = inject(CommonFunctionsService);
@@ -54,12 +52,6 @@ export class GroupFormComponent {
       ])
     }, [])
   }
-
-  // Instancia el modal alert-modal-component para alertas
-  openAlertModal(modalData: IAlertData): void {
-    this.alertModal = this.alertModalService.open(modalData);
-  }
-
   
 async ngOnInit(): Promise<void> {
     //Obtener las categorias:
@@ -122,14 +114,14 @@ async ngOnInit(): Promise<void> {
         
         try {
         await this.groupsService.addGroup(group);
-        this.openAlertModal({
+        const alertModal = this.alertModalService.newAlertModal({
           icon: 'done_all',
           title: 'Perfecto!',
           body: 'Grupo creado correctamente',
           acceptAction: true,
           backAction: false,
         });
-        this.alertModal?.componentInstance.sendModalAccept.subscribe(
+        alertModal?.componentInstance.sendModalAccept.subscribe(
           (isAccepted) => {
             if (isAccepted) {
               this.router.navigateByUrl('/home');
@@ -142,7 +134,7 @@ async ngOnInit(): Promise<void> {
         } catch (error: any) {
           // Error 409: Conflict (Group already exists):
         if (error.status === 409) {
-          this.openAlertModal({
+          this.alertModalService.newAlertModal({
             icon: 'error',
             title: 'Error!',
             body: 'El grupo ya existe',
@@ -164,7 +156,7 @@ async ngOnInit(): Promise<void> {
           console.log('Error al actualizar el grupo:', error);
         }
       } else {
-        this.openAlertModal({
+        this.alertModalService.newAlertModal({
           icon: 'error',
           title: 'Error!',
           body: 'No tienes permiso para editar este grupo',
@@ -194,7 +186,7 @@ async ngOnInit(): Promise<void> {
       }
     } catch (error: HttpErrorResponse | any) {
       console.error(error);
-      this.commonFunc.openDialog({
+      this.alertModalService.newAlertModal({
         icon: 'notifications',
         title: 'Problema al verificar rol',
         body: `Se produjo el siguiente problema: ${error.error.error}`,
