@@ -1,104 +1,88 @@
+h1 {
+  font-size: 1.5rem;
+  font-family: "Titillium Web", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+h2 {
+  font-size: 1.2rem;
+  font-family: "Titillium Web", sans-serif;
+  font-style: normal;
+}
+
+p {
+  font-size: 18px;
+  font-family: 'Inter', sans-serif;
+}
+
+button {
+  font-family: 'Inter', sans-serif;
+}
+
+.image-fluid {
+  border-radius: 10px;
+  /* This will give you the rounded corners */
+  box-shadow: 0 0 10px 10px rgba(10, 10, 10, 0.4);
+  /* Adjust the color to match your background for a blending effect */
+}
+
+@media (min-width: 768px) {
+  h1 {
+    font-size: var(--h1-size);
+  }
+
+  h2 {
+    font-size: var(--h2-size);
+  }
+}
+
 .gradient-background {
-    background: linear-gradient(300deg, #A5C0DD, #6C9BCF, #654E92);
-    background-size: 180% 180%;
-    animation: gradient-animation 18s ease infinite;
-  }
-  
-  @keyframes gradient-animation {
-    0% {
-      background-position: 0% 50%;
+  background: linear-gradient(90deg,
+      rgba(10, 10, 10, 1) 0%,
+      rgba(47, 0, 40, 0.6) 25%,
+      rgba(1, 73, 59, 0.8) 60%,
+      rgba(10, 10, 10, 1) 100%);
+  border-radius: 10px;
+  box-shadow: 6px 6px 5px hsla(0, 0%, 0%, 0.02);
+  backdrop-filter: blur(50px);
+}
+
+    .img-fluid {
+      max-width: 100%;
+      height: auto;
     }
-    50% {
-      background-position: 100% 50%;
+
+    #title img {
+      max-width: 80%;
+      margin: 0 auto;
+      display: block;
     }
-    100% {
-      background-position: 0% 50%;
-    }
-  }
 
-  .p-5 {
-    display:flex;
-    flex-direction: column;
-    justify-content: center;
-    align-content: center;
-    background-color: gainsboro;
-    padding-top: 40px;
-  }
-  .first-card{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-top: 30px;
-  }
-
-  .first-card > h2 {
-    margin-bottom: 30px;
-  }
-
-  .first-card > img {
-    margin-bottom: 15px;
-    border-radius: 50%;
-  }
-
-  .row{
-    display: flex;
-    justify-content: space-around;
-  }
-
-  .card mb-4 rounded-3 shadow-sm border-primary {
-    background-color: black;
-    color: white;
-  }
-
-  .mb-3 {
-    margin-top: 40px;
-    padding-bottom: 30px;
-  }
-
-  .number-img {
-    margin-right: 4px;
-    width: 2rem;
-    height: 2rem;
-  }
- .features-img {
-  background-color: #A5C0DD;
-    width: 3rem;
-    height: 3rem;
- }
-
- .the-button {
-  background: white;
-  -webkit-border-radius: 28;
-  -moz-border-radius: 28;
-  border-radius: 28px;
-  font-family: Arial;
-  color: black;
-  font-size: 20px;
-  padding: 10px 40px 10px 39px;
-  border: solid black 2px;
+.icons {
+  font-size: 3rem;
+  margin-bottom: 28px;
+  color: rgba(225, 225, 225, 1);
+  background-color: transparent;
 }
 
-.the-button:hover {
-  background: #cdd1d4;
+.icons.instructions {
+  font-size: 6rem;
+  margin-bottom: 16px;
 }
 
-#features {
-  background-color: #A5C0DD;
-  margin-top: px;
-  margin-bottom: px;
+
+.card {
+  border-radius: 5px;
+  border: 1px solid transparent;
+  backdrop-filter: blur(50px);
+  box-shadow: 6px 6px 5px hsla(0, 0%, 0%, 0.02);
 }
 
-#instructions{
-  background-color: #654E92;
+.card-box-1 {
+  background-color: rgba(225, 0, 255, 0.3);
 }
 
-#testimonial{
-  background-color: #A5C0DD;
-}
-
-#about {
-  background-color: #654E92;
-  padding-top: 40px;
-  padding-bottom: 40px;
+.card-box-2 {
+  background-color: rgba(23, 255, 166, 0.3);
 }

@@ -1,4 +1,33 @@
 /* You can add global styles to this file, and also import other style files */
+/* Custom properties */
+:root {
+  --color-fondo: rgb(10, 10, 10);
+  --color-fuente: rgb(250, 250, 250);
+  --color-primario: #3B82F6;
+  --color-secundario: #E14444;
+  --text-accent: #FF6E05;
+  --border: solid 1px rgba(212, 212, 212, 0.8);
+  --h1-size: 3rem;
+  --h2-size: 1.5rem;
+}
+
+/* Estilos generales del documento */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  list-style: none;
+}
+
+
+html,
+body {
+  height: 100%;
+  color: var(--color-fuente);
+  font-family: 'Titillium bold', 'Inter', sans-serif;
+}
 
 .material-symbols-outlined {
   font-variation-settings:
@@ -8,5 +37,16 @@
   'opsz' 24
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+header,
+main,
+footer {
+  background: rgb(10, 10, 10);
+}
+
+.text-accent {
+  color: rgb(23, 255, 166);
+}
+
+p {
+  font-size: 18px;
+}
