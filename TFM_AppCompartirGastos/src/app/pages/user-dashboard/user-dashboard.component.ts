@@ -5,6 +5,8 @@ import { IRoles } from '../../interfaces/iroles.interface';
 import { Router } from '@angular/router';
 import { CommonFunctionsService } from '../../common/utils/common-functions.service';
 import { ImemberGroup } from '../../interfaces/imember-group';
+import { ExpensesService } from '../../services/expenses.service';
+import { IExpense } from '../../interfaces/iexpense.interface';
 
 @Component({
   selector: 'app-user-dashboard',
@@ -18,6 +20,7 @@ export class UserDashboardComponent {
   roles: IRoles | any = {};
   filter: string = 'todos';
   groupService = inject(GroupsService);
+  expensesService = inject(ExpensesService);
   commonFunc = inject(CommonFunctionsService);
   router = inject(Router);
   userId: number | any;
@@ -44,11 +47,20 @@ export class UserDashboardComponent {
     }
 
     for (let infoGroup of this.arrInfoGroups) {
-      let pagos: ImemberGroup[] = await this.commonFunc.getPayments(infoGroup.group_id);
-      /* filtrar pagos por aquel cuyo id coincide con userId */
-      let pagoUsuario = pagos.filter((pago: ImemberGroup) => pago.id === this.userId);
-      infoGroup.totalexpenses = pagoUsuario[0].totalEx;
-      infoGroup.balance = pagoUsuario[0].credit;
+      /* Comprobar si existen gastos en el grupo */
+      let expenses:IExpense[] = await this.expensesService.getExpensesByGroup(infoGroup.group_id);
+
+      if (expenses.length > 0) {
+        infoGroup.thereAreExpenses = true;
+        /* si existen, obtener pagos del grupo */
+        let pagos: ImemberGroup[] = await this.commonFunc.getPayments(infoGroup.group_id);
+        /* filtrar pagos por aquel cuyo id coincide con userId */
+        let pagoUsuario = pagos.filter((pago: ImemberGroup) => pago.id === this.userId);
+        infoGroup.totalexpenses = pagoUsuario[0].totalEx;
+        infoGroup.balance = pagoUsuario[0].credit;
+      } else {
+        infoGroup.thereAreExpenses = false;
+      }
     }
 
   }

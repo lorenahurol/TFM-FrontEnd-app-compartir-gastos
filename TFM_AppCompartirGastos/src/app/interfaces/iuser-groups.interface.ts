@@ -4,6 +4,7 @@ export interface IUserGroups {
     category:    string;
     creator_user: string;
     is_admin?:   boolean;
+    thereAreExpenses?: boolean;
     totalexpenses?: number;
     balance?: number;
 }

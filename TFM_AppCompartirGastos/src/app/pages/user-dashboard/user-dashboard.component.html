@@ -65,6 +65,7 @@
                           </table>
                         </div>
                         <div class="pt-3 pb-3">
+                          @if (infoGroup.thereAreExpenses) {
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
@@ -79,6 +80,9 @@
                                     </tr>
                                 </tbody>
                             </table>
+                          } @else {
+                            <p class="text-center">No hay gastos registrados</p>
+                          }
                         </div>
                       </div>
                     </div>
