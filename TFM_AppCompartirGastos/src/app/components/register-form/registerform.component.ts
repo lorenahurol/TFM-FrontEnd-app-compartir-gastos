@@ -9,6 +9,7 @@ import { AlertModalComponent, IAlertData } from '../alert-modal/alert-modal.comp
 import { AlertModalService } from '../../services/alert-modal.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { EmailsService, IEmailData } from '../../services/emails.service';
+import { Subject, debounceTime, distinctUntilChanged } from 'rxjs'
 
 @Component({
   selector: 'app-register-form',
@@ -17,17 +18,16 @@ import { EmailsService, IEmailData } from '../../services/emails.service';
   templateUrl: './registerform.component.html',
   styleUrl: './registerform.component.css',
 })
-  
 export class RegisterFormComponent {
-  
+  private usernameInputSubject: Subject<string> = new Subject<string>();
+
   alertModalService = inject(AlertModalService);
-  alertModal: MatDialogRef<AlertModalComponent, any> | undefined;
 
   router = inject(Router);
   usersServices = inject(UsersService);
   authServices = inject(AuthService);
   commonFunc = inject(CommonFunctionsService);
-  emailService = inject(EmailsService)
+  emailService = inject(EmailsService);
 
   inputForm: FormGroup;
 
@@ -40,7 +40,7 @@ export class RegisterFormComponent {
   id: number = 0;
 
   constructor() {
-    this.inputForm = new FormGroup (
+    this.inputForm = new FormGroup(
       {
         first_name: new FormControl(null, [
           Validators.required,
@@ -71,10 +71,6 @@ export class RegisterFormComponent {
     );
   }
 
-  // Instancia el modal alert-modal-component para alertas
-  openAlertModal(modalData: IAlertData): void {
-    this.alertModal = this.alertModalService.open(modalData);
-  }
 
   async ngOnInit() {
     const currentRoute = this.router.url;
@@ -85,14 +81,14 @@ export class RegisterFormComponent {
       const tokenResponse = await this.commonFunc.verifyToken(token);
       // Si no es update y el token es válido, redirecciono a la home
       if (tokenResponse.success && currentRoute !== '/home/users/update') {
-        this.openAlertModal({
+        const alertModal = this.alertModalService.newAlertModal({
           icon: 'notifications',
           title: 'Ya estás registrado!',
           body: 'Te llevamos a casa ',
           acceptAction: true,
-          backAction: false
+          backAction: false,
         });
-        this.alertModal?.componentInstance.sendModalAccept.subscribe(
+        alertModal?.componentInstance.sendModalAccept.subscribe(
           (isAccepted) => {
             if (isAccepted) {
               this.router.navigateByUrl('/home');
@@ -141,6 +137,18 @@ export class RegisterFormComponent {
      * Recupera los valores para los de códigos de país
      */
     this.arrInternationalCodes = this.usersServices.getAllInternationalCodes();
+
+    /** 
+     * Función de debounce para reducir llamadas a ls API desde checkusername. Espera 300ms desde el ultimo evento de input y elimina las llamadas duplicadas antes de llamar a checkUsername
+     */
+    this.usernameInputSubject
+      .pipe(
+        debounceTime(300), // Espera 300 ms después del último evento de entrada
+        distinctUntilChanged() // Evita llamadas duplicadas consecutivas
+      )
+      .subscribe((currentUsername) => {
+        this.checkUsername(currentUsername);
+      });
   }
 
   /**
@@ -161,24 +169,23 @@ export class RegisterFormComponent {
       try {
         const response = await this.usersServices.updateUser(newUser);
         if (response.success) {
-          this.openAlertModal({
+          const alertModal = this.alertModalService.newAlertModal({
             icon: 'done_all',
             title: 'Perfecto!',
             body: 'Actualización realizada correctamente ',
             acceptAction: true,
             backAction: false,
           });
-          this.alertModal?.componentInstance.sendModalAccept.subscribe(
+          alertModal?.componentInstance.sendModalAccept.subscribe(
             (isAccepted) => {
               if (isAccepted) {
                 this.router.navigateByUrl('/home');
               }
             }
           );
-
         } else if (response.errno === 1062) {
           // Verifica si se recibe error de email duplicado en BBDD
-          this.openAlertModal({
+          this.alertModalService.newAlertModal({
             icon: 'warning',
             title: 'Atención!',
             body: `El email ${newUser.mail} ya existe en base de datos.`,
@@ -186,10 +193,10 @@ export class RegisterFormComponent {
             backAction: true,
           });
         } else {
-          alert(response.message);
+          this.alertModalService.newAlertModal({body: response.message});
         }
       } catch (error) {
-        alert(error);
+        this.alertModalService.newAlertModal({body: error});
       }
       // Petición de registro de nuevo usuario
     } else {
@@ -198,7 +205,7 @@ export class RegisterFormComponent {
         if (!response.token) {
           // Verifica si se recibe error de email duplicado en BBDD
           if (response.errno === 1062) {
-            this.openAlertModal({
+            const alertModal = this.alertModalService.newAlertModal({
               icon: 'warning',
               title: 'Atención!',
               body: `El email ${newUser.mail} ya existe en base de datos.\n
@@ -206,35 +213,34 @@ export class RegisterFormComponent {
               acceptAction: true,
               backAction: true,
             });
-            this.alertModal?.componentInstance.sendModalAccept.subscribe(
+            alertModal?.componentInstance.sendModalAccept.subscribe(
               (isAccepted) => {
                 if (isAccepted) {
                   this.router.navigateByUrl('/login');
                 }
               }
             );
-            
           } else {
-            alert(response.message);
+            this.alertModalService.newAlertModal({body: response.message});
           }
         } else {
           // En caso el registro sea correcto se recibe y almacena el token de login
           localStorage.setItem('login_token', response.token!);
 
           // Envío email de confirmación
-          const to: string = newUser.mail
-          const firstname: string = newUser.firstname 
-          
-          const emailData :IEmailData = {
+          const to: string = newUser.mail;
+          const firstname: string = newUser.firstname;
+
+          const emailData: IEmailData = {
             to: to,
             name: firstname,
             selectedTemplate: 'welcome',
           };
 
-          await this.emailService.sendEmail(emailData)
+          await this.emailService.sendEmail(emailData);
 
           // instancio mensaje de confirmación de registro y llevo a home
-          this.openAlertModal({
+          const alertModal = this.alertModalService.newAlertModal({
             icon: 'done_all',
             title: 'Perfecto!',
             body: `Usuario creado.\n
@@ -242,17 +248,16 @@ export class RegisterFormComponent {
             acceptAction: true,
             backAction: false,
           });
-          this.alertModal?.componentInstance.sendModalAccept.subscribe(
+          alertModal?.componentInstance.sendModalAccept.subscribe(
             (isAccepted) => {
               if (isAccepted) {
                 this.router.navigateByUrl('/home');
               }
             }
           );
-
         }
       } catch (error: any) {
-        alert(error.message);
+        this.alertModalService.newAlertModal({body: error.message});
       }
     }
   }
@@ -271,12 +276,20 @@ export class RegisterFormComponent {
   }
 
   /**
+   * Método que llama al debounce para las llamadas a checkUsername
+   */
+  onUsernameInput(event: any) {
+    const currentUsername = event.target.value;
+    this.usernameInputSubject.next(currentUsername);
+  }
+
+  /**
    * Método que veriifica si el username tecleado existe en BBDD
    */
-  async checkUsername($event: any) {
+  async checkUsername(currentUsername: any) {
     this.usernameExists = await this.commonFunc.checkUsername(
       this.username,
-      $event
+      currentUsername
     );
   }
 }

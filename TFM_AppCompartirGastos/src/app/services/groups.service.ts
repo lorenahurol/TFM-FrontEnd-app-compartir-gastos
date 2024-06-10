@@ -6,6 +6,7 @@ import { lastValueFrom } from 'rxjs';
 import { environment } from '../../environments/environments';
 import { IRoles } from '../interfaces/iroles.interface';
 import { IUser } from '../interfaces/iuser.interface';
+import { IUserGroups } from '../interfaces/iuser-groups.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -34,10 +35,10 @@ export class GroupsService {
     );
   }
 
-  /** Crear categories.js en backend
-  getAllCategories(): Icategory[] {
+  // Obtener todas las categorias
+  getAllCategories(): Promise<Icategory[]> {
     return lastValueFrom(this.httpClient.get<Icategory[]>(`${this.API_URL}/categories`))
-  } **/
+  }
 
   getUserById(userId: number) {
     return lastValueFrom(
@@ -71,6 +72,15 @@ export class GroupsService {
   getUserRolesByGroup(): Promise<IRoles> {
     return lastValueFrom(
       this.httpClient.get<IRoles>(`${this.API_URL}/groups/roles`)
+    );
+  }
+
+  /**
+   * Método para obtener toda la información de los grupos de un usuario
+   */
+  getAllInfoGroupsByUser(): Promise<IUserGroups[]> {
+    return lastValueFrom(
+      this.httpClient.get<IUserGroups[]>(`${this.API_URL}/groups/getallbyuser`)
     );
   }
 }

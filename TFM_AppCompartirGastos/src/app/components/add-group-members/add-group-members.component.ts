@@ -32,7 +32,6 @@ export class AddGroupMembersComponent {
   groupsService = inject(GroupsService);
   alertModalService = inject(AlertModalService);
 
-  alertModal: MatDialogRef<AlertModalComponent, any> | undefined;
   groupId: number | null = null;
   userId: number | null = null;
   username: string = "";
@@ -53,11 +52,6 @@ export class AddGroupMembersComponent {
         Validators.maxLength(400)
       ]),
     }, [])
-  }
-
-  // Instancia el modal alert-modal-component para alertas
-  openAlertModal(modalData: IAlertData): void {
-    this.alertModal = this.alertModalService.open(modalData);
   }
 
   
@@ -92,7 +86,7 @@ export class AddGroupMembersComponent {
         const existingInvitation = await this.invitationsService.getInvitation(this.groupId!, user.id);
 
           if (existingInvitation !== null) {
-            this.openAlertModal({
+            this.alertModalService.newAlertModal({
               icon: 'error',
               title: 'Error!',
               body: 'La invitación ya existe',
@@ -115,14 +109,14 @@ export class AddGroupMembersComponent {
         console.log(result);
 
         if (result) {
-          this.openAlertModal({
+          const alertModal = this.alertModalService.newAlertModal({
             icon: 'done_all',
             title: 'Perfecto!',
             body: 'Invitación creada correctamente ',
             acceptAction: true,
             backAction: false,
           });
-          this.alertModal?.componentInstance.sendModalAccept.subscribe(
+          alertModal?.componentInstance.sendModalAccept.subscribe(
             (isAccepted) => {
               if (isAccepted) {
                 this.router.navigateByUrl('/home');
@@ -135,7 +129,7 @@ export class AddGroupMembersComponent {
       }
     // Si el user loggeado no es admin:
     } else if (!this.isAdmin) {
-        this.openAlertModal({
+        this.alertModalService.newAlertModal({
           icon: 'error',
           title: 'Error!',
           body: 'No tienes permiso para crear una invitación',
@@ -164,7 +158,7 @@ export class AddGroupMembersComponent {
       }
     } catch (error: HttpErrorResponse | any) {
       console.error(error);
-      this.commonFunc.openDialog({
+      this.alertModalService.newAlertModal({
         icon: 'notifications',
         title: 'Problema al verificar rol',
         body: `Se produjo el siguiente problema: ${error.error.error}`,

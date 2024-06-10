@@ -2,12 +2,12 @@ import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { GroupsService } from '../../services/groups.service';
 import { IRoles } from '../../interfaces/iroles.interface';
-import { CommonFunctionsService } from '../utils/common-functions.service';
+import { AlertModalService } from '../../services/alert-modal.service';
 
 export const rolesGuard: CanActivateFn = async (route, state) => {
   const router = inject(Router);
   const groupService = inject(GroupsService);
-  const commonFunc = inject(CommonFunctionsService);
+  const alertModalService = inject (AlertModalService)
   let roles: IRoles | any = {};
   let isGranted: boolean = false;
   let message: string = '';
@@ -50,25 +50,40 @@ export const rolesGuard: CanActivateFn = async (route, state) => {
     
       }
     }
-  } else if (route.url[0].path.includes('groups')) {
     /* Comprobaciones para rutas de grupos */
-
+  } else if (route.url[0].path.includes('groups')) {
+  
     roles = await groupService.getUserRolesByGroup();
 
     if (roles.membergroups.includes(groupId)) {
       isGranted = true;
+      /* Comprobaciones para por si además está intentando crear invitaciones */
+      if (route.url.length > 2 && route.url[2].path === "invitation") {
+        if (roles.admingroups.includes(groupId)) {
+          isGranted = true;
+        } else {
+          // Si el usuario no es admin del grupo, no puede crear invitaciones
+          message = 'No tienes permisos para crear invitaciones de este grupo';
+          redirectTo = '/home'
+          isGranted = false;
+        }
+      } 
     } else {
-      message = 'No tienes permisos para acceder a la información de este grupo';
-      redirectTo = '/home';
+      // Si el usuario no es miembro del grupo, no puede ver la información del grupo
+      message = 'No tienes permisos para ver información de este grupo';
+      redirectTo = '/home'
       isGranted = false;
     }
     
   } else {
-    console.log('No es una ruta conocida por el guard de roles: ', route.url);
+    // Si pasa por aquí, la ruta no es de gastos ('expenses') ni de grupos ('groups')
+    message = 'Está intentando acceder a una ruta desconocida';
+    redirectTo = '/home'
+    isGranted = false;
   }
 
   if (!isGranted) {
-    commonFunc.openDialog({
+    alertModalService.newAlertModal({
       icon: 'notifications',
       title: 'Acceso no permitido',
       body: `${message}`,
