@@ -39,7 +39,7 @@
                               <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#flush-collapseOne'+infoGroup.group_id"  aria-expanded="false" aria-controls="flush-collapseOne">
                                 {{infoGroup.description}}
                               </button>
-                              <button class="btn btn-danger" (click)="goToGroup(infoGroup.group_id)">Abrir</button>
+                              <button class="btn btn-danger mx-2" (click)="goToGroup(infoGroup.group_id)">Abrir</button>
                             </h2>
                             <div id="flush-collapseOne{{infoGroup.group_id}}" class="accordion-collapse collapse" data-bs-parent="#infoGroupAccordion">
                               <div class="accordion-body">
