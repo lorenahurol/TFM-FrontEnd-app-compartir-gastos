@@ -1,69 +1,8 @@
-h1 {
-  font-size: 1.5rem;
-  font-family: "Titillium Web", sans-serif;
-  font-weight: 700;
-  font-style: normal;
-}
-
-h2 {
-  font-size: 1.2rem;
-  font-family: "Titillium Web", sans-serif;
-  font-style: normal;
-}
-
-p {
-  font-size: 18px;
-  font-family: 'Inter', sans-serif;
-}
-
-button {
-  font-family: 'Inter', sans-serif;
-}
-
-.image-fluid {
-  border-radius: 10px;
-  /* This will give you the rounded corners */
-  box-shadow: 0 0 10px 10px rgba(10, 10, 10, 0.4);
-  /* Adjust the color to match your background for a blending effect */
-}
-
-@media (min-width: 768px) {
-  h1 {
-    font-size: var(--h1-size);
-  }
-
-  h2 {
-    font-size: var(--h2-size);
-  }
-}
-
-.gradient-background {
-  background: linear-gradient(90deg,
-      rgba(10, 10, 10, 1) 0%,
-      rgba(47, 0, 40, 0.6) 25%,
-      rgba(1, 73, 59, 0.8) 60%,
-      rgba(10, 10, 10, 1) 100%);
-  border-radius: 10px;
-  box-shadow: 6px 6px 5px hsla(0, 0%, 0%, 0.02);
-  backdrop-filter: blur(50px);
-}
-
-    .img-fluid {
-      max-width: 100%;
-      height: auto;
-    }
-
-    #title img {
-      max-width: 80%;
-      margin: 0 auto;
-      display: block;
-    }
-
-.icons {
-  font-size: 3rem;
-  margin-bottom: 28px;
-  color: rgba(225, 225, 225, 1);
-  background-color: transparent;
+#title img {
+  max-width: 70%;
+  margin: 0 auto;
+  display: block;
+  filter: brightness(70%);
 }
 
 .icons.instructions {
@@ -71,18 +10,10 @@ button {
   margin-bottom: 16px;
 }
 
-
-.card {
-  border-radius: 5px;
-  border: 1px solid transparent;
-  backdrop-filter: blur(50px);
-  box-shadow: 6px 6px 5px hsla(0, 0%, 0%, 0.02);
-}
-
 .card-box-1 {
-  background-color: rgba(225, 0, 255, 0.3);
+  background-color: var(--gradient-card-purple);
 }
 
 .card-box-2 {
-  background-color: rgba(23, 255, 166, 0.3);
+  background-color: var(--gradient-card-green);
 }
