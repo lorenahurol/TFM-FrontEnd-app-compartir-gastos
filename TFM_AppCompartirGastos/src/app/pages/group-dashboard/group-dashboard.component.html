@@ -1,1 +1,13 @@
 <app-group-info-card [infoGroup]="group"></app-group-info-card>
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link" [routerLink]="['/home/expenses/2']">Gastos</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [routerLink]="['ruta2']">Pagos</a>
+    </li>
+  </ul>
+  
+  <div class="tab-content">
+    <router-outlet></router-outlet>
+  </div>

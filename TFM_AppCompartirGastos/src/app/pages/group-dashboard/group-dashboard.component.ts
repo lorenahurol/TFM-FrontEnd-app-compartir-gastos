@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { GroupInfoCardComponent } from '../../components/group-info-card/group-info-card.component';
 import { IUserGroups } from '../../interfaces/iuser-groups.interface';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
 import { GroupsService } from '../../services/groups.service';
 import { UsersService } from '../../services/users.service';
 import { CommonFunctionsService } from '../../common/utils/common-functions.service';
@@ -13,7 +13,7 @@ import { ImemberGroup } from '../../interfaces/imember-group';
 @Component({
   selector: 'app-group-dashboard',
   standalone: true,
-  imports: [GroupInfoCardComponent],
+  imports: [GroupInfoCardComponent, RouterOutlet, RouterLink],
   templateUrl: './group-dashboard.component.html',
   styleUrl: './group-dashboard.component.css',
 })

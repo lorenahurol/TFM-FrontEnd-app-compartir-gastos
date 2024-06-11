@@ -75,11 +75,9 @@ export class CommonFunctionsService {
   async getPayments(groupId: number): Promise<ImemberGroup[]> {
     //Recupero todos los gastos del grupo agrupados por usuario
     const totalExpenses:any [] = await this.expensesService.getExpensesGroupingByUser(Number(groupId));
-    console.log(totalExpenses);
     
     //Recupero los miembros del grupo
     const members: any[] = await this.usersService.getMemberUserByGroup(Number(groupId));
-    console.log(members);
 
     const membersAll: Array<ImemberGroup> = [];
 
