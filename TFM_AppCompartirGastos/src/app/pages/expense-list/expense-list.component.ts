@@ -11,11 +11,13 @@ import { IRoles } from '../../interfaces/iroles.interface';
 import { CommonFunctionsService } from '../../common/utils/common-functions.service';
 import { AlertModalService } from '../../services/alert-modal.service';
 import { ImemberGroup } from '../../interfaces/imember-group';
+import {MatIconModule} from '@angular/material/icon';
+
 
 @Component({
   selector: 'app-expense-list',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, MatIconModule],
   templateUrl: './expense-list.component.html',
   styleUrl: './expense-list.component.css',
 })

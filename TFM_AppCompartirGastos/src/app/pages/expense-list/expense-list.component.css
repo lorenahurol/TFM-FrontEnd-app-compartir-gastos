@@ -12,7 +12,6 @@
     text-align: center;
 }
 
-
 .card-text {
     font-size: 0.8rem;
 }
@@ -46,4 +45,8 @@
 
 .action-field {
     text-align: center;
+}
+
+.icon-button {
+    background-color: transparent;
 }
