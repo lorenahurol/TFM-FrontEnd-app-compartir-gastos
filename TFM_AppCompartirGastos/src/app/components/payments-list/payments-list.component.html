@@ -1,0 +1,45 @@
+<div class="signup-view">
+    <hr />
+    <section class="container mt-2">
+        <div class="card text-white bg-primary mb-3">
+            <div class="d-flex justify-content-between align-items-center pt-3 pb-3">
+                <h4 class="mb-0 text-center flex-grow-1 ">PAGOS DEL GRUPO</h4>
+
+            </div>
+    <table class="table table-striped">
+        @if (arrMembers.length > 0) {
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Miembro</th>
+                    <th scope="col" class="amount">Gastos pagados</th>
+                    <th scope="col">Porcentaje</th>
+                    <th scope="col" class="amount">Credito</th>
+                    <th scope="col" >Equitativo</th>
+                </tr>
+            </thead>
+            <tbody>
+            @for(member of arrMembers; track member.id) {
+            <tr>
+                <td scope="row">{{member.id}}</td>
+                <td>{{ getUserName(member.id) }}
+                <td class="amount">{{ member.totalEx.toFixed(2) }}</td>
+                <td scope="row">{{member.percent}}</td>
+                <td class="amount">{{ member.credit.toFixed(2) }}</td>
+                <td scope="row">{{member.equitable}}</td>
+            }
+            </tbody>
+        } @else {
+            <thead>
+                <tr>
+                    <strong>NO HAY GASTOS ACTIVOS</strong>
+                </tr>
+            </thead>
+        }
+    </table>
+</div>
+
+<hr>
+<div>
+    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Liquidar pagos</button>
+</div>

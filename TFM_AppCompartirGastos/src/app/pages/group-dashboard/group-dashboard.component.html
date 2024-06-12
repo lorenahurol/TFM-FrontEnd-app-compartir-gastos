@@ -1,13 +1,47 @@
-<app-group-info-card [infoGroup]="group"></app-group-info-card>
+<div class="accordion m-2" id="infoGroupAccordion">
+
+    <div class="accordion-item" id="heading{{group.description}}">
+      <h2 class="accordion-header d-flex justify-content-between align-items-center">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#flush-collapseOne'+group.group_id"  aria-expanded="false" aria-controls="flush-collapseOne">
+          {{group.description}}&nbsp;&nbsp;
+          @if (group.is_admin) {
+            <span id="role-tag" class="badge rounded-pill text-bg-danger">ADMIN</span>
+          } 
+        </button>
+        
+      </h2>
+      <div id="flush-collapseOne{{group.group_id}}" class="accordion-collapse collapse" data-bs-parent="#infoGroupAccordion">
+        <div class="accordion-body">
+          <app-group-info-card [infoGroup]="group"></app-group-info-card>
+        </div>
+      </div>
+    </div>
+
+</div>
+<!-- <app-group-info-card [infoGroup]="group"></app-group-info-card> -->
 <ul class="nav nav-tabs">
     <li class="nav-item">
-      <a class="nav-link" [routerLink]="['/home/expenses/2']">Gastos</a>
+      <a class="nav-link active" id="simple-tab-0" data-bs-toggle="tab" href="#simple-tabpanel-0" role="tab" aria-controls="simple-tabpanel-0" aria-selected="true">Gastos</a>
+      <!-- <a class="nav-link" [routerLink]="['/home/expenses/13']">Gastos</a> -->
     </li>
     <li class="nav-item">
-      <a class="nav-link" [routerLink]="['ruta2']">Pagos</a>
+      <a class="nav-link" id="simple-tab-1" data-bs-toggle="tab" href="#simple-tabpanel-1" role="tab" aria-controls="simple-tabpanel-1" aria-selected="false">Pagos</a>
+      <!-- <a class="nav-link" [routerLink]="['ruta2']">Pagos</a> -->
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="simple-tab-2" data-bs-toggle="tab" href="#simple-tabpanel-2" role="tab" aria-controls="simple-tabpanel-2" aria-selected="false">Administración</a>
+      <!-- <a class="nav-link" [routerLink]="['ruta2']">Administrar</a> -->
     </li>
   </ul>
   
   <div class="tab-content">
+    <div class="tab-pane active" id="simple-tabpanel-0" role="tabpanel" aria-labelledby="simple-tab-0">
+      <app-expense-list></app-expense-list>
+
+    </div>
+    <div class="tab-pane" id="simple-tabpanel-1" role="tabpanel" aria-labelledby="simple-tab-1">
+      <app-payments-list></app-payments-list>
+    </div>
+    <div class="tab-pane" id="simple-tabpanel-2" role="tabpanel" aria-labelledby="simple-tab-2">Tab 3 selected</div>
     <router-outlet></router-outlet>
   </div>

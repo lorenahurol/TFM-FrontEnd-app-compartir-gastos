@@ -9,11 +9,14 @@ import { IUser } from '../../interfaces/iuser.interface';
 import { ExpensesService } from '../../services/expenses.service';
 import { IExpense } from '../../interfaces/iexpense.interface';
 import { ImemberGroup } from '../../interfaces/imember-group';
+import { ExpenseListComponent } from '../expense-list/expense-list.component';
+import { PaymentsListComponent } from '../../components/payments-list/payments-list.component';
+
 
 @Component({
   selector: 'app-group-dashboard',
   standalone: true,
-  imports: [GroupInfoCardComponent, RouterOutlet, RouterLink],
+  imports: [GroupInfoCardComponent, ExpenseListComponent, PaymentsListComponent,RouterOutlet, RouterLink],
   templateUrl: './group-dashboard.component.html',
   styleUrl: './group-dashboard.component.css',
 })

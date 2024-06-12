@@ -68,7 +68,7 @@ export class ExpenseViewComponent {
       try {
         const result = this.expensesService.addExpense(this.expenseForm.value);
         this.expenseForm.reset();
-        this.router.navigate([`/home/expenses/${this.groupId}`]);
+        this.router.navigate([`/home/groups/${this.groupId}`]);
         console.log(result);
       } catch (error) {
         console.error(error);
@@ -77,7 +77,7 @@ export class ExpenseViewComponent {
       // Editar
       try {
         const result = this.expensesService.editExpense(this.expenseForm.value);
-        this.router.navigate([`/home/expenses/${this.groupId}`]);
+        this.router.navigate([`/home/groups/${this.groupId}`]);
         console.log(result);
       } catch (error) {
         console.error(error);
@@ -95,7 +95,7 @@ export class ExpenseViewComponent {
 
   backExpensesGroup()
   {
-    this.router.navigate([`/home/expenses/${this.groupId}`]);
+    this.router.navigate([`/home/groups/${this.groupId}`]);
   }
   
 }
