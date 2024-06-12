@@ -11,12 +11,13 @@ import { IExpense } from '../../interfaces/iexpense.interface';
 import { ImemberGroup } from '../../interfaces/imember-group';
 import { ExpenseListComponent } from '../expense-list/expense-list.component';
 import { PaymentsListComponent } from '../../components/payments-list/payments-list.component';
+import { GroupAdminComponent } from '../../components/group-admin/group-admin.component';
 
 
 @Component({
   selector: 'app-group-dashboard',
   standalone: true,
-  imports: [GroupInfoCardComponent, ExpenseListComponent, PaymentsListComponent,RouterOutlet, RouterLink],
+  imports: [GroupInfoCardComponent, GroupAdminComponent, ExpenseListComponent, PaymentsListComponent,RouterOutlet, RouterLink],
   templateUrl: './group-dashboard.component.html',
   styleUrl: './group-dashboard.component.css',
 })

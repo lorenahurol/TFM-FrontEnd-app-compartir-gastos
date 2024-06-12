@@ -1,0 +1,31 @@
+<div class="container mt-4">
+    @if (isAdmin) {
+        <h4>Eres <mark>administrador</mark>, puedes:</h4>
+        <nav>
+            <ul>
+                <li><a href="#">Añadir miembros (invitar al grupo)</a></li>
+                <li><a href="#">Editar información del grupo</a></li>
+            </ul>
+        </nav>
+    }
+    <h4>Estos son los actuales <mark>miembros</mark> del grupo</h4>
+    <table class="table table-borderless table-info ">
+        <thead>
+            <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Apellidos</th>
+                <th scope="col">username</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (member of arrUsers; track member.id) {
+                <tr>
+                    <td>{{ member.firstname }} {{ member.lastname }}</td>
+                    <td>{{ member.lastname }}</td>
+                    <td>{{ member.username }}</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
