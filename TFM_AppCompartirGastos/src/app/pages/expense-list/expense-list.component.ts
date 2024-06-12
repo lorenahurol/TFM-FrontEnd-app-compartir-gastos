@@ -10,9 +10,6 @@ import { GroupsService } from '../../services/groups.service';
 import { IRoles } from '../../interfaces/iroles.interface';
 import { CommonFunctionsService } from '../../common/utils/common-functions.service';
 import { AlertModalService } from '../../services/alert-modal.service';
-import { MatDialogRef } from '@angular/material/dialog';
-import { AlertModalComponent, IAlertData } from '../../components/alert-modal/alert-modal.component';
-import { firstValueFrom } from 'rxjs';
 import { ImemberGroup } from '../../interfaces/imember-group';
 
 @Component({
@@ -63,6 +60,7 @@ export class ExpenseListComponent {
   async deleteExpense() {
     if (this.expenseId !== -1) {
       try {
+        console.log(this.expenseId);
         const exp = await this.expenseService.deleteExpenseById(this.expenseId);
 
         /* Como sólo el admin puede eliminar, no tiene sentido recgargar con BD */
