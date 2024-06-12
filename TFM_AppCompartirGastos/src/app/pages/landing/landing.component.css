@@ -1,104 +1,19 @@
-.gradient-background {
-    background: linear-gradient(300deg, #A5C0DD, #6C9BCF, #654E92);
-    background-size: 180% 180%;
-    animation: gradient-animation 18s ease infinite;
-  }
-  
-  @keyframes gradient-animation {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
-  }
-
-  .p-5 {
-    display:flex;
-    flex-direction: column;
-    justify-content: center;
-    align-content: center;
-    background-color: gainsboro;
-    padding-top: 40px;
-  }
-  .first-card{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-top: 30px;
-  }
-
-  .first-card > h2 {
-    margin-bottom: 30px;
-  }
-
-  .first-card > img {
-    margin-bottom: 15px;
-    border-radius: 50%;
-  }
-
-  .row{
-    display: flex;
-    justify-content: space-around;
-  }
-
-  .card mb-4 rounded-3 shadow-sm border-primary {
-    background-color: black;
-    color: white;
-  }
-
-  .mb-3 {
-    margin-top: 40px;
-    padding-bottom: 30px;
-  }
-
-  .number-img {
-    margin-right: 4px;
-    width: 2rem;
-    height: 2rem;
-  }
- .features-img {
-  background-color: #A5C0DD;
-    width: 3rem;
-    height: 3rem;
- }
-
- .the-button {
-  background: white;
-  -webkit-border-radius: 28;
-  -moz-border-radius: 28;
-  border-radius: 28px;
-  font-family: Arial;
-  color: black;
-  font-size: 20px;
-  padding: 10px 40px 10px 39px;
-  border: solid black 2px;
+#title img {
+  max-width: 70%;
+  margin: 0 auto;
+  display: block;
+  filter: brightness(70%);
 }
 
-.the-button:hover {
-  background: #cdd1d4;
+.icons.instructions {
+  font-size: 6rem;
+  margin-bottom: 16px;
 }
 
-#features {
-  background-color: #A5C0DD;
-  margin-top: px;
-  margin-bottom: px;
+.card-box-1 {
+  background-color: var(--gradient-card-purple);
 }
 
-#instructions{
-  background-color: #654E92;
-}
-
-#testimonial{
-  background-color: #A5C0DD;
-}
-
-#about {
-  background-color: #654E92;
-  padding-top: 40px;
-  padding-bottom: 40px;
+.card-box-2 {
+  background-color: var(--gradient-card-green);
 }
