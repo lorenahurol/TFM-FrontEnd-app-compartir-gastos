@@ -14,29 +14,28 @@
                     <th scope="col">#</th>
                     <th scope="col">Miembro</th>
                     <th scope="col" class="amount">Gastos pagados</th>
-                    <th scope="col">Porcentaje</th>
+                    <th scope="col" class="amount">Porcentaje</th>
                     <th scope="col" class="amount">Credito</th>
                     <th scope="col" >Equitativo</th>
                 </tr>
             </thead>
             <tbody>
             @for(member of arrMembers; track member.id) {
-            <tr>
+            <tr class="align-middle">
                 <td scope="row">{{member.id}}</td>
                 <td>{{ getUserName(member.id) }}
-                <td class="amount">{{ member.totalEx.toFixed(2) }}</td>
-                <td scope="row">{{member.percent}}</td>
-                <td class="amount">{{ member.credit.toFixed(2) }}</td>
-                <td scope="row">{{member.equitable}}</td>
+                <td class="amount">{{ formatAmount(member.totalEx) }}</td> 
+                <td class="amount">{{formatPercent(member.percent)}}</td>
+                <td class="amount">{{ formatAmount(member.credit) }}</td>
+                <td scope="row">{{formatEquitable(member.equitable)}}</td>
             }
             </tbody>
         } @else {
             <thead>
                 <tr>
-                    <strong>NO HAY GASTOS ACTIVOS</strong>
+                    <strong>NO HAY PAGOS ACTIVOS</strong>
                 </tr>
             </thead>
         }
     </table>
-<hr>
 

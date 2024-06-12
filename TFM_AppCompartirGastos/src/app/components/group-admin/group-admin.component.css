@@ -1,0 +1,52 @@
+.bg-primary {
+    background-color: #263746 !important;
+    opacity: 0.8;
+}
+  
+  
+.card {
+    border: 0;
+}
+
+.card-body {
+    text-align: center;
+}
+
+.card-text {
+    font-size: 0.8rem;
+}
+
+.btn-secondary {
+    background-color: #39556d !important;
+    border-color: #3c5972 !important;
+    font-size: small;
+}
+
+.btn-danger {
+    font-size: small;
+}
+
+.btn-primary {
+    font-size: small;
+    background-color: rgb(19, 94, 192);
+    border-color: rgb(7, 67, 146);
+    margin-right: 2em;
+}
+
+.amount {
+    text-align: right;
+    padding-right: 1em;
+    white-space: nowrap;
+}
+
+.date-text {
+    text-align: center;
+}
+
+.action-field {
+    text-align: center;
+}
+
+.icon-button {
+    background-color: transparent;
+}

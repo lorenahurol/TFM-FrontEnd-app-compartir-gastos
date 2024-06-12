@@ -141,10 +141,30 @@ export class PaymentsListComponent {
   }
 
   formatAmount(amount: number): string {
-    let strAmount: string = amount.toString();
+    let strAmount: string = amount.toFixed(2).toString();
     strAmount = strAmount.replace('.', ',');
     strAmount = strAmount.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
     return strAmount + ' €';
+  }
+
+  formatPercent(percent: number): string {
+    let strPercent: string = "Proporcional";
+    if(percent > 0)
+      {
+        strPercent = percent.toFixed(2).toString();
+        strPercent = strPercent.replace('.', ',');
+        strPercent = strPercent.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') +  ' %';
+      }
+      return strPercent;
+  }
+
+  formatEquitable(equitable: boolean): string {
+    let strEquitable: string = "No";
+    if(equitable)
+      {
+        strEquitable = "Si"
+      }
+      return strEquitable;
   }
 
   getUserName(userId: number): string {

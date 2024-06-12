@@ -23,6 +23,7 @@ export class ExpenseViewComponent {
   userService = inject(UsersService);
   router = inject(Router);
   activatedRoute = inject(ActivatedRoute);
+  users: IUser [] = [];
 
   constructor() {
     this.expenseForm = new FormGroup({
@@ -44,7 +45,10 @@ export class ExpenseViewComponent {
       if (params.groupId) {
         this.groupId = params.groupId;
         this.expenseForm.get('group_id')?.setValue(this.groupId);
-        this.arrUsers = await this.userService.getUsersByGroup(params.groupId);
+        this.users =  await this.userService.getUsersByGroup(params.groupId);
+        
+        //Filtrar por usuarios activos
+        this.arrUsers = this.users.filter((u) => u.active == true);
       }
       // si viene el expenseId es para editar
       if (params.expenseId) {

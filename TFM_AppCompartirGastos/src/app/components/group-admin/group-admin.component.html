@@ -1,5 +1,5 @@
 <div class="container mt-4">
-    @if (isAdmin) {
+    <!-- @if (isAdmin) {
         <h4>Eres <mark>administrador</mark>, puedes:</h4>
         <nav>
             <ul>
@@ -7,25 +7,47 @@
                 <li><a href="#">Editar información del grupo</a></li>
             </ul>
         </nav>
-    }
-    <h4>Estos son los actuales <mark>miembros</mark> del grupo</h4>
-    <table class="table table-borderless table-info ">
-        <thead>
-            <tr>
-                <th scope="col">Nombre</th>
-                <th scope="col">Apellidos</th>
-                <th scope="col">username</th>
-            </tr>
-        </thead>
-        <tbody>
-            @for (member of arrUsers; track member.id) {
-                <tr>
-                    <td>{{ member.firstname }} {{ member.lastname }}</td>
-                    <td>{{ member.lastname }}</td>
-                    <td>{{ member.username }}</td>
-                </tr>
+    } -->
+    <!-- <h4>Estos son los actuales <mark>miembros</mark> del grupo</h4> -->
+    <div class="card text-white bg-primary mb-3">
+        <div class="d-flex justify-content-between align-items-center pt-3 pb-3">
+            <h4 class="mb-0 text-center flex-grow-1 ">MIEMBROS DEL GRUPO</h4>
+            @if (isAdmin) {
+                <button class="btn btn-primary" [routerLink]="['/home/groupform/'+groupId]" >Editar grupo</button>
+                <button class="btn btn-primary" [routerLink]="['/home/groups/'+groupId+'invitation']" >Añadir miembro</button>
             }
-        </tbody>
-    </table>
-
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">username</th>
+                    @if (isAdmin) {
+                        <th scope="col" class="action-field">Acciones</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @for (member of arrUsers; track member.id) {
+                    <tr>
+                        <td>{{ member.firstname }} {{ member.lastname }}</td>
+                        <!-- <td>{{ member.lastname }}</td> -->
+                        <td>{{ member.username }}</td>
+                        @if (isAdmin) {
+                            <td class="action-field">
+                                <div>
+                                    <button class="border-0 icon-button" (click)="editUser()">
+                                        <mat-icon fontIcon="edit" ></mat-icon>
+                                    </button>
+                                    <button class="border-0 icon-button" (click)="deleteUser()">
+                                        <mat-icon fontIcon="delete"></mat-icon>
+                                    </button>
+                                </div>
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>

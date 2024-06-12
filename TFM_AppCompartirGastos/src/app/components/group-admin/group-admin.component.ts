@@ -1,16 +1,17 @@
 import { Component, Input, inject } from '@angular/core';
 import { IUserGroups } from '../../interfaces/iuser-groups.interface';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { IUser } from '../../interfaces/iuser.interface';
 import { UsersService } from '../../services/users.service';
 import { GroupsService } from '../../services/groups.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AlertModalService } from '../../services/alert-modal.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-group-admin',
   standalone: true,
-  imports: [],
+  imports: [RouterLink, MatIconModule],
   templateUrl: './group-admin.component.html',
   styleUrl: './group-admin.component.css'
 })
@@ -60,5 +61,14 @@ export class GroupAdminComponent {
         backAction: false,
       });
     }
+  }
+
+  editUser()
+  {
+
+  }
+
+  deleteUser(){
+
   }
 }
