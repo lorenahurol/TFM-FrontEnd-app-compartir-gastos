@@ -52,16 +52,14 @@ export class ExpensesService {
    * Método para editar un gasto
    */
   editExpense(expense: IExpense): Promise<IExpense> {
-    console.log(expense);
     return lastValueFrom(this.httpClient.put<IExpense>(`${this.API_URL}/expenses/${expense.id}`, expense));
   }
 
   /**
    * Metodo para eliminar un gasto por id
    */
-  deleteExpenseById(expenseId: number)
-  {
-    return firstValueFrom(this.httpClient.delete<IExpense>(`${this.API_URL}/expenses/${expenseId}`));
+  deleteExpenseById(expenseId: number) {
+      return firstValueFrom(this.httpClient.delete<IExpense>(`${this.API_URL}/expenses/${expenseId}`));
   }
 
   /**

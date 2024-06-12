@@ -2,30 +2,19 @@
     <!-- Group Name -->
     <div class="row g-2">
         <div class="col-md-3 label">
-            <label for="group_name" class="form-label">Título del grupo: *</label>
+            <label for="description" class="form-label">Título o descripción del grupo: *</label>
         </div>
         <div class="col-md-9">
-            <input type="text" class="form-control" id="group_name" formControlName="group_name" placeholder="Fiesta de Fin de Año" required>
-            @if (checkControl ('group_name', 'required')) {
+            <input type="text" class="form-control" id="description" formControlName="description" placeholder="Fiesta de Fin de Año" required>
+            @if (checkControl ('description', 'required')) {
                 <p class="error-msg">Campo Obligatorio</p>
             }
-            @if (checkControl ('group_name', 'minlength')) {
+            @if (checkControl ('description', 'minlength')) {
             <p class="error-msg">Introduce al menos 3 caracteres</p>
             }
         </div>
     </div>
-
-    <!-- Description -->
-    <!-- ** Required? ** -->
-    <div class="row g-2">
-        <div class="col-md-3 label">
-            <label for="description" class="form-label">Descripción:</label>
-        </div>
-        <div class="col-md-9">
-            <input type="text-area" class="form-control" id="description" formControlName="description" placeholder="Cena de fin de año en 'Restaurante El Buen Sabor'">
-        </div>
-    </div>
-
+    
     <!-- Category -->
     <div class="row g-2">
         <div class="col-md-3 label">
@@ -35,8 +24,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <select class="form-select" id="category" formControlName="category">
-                        <option selected disabled value="">--Selecciona una Categoría--</option>
-                        
+                        <option selected disabled value="">--Selecciona una Categoría--</option>                       
                         @for(category of arrCategories; track category.id) {
                             <option [value]="category.id">{{category.description}}</option>
                         }

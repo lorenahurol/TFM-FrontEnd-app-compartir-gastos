@@ -1,0 +1,19 @@
+#title img {
+  max-width: 70%;
+  margin: 0 auto;
+  display: block;
+  filter: brightness(70%);
+}
+
+.icons.instructions {
+  font-size: 6rem;
+  margin-bottom: 16px;
+}
+
+.card-box-1 {
+  background-color: var(--gradient-card-purple);
+}
+
+.card-box-2 {
+  background-color: var(--gradient-card-green);
+}

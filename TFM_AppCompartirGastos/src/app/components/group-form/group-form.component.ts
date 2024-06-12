@@ -3,6 +3,13 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { GroupsService } from '../../services/groups.service';
 import { Icategory } from '../../interfaces/icategory.interface';
 import { ActivatedRoute, Router } from '@angular/router';
+import { IGroup } from '../../interfaces/igroup.interface';
+import { AlertModalService } from '../../services/alert-modal.service';
+import { MatDialogRef } from '@angular/material/dialog';
+import { AlertModalComponent, IAlertData } from '../alert-modal/alert-modal.component';
+import { AuthService } from '../../services/auth.service';
+import { CommonFunctionsService } from '../../common/utils/common-functions.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-group-form',
@@ -18,31 +25,48 @@ export class GroupFormComponent {
   btnText: string = "Crear";
   arrCategories: Icategory[] = [];
   groupFormulario: FormGroup;
-  groupId: number | null = null;
+  groupId: number = 0;
+  userId: number = 0;
+  adminUserId: number | null = null
+  isAdmin: boolean = false;
+
   groupsService = inject(GroupsService);
   router = inject(Router);
   activatedRoute = inject(ActivatedRoute);
+
+  alertModalService = inject(AlertModalService);
+
+  authService = inject(AuthService);
+  commonFunc = inject(CommonFunctionsService);
+  
   
   // Inicializar el formulario:
   constructor() {
     this.groupFormulario = new FormGroup({
-      group_name: new FormControl("", [
-        // Validadores:
+      description: new FormControl("", [
         Validators.required,
         Validators.minLength(3)
       ]),
-      description: new FormControl("", []),
       category: new FormControl("", [
         Validators.required
       ])
     }, [])
   }
+  
+async ngOnInit(): Promise<void> {
+    //Obtener las categorias:
+    this.arrCategories = await this.groupsService.getAllCategories();
+  
+  // AuthService: get current user's ID:
+  const token = localStorage.getItem("token");
+  if (token) {
+    const tokenVerification = await this.authService.verifyToken(token);
+    if (tokenVerification && tokenVerification.id) {
+      this.userId = tokenVerification.id;
+    }
+  }
 
-  // Reutilizar el formulario para edicion:
-  ngOnInit() {
-    // Obtener las categorias:
-    // this.arrCategories = this.groupsService.getAllCategories();
-
+// Reutilizar el formulario para edicion:
     // Edicion/Actualizacion:
     this.activatedRoute.params.subscribe(async (params: any) => {
       if (params.groupId) {
@@ -51,15 +75,21 @@ export class GroupFormComponent {
         this.typeH3.emit("Editar");
         this.btnText = "Actualizar";
         try {
-          const group = await this.groupsService.getGroupById(params.groupId);
+          const group = await this.groupsService.getGroupById(this.groupId);
+          // Get the user ID of the group admin (creator === admin):
+          this.adminUserId = group.creator_user_id;
+          await this.getIsAdmin();
+
           this.groupFormulario.setValue({
-            group_name: group.name,
             description: group.description,
             category: group.category_id
           })
         } catch (error) {
-          console.log(error);
-        }  } else {
+          console.log("No se ha encontrado el grupo", error);
+        }
+      
+      } else {
+        // Cambiar los titulos de la página:
         this.typeH2.emit("Crear");
         this.typeH3.emit("Nuevo");
       }
@@ -68,28 +98,71 @@ export class GroupFormComponent {
   }
 
   // Trabajar con los datos del formulario:
-  getDataForm(): void {
+ async getDataForm(): Promise<void> {
     if (this.groupFormulario.valid) {
+      const { description, category } = this.groupFormulario.value;
+
+      const group: IGroup = {
+        description: description,
+        category_id: category,
+        creator_user_id: this.userId, // Usuario loggeado
+        active: 1 
+      };
+
+// Insertar nuevo grupo:
       if (this.btnText === "Crear") {
-        // Insertar nuevo grupo:
+        
         try {
-          const result = this.groupsService.addGroup(this.groupFormulario.value);
-          this.groupFormulario.reset();
-          this.router.navigate(['/groups']);
-          console.log(result)
-        } catch (error) {
-          console.error(error);
+        await this.groupsService.addGroup(group);
+        const alertModal = this.alertModalService.newAlertModal({
+          icon: 'done_all',
+          title: 'Perfecto!',
+          body: 'Grupo creado correctamente',
+          acceptAction: true,
+          backAction: false,
+        });
+        alertModal?.componentInstance.sendModalAccept.subscribe(
+          (isAccepted) => {
+            if (isAccepted) {
+              this.router.navigateByUrl('/home');
+            }
+          }
+        );
+
+        this.groupFormulario.reset();
+          
+        } catch (error: any) {
+          // Error 409: Conflict (Group already exists):
+        if (error.status === 409) {
+          this.alertModalService.newAlertModal({
+            icon: 'error',
+            title: 'Error!',
+            body: 'El grupo ya existe',
+            acceptAction: true,
+            backAction: false,
+          });
+        } else {
+          console.log('Error al crear el grupo', error);
         }
-    
-      } else {
+        }
+        
+// Editar el grupo: btnText === "Actualizar"
+      } else if (this.isAdmin) { // Solo el Admin tiene permiso para actualizar
         try {
-          // Editar el grupo:
-          const result = this.groupsService.editGroup(this.groupFormulario.value);
-          this.router.navigate([`home/groups/${this.groupId}`]);
+          const result = await this.groupsService.editGroup({...this.groupFormulario.value, id: this.groupId});
+          await this.router.navigate([`home/groups/${this.groupId}`]);
           console.log(result);
         } catch (error) {
-          console.error(error);
+          console.log('Error al actualizar el grupo:', error);
         }
+      } else {
+        this.alertModalService.newAlertModal({
+          icon: 'error',
+          title: 'Error!',
+          body: 'No tienes permiso para editar este grupo',
+          acceptAction: true,
+          backAction: false,
+        });
       }
     }
   }
@@ -100,5 +173,26 @@ export class GroupFormComponent {
       this.groupFormulario.get(formControlName)?.hasError(validatorName) &&
       this.groupFormulario.get(formControlName)?.touched
     )
+  }
+
+   async getIsAdmin() {
+    try {
+      const roles = await this.groupsService.getUserRolesByGroup();
+
+      if (roles.admingroups.includes(Number(this.groupId))) {
+        this.isAdmin = true;
+      } else {
+        this.isAdmin = false;
+      }
+    } catch (error: HttpErrorResponse | any) {
+      console.error(error);
+      this.alertModalService.newAlertModal({
+        icon: 'notifications',
+        title: 'Problema al verificar rol',
+        body: `Se produjo el siguiente problema: ${error.error.error}`,
+        acceptAction: true,
+        backAction: false,
+      });
+    }
   }
 };

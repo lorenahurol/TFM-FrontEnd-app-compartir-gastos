@@ -1,8 +1,9 @@
 export interface IInvitation {
-  id: number;
-  date: string;
+  id?: number;
+  date?: Date;
   group_id: number;
   user_id: number;
-  accepted: boolean;
-  active: boolean;
+  accepted: number;
+  active: number;
+  message: string;
 }

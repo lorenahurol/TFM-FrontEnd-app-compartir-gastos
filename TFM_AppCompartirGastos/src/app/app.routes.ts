@@ -11,6 +11,8 @@ import { ExpenseViewComponent } from './pages/expense-view/expense-view.componen
 import { authGuard } from './common/guards/auth.guard';
 import { UpdateUserComponent } from './pages/update-user/update-user.component';
 import { GroupFormPageComponent } from './pages/group-form/group-form-page.component';
+import { AddGroupMembersPageComponent } from './pages/add-group-members-page/add-group-members-page.component';
+import { rolesGuard } from './common/guards/roles.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/landing', pathMatch: 'full' },
@@ -18,15 +20,15 @@ export const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'home', component: HomeComponent, 
-  children: [
-      { path: '', component: UserDashboardComponent},
-      { path: 'users/update', component: UpdateUserComponent},
-      { path: 'groups/groupForm', component: GroupFormPageComponent },
-      { path: 'groups/:groupId', component: GroupDashboardComponent },
-      { path: 'expenses/:groupId',  component: ExpenseListComponent },
-      { path: 'expenses/:groupId/add', component: ExpenseViewComponent },
-      { path: 'expenses/:groupId/edit/:expenseId', component: ExpenseViewComponent },
-    ], canActivate:[authGuard],
-  },
+    children: [
+      { path: '', component: UserDashboardComponent },
+      { path: 'users/update', component: UpdateUserComponent },
+      { path: 'groupform', component: GroupFormPageComponent },
+      { path: 'groups/:groupId', component: GroupDashboardComponent, canActivate: [rolesGuard]},
+      { path: 'groups/:groupId/invitation', component: AddGroupMembersPageComponent, canActivate: [rolesGuard]},
+      { path: 'expenses/:groupId', component: ExpenseListComponent, canActivate: [rolesGuard]},
+      { path: 'expenses/:groupId/add', component: ExpenseViewComponent, canActivate: [rolesGuard]},
+      { path: 'expenses/:groupId/edit/:expenseId', component: ExpenseViewComponent, canActivate: [rolesGuard]},
+    ], canActivate: [authGuard]},
   { path: '**', component: Error404Component },
 ];
