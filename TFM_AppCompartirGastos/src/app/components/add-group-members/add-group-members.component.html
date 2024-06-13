@@ -1,38 +1,50 @@
-<form class="row g-1" novalidate [formGroup]="invitationForm" (ngSubmit)="getDataForm()">
-    <!-- Username  -->
-    <div class="row g-2">
-        <div class="col-md-3 label">
-            <label for="username" class="form-label">Nombre de usuario: *</label>
+<form class="row g-1" novalidate="true" #invitationForm="ngForm" (ngSubmit)="getDataForm(invitationForm)">
+  <!-- Username -->
+  <div class="row g-2">
+    <div class="col-md-3 label">
+      <label for="username" class="form-label">Nombre de usuario: *</label>
+    </div>
+    <div class="col-md-9 gap-2">
+      <input type="text" class="form-control" name="username" id="username" placeholder="Indica el username de tus amigos" (input)="onUsernameInput($event)" autocomplete="off" ngModel>
+    </div>
+    <div class="col-md-3 label"></div>
+    <div class="col-md-9">
+      <ul class="suggestions-list">
+        @for (user of arrUsernameSuggestions; track $index) {
+            <li class="d-flex justify-content-between" (click)="editInvitations(invitationForm,$event,  user,'add')">{{user.username}} 
+            <button class="btn btn-dark add-remove p-0 ps-2 pe-2">+</button>
+            </li>
+        }
+      </ul>
         </div>
-        <div class="col-md-9">
-            <input type="text" class="form-control" id="username" formControlName="username"
-                placeholder="miguel2024" required>
-            @if (checkControl ('username', 'required')) {
-            <p class="error-msg">Campo Obligatorio</p>
-            }
+        <div class="row g-2">
+            <div class="col-md-3"></div>
+            <div class="col-md-9 d-flex gap-2">
+                @for (user of arrInvitedUsers; track $index) {
+                    <div class="card p-1"> 
+                            <p class="m-0 p-2">{{user.username}}</p>
+                            <button class="btn-circle">
+                                <span class="material-symbols-outlined" (click)="editInvitations(invitationForm,$event, user,'remove')">close</span>
+                            </button>
+                    </div>
+                }
+        </div>
         </div>
     </div>
 
-    <!-- ** Añadir más usuarios por email ** -->
-
-    <!-- Mensaje -->
-    <div class="row g-2">
-        <div class="col-md-3 label">
-            <label for="message" class="form-label">Mensaje:</label>
-        </div>
-        <div class="col-md-9">
-            <input type="text" class="form-control" id="message" formControlName="message"
-                placeholder="Acepta mi invitación para unirte al grupo" maxlength="400">
-            @if (checkControl ('message', 'maxLength')) {
-            <p class="error-msg">Máximo 400 caracteres</p>
-            }
-        </div>
+ <!-- Mensaje -->
+  <div class="row g-2">
+    <div class="col-md-3 label">
+      <label for="message" class="form-label">Mensaje:</label>
     </div>
-
-
-    <div class="row g-1 mt-4">
-        <div class="col-12 col-md-4 mt-2 mt-md-0 pe-2">
-            <input class="btn btn-outline-dark w-100" type="submit" [disabled]="!invitationForm.valid" value="Enviar">
-        </div>
+    <div class="col-md-9">
+      <input type="text" class="form-control" id="message" name="message" placeholder="Acepta mi invitación para unirte al grupo" maxlength="400" ngModel>
     </div>
+  </div>
+
+  <div class="row g-1 mt-4">
+    <div class="mt-2 mt-md-0 pe-2 d-flex justify-content-center">
+      <input class="btn btn-outline-dark w-100" type="submit" value="Enviar">
+    </div>
+  </div>
 </form>

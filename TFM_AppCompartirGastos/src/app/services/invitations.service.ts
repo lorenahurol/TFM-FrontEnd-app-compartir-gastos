@@ -16,9 +16,9 @@ export class InvitationsService {
   private API_URL: string = environment.API_URL;
   
   // Send invitation to DB:
-  async createInvitation(invitation: IInvitation): Promise<IInvitation> {
+  async createInvitation(invitation: IInvitation) {
     try {
-      const result = await lastValueFrom(this.httpClient.post<IInvitation>(`${this.API_URL}/invitations`, invitation));
+      const result = await lastValueFrom(this.httpClient.post<any>(`${this.API_URL}/invitations`, invitation));
       return result;
     } catch (error) {
       throw new Error("Error al crear la invitation");
@@ -26,10 +26,10 @@ export class InvitationsService {
   }
 
   // Get user_id associated to username:
-  async getUserFromUsername(username: string): Promise<IUser> {
+  async getUsersByUsername(usernames: string[]): Promise<IUser> {
     try {
       // Get usernames from DB:
-      const result = await lastValueFrom(this.httpClient.get<IUser>(`${this.API_URL}/users/byusername/${username}`));
+      const result = await lastValueFrom(this.httpClient.post<IUser>(`${this.API_URL}/users/byusername`, usernames));
       return result
 
   } catch (error) {
@@ -71,7 +71,7 @@ async getInvitation(groupId: number, userId: number): Promise<IInvitation | null
   }
 
   // Deactivate invitation:
-  async deleteInvitation(invitationId: number, userId: number): Promise<any> {
+  async deleteInvitation(invitationId: number): Promise<any> {
     try {
       const result = await lastValueFrom(this.httpClient.delete(`${this.API_URL}/invitations/${invitationId}`));
       return result
