@@ -13,6 +13,7 @@ import { UpdateUserComponent } from './pages/update-user/update-user.component';
 import { GroupFormPageComponent } from './pages/group-form/group-form-page.component';
 import { AddGroupMembersPageComponent } from './pages/add-group-members-page/add-group-members-page.component';
 import { rolesGuard } from './common/guards/roles.guard';
+import { MessagesComponent } from './pages/messages/messages.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/landing', pathMatch: 'full' },
@@ -29,6 +30,7 @@ export const routes: Routes = [
       { path: 'expenses/:groupId', component: ExpenseListComponent, canActivate: [rolesGuard]},
       { path: 'expenses/:groupId/add', component: ExpenseViewComponent, canActivate: [rolesGuard]},
       { path: 'expenses/:groupId/edit/:expenseId', component: ExpenseViewComponent, canActivate: [rolesGuard]},
+      { path: 'messages/:groupId', component: MessagesComponent, canActivate: [rolesGuard]}
     ], canActivate: [authGuard]},
   { path: '**', component: Error404Component },
 ];

@@ -75,6 +75,15 @@ export const rolesGuard: CanActivateFn = async (route, state) => {
       isGranted = false;
     }
     
+  } else if (route.url[0].path.includes('messages')) {
+    roles = await groupService.getUserRolesByGroup();
+    if (roles.membergroups.includes(groupId)) {
+      isGranted = true;
+    } else {
+      message = 'No tienes permisos para acceder a los mensajes de este grupo';
+      redirectTo = '/home';
+      isGranted = false;
+    }
   } else {
     // Si pasa por aquí, la ruta no es de gastos ('expenses') ni de grupos ('groups')
     message = 'Está intentando acceder a una ruta desconocida';

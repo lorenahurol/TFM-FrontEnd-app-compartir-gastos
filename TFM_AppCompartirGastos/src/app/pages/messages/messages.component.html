@@ -1,0 +1,14 @@
+<div class="container">
+    <!-- Desplegable para seleccionar el grupo -->
+    <div class="form-group">
+        <label for="groupSelect">Selecciona un grupo:</label>
+        <select class="form-control" id="groupSelect">
+            <!-- Aquí irían las opciones del desplegable -->
+            <option value="grupo1">Grupo 1</option>
+            <option value="grupo2">Grupo 2</option>
+            <!-- etc. -->
+        </select>
+    </div>
+
+    <app-messenger [userId]="userId" [groupId]="groupId" ></app-messenger>
+</div>
