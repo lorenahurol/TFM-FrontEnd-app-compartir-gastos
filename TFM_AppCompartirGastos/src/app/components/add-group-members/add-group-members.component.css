@@ -1,0 +1,39 @@
+.add-remove {
+  font-weight: 700;
+}
+
+.btn-circle {
+  border-radius: 8px;
+  width: 2rem;
+  height: 2rem;
+  padding: 4px;
+  border-radius: 1rem;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.card{
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  border-radius: 20px;
+}
+
+.suggestions-list {
+  border: 1px solid #d6d6d6;
+  height: 145px;
+  overflow-y: auto;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  border-radius: 5px;
+}
+
+.suggestions-list li {
+  padding: 4px;
+  cursor: pointer;
+}
+
+.suggestions-list li:hover {
+  background-color: #f0f0f0;
+}

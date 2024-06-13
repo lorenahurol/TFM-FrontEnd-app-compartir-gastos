@@ -4,6 +4,7 @@ import { environment } from '../../environments/environments';
 import { IUser } from '../interfaces/iuser.interface';
 import { lastValueFrom } from 'rxjs';
 import { PHONE_CODES } from '../db/international_codes.db';
+import { IUsername } from '../components/add-group-members/add-group-members.component';
 
 type PhoneCode = {
   name: string,
@@ -95,6 +96,15 @@ export class UsersService {
       )
     );
   }
+
+
+  getUsernames(filter: string) {
+    return lastValueFrom (
+      this.httpClient.get<IUsername[]>(`${this.API_URL}/users/filteredusernames/${filter}`
+      )
+    );
+  }
+
 
   /**
    * Creates a new user by sending a POST request to the /register endpoint.

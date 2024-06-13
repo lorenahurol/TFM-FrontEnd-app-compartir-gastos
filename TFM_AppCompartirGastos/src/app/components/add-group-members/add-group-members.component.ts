@@ -1,27 +1,30 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { InvitationsService } from '../../services/invitations.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IInvitation } from '../../interfaces/iinvitation.interface';
 import { UsersService } from '../../services/users.service';
 import { AlertModalService } from '../../services/alert-modal.service';
-import { MatDialogRef } from '@angular/material/dialog';
-import { AlertModalComponent, IAlertData } from '../alert-modal/alert-modal.component';
 import { AuthService } from '../../services/auth.service';
-import { CommonFunctionsService } from '../../common/utils/common-functions.service';
 import { GroupsService } from '../../services/groups.service';
+import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
+import { EmailsService } from '../../services/emails.service';
+
+export type IUsername = {
+  username: string,
+  id: number
+}
 
 @Component({
   selector: 'app-add-group-members',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [FormsModule],
   templateUrl: './add-group-members.component.html',
-  styleUrl: './add-group-members.component.css'
+  styleUrl: './add-group-members.component.css',
 })
 export class AddGroupMembersComponent {
-
-  invitationForm: FormGroup;
+  private usernameInputSubject: Subject<string> = new Subject<string>();
 
   HttpClient = inject(HttpClient);
   router = inject(Router);
@@ -31,126 +34,115 @@ export class AddGroupMembersComponent {
   usersService = inject(UsersService);
   groupsService = inject(GroupsService);
   alertModalService = inject(AlertModalService);
+  emailServices = inject(EmailsService)
 
   groupId: number | null = null;
   userId: number | null = null;
-  username: string = "";
+  username: string = '';
 
-  adminUserId: number | null = null
+  adminUserId: number | null = null;
   isAdmin: boolean = false;
   authService = inject(AuthService);
-  commonFunc = inject(CommonFunctionsService);
 
-  // Inicializar el formulario:
-  constructor() {
-    this.invitationForm = new FormGroup({
-      username: new FormControl("", [
-        // Validadores:
-        Validators.required
-      ]),
-      message: new FormControl("", [
-        Validators.maxLength(400)
-      ]),
-    }, [])
-  }
+  arrInvitedUsers: IUsername[] = [];
+  arrUsernameSuggestions: IUsername[] = [];
+  modalResponseMessage: string = ""
 
-  
- async ngOnInit(): Promise<void> {
-    // AuthService: get current user's ID:
-  const token = localStorage.getItem("token");
-  if (token) {
-    const tokenVerification = await this.authService.verifyToken(token);
-    if (tokenVerification && tokenVerification.id) {
-      this.userId = tokenVerification.id;
+  constructor() {}
+
+  async ngOnInit(): Promise<void> {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const tokenVerification = await this.authService.verifyToken(token);
+      if (tokenVerification && tokenVerification.id) {
+        this.userId = tokenVerification.id;
+      }
     }
-  }
-    // Recoger groupId:
     this.activatedRoute.params.subscribe((params: any) => {
       if (params['groupId']) {
         this.groupId = parseInt(params['groupId']);
       }
-    })
-   // Verifica si el user es admin:
-   await this.getIsAdmin();
+    });
+    await this.getIsAdmin();
+    this.usernameInputSubject
+      .pipe(
+        debounceTime(200),
+        distinctUntilChanged()
+      )
+      .subscribe((currentUsername) => {
+        this.usernameSuggestions(currentUsername);
+      });
   }
 
-  // Recoger los datos del formulario:
-  async getDataForm(): Promise<void> {
-    if (this.invitationForm.valid && this.isAdmin) {
-      const { username, message } = this.invitationForm.value;
-      try {
-        const user = await this.invitationsService.getUserFromUsername(username);
-
-        
-        // Check if a pending invitation exists for group + user:
-        const existingInvitation = await this.invitationsService.getInvitation(this.groupId!, user.id);
-
-          if (existingInvitation !== null) {
-            this.alertModalService.newAlertModal({
-              icon: 'error',
-              title: 'Error!',
-              body: 'La invitación ya existe',
-              acceptAction: true,
-              backAction: false,
-            });
-            return;
-          } 
-        
-        const invitation: IInvitation = {
-          group_id: this.groupId!,
-          user_id: user.id,
-          accepted: 0,
-          active: 1,
-          message: message
-        }
-
-        // Crear la invitacion:
-        const result = await this.invitationsService.createInvitation(invitation);
-        console.log(result);
-
-        if (result) {
-          const alertModal = this.alertModalService.newAlertModal({
-            icon: 'done_all',
-            title: 'Perfecto!',
-            body: 'Invitación creada correctamente ',
-            acceptAction: true,
-            backAction: false,
-          });
-          alertModal?.componentInstance.sendModalAccept.subscribe(
-            (isAccepted) => {
-              if (isAccepted) {
-                this.router.navigateByUrl('/home');
-              }
-            }
-          );
-        }
-      } catch (error: any) {
+  async getDataForm(invitationForm: any) {
+    
+    if (this.arrInvitedUsers.length > 0 && this.isAdmin) {
+      const { message } = invitationForm.value;
+      const promises = this.arrInvitedUsers.map(async user => {
+        try {
+          const existingInvitation = await this.invitationsService.getInvitation(this.groupId!, user.id);
+          if (existingInvitation) {
+            await this.invitationsService.deleteInvitation(existingInvitation.id!);
+          }
+          const invitation: IInvitation = {
+            group_id: this.groupId!,
+            user_id: user.id,
+            accepted: 0,
+            active: 1,
+            message: message,
+          };
+          const result = await this.invitationsService.createInvitation(invitation);
+          if (result.affectedRows === 1) {
+            this.modalResponseMessage += `${user.username}: Envío correcto\n`;
+          } else {
+            this.modalResponseMessage += `${user.username}: Error\n`;
+          }
+        } catch (error: any) {
           console.log('Error al crear la invitación', error);
+          this.modalResponseMessage += `${user.username}: Error\n`;
+        }
+      });
+      await Promise.all(promises);
+      
+      let bcc: number[] = []
+      this.arrInvitedUsers.forEach(user => bcc.push(user.id))
+      console.log(bcc)
+      console.log(invitationForm)
+      const emailBody = {
+        bcc: bcc,
+        html: message,
+        selectedTemplate : "invitation"
       }
-    // Si el user loggeado no es admin:
-    } else if (!this.isAdmin) {
-        this.alertModalService.newAlertModal({
-          icon: 'error',
-          title: 'Error!',
-          body: 'No tienes permiso para crear una invitación',
-          acceptAction: true,
-          backAction: false,
-        });
-    }
-  }
+      this.emailServices.sendEmail(emailBody)
+      
+      const alertModal = this.alertModalService.newAlertModal({
+        icon: 'done_all',
+        title: 'Perfecto!',
+        body: `${this.modalResponseMessage}`,
+        acceptAction: true,
+        backAction: false,
+      });
+      alertModal?.componentInstance.sendModalAccept.subscribe((isAccepted) => {
+        if (isAccepted) {
+          this.router.navigateByUrl(`/home/groups/${this.groupId}`);
+        }
+      });
 
-  // Comprobar validadores:
-  checkControl(formControlName: string, validatorName: string): boolean | undefined {
-    return (
-      this.invitationForm.get(formControlName)?.hasError(validatorName) &&
-      this.invitationForm.get(formControlName)?.touched
-    );
+
+    } else if (!this.isAdmin) {
+      this.alertModalService.newAlertModal({
+        icon: 'error',
+        title: 'Error!',
+        body: 'No tienes permiso para crear una invitación',
+        acceptAction: true,
+        backAction: false,
+      });
+    }
   }
 
   async getIsAdmin() {
     try {
       const roles = await this.groupsService.getUserRolesByGroup();
-
       if (roles.admingroups.includes(Number(this.groupId))) {
         this.isAdmin = true;
       } else {
@@ -166,5 +158,31 @@ export class AddGroupMembersComponent {
         backAction: false,
       });
     }
+  }
+
+  editInvitations(invitationForm: any, event: any, selectedUser: IUsername, action: string) {
+    event.preventDefault();
+    if (action === 'add') {
+      this.arrInvitedUsers.push(selectedUser);
+    } else {
+      this.arrInvitedUsers = this.arrInvitedUsers.filter(
+        (user) => user.id !== selectedUser.id
+      );
+    }
+    const usernameControl = invitationForm.controls.username;
+    if (usernameControl) {
+      usernameControl.reset();
+      this.arrUsernameSuggestions = [];
+    }
+  }
+
+  onUsernameInput(event: any) {
+    const currentUsername = event.target.value;
+    if (currentUsername.length > 0) this.usernameInputSubject.next(currentUsername);
+    if (currentUsername.length == 0) this.arrUsernameSuggestions = [];
+  }
+
+  async usernameSuggestions(currentUsername: string) {
+    this.arrUsernameSuggestions = await this.usersService.getUsernames(currentUsername);
   }
 }

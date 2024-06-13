@@ -7,7 +7,6 @@ import { ChangePwdModalComponent } from '../change-pwd-modal/change-pwd-modal.co
 import { CommonFunctionsService } from '../../common/utils/common-functions.service';
 import { AlertModalComponent, IAlertData } from '../alert-modal/alert-modal.component';
 import { AlertModalService } from '../../services/alert-modal.service';
-import { MatDialogRef } from '@angular/material/dialog';
 import { EmailsService, IEmailData } from '../../services/emails.service';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs'
 
@@ -226,14 +225,13 @@ export class RegisterFormComponent {
         } else {
           // En caso el registro sea correcto se recibe y almacena el token de login
           localStorage.setItem('login_token', response.token!);
-
+          const createdUser = await this.authServices.verifyToken(response.token)
           // Envío email de confirmación
-          const to: string = newUser.mail;
-          const firstname: string = newUser.firstname;
+          const bcc: number[] = [createdUser.id!];
 
           const emailData: IEmailData = {
-            to: to,
-            name: firstname,
+            bcc: bcc,
+            html: "",
             selectedTemplate: 'welcome',
           };
 
