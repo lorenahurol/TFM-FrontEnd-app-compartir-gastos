@@ -18,6 +18,10 @@
       <a class="nav-link" id="simple-tab-2" data-bs-toggle="tab" href="#simple-tabpanel-2" role="tab" aria-controls="simple-tabpanel-2" aria-selected="false">Administración</a>
       <!-- <a class="nav-link" [routerLink]="['ruta2']">Administrar</a> -->
     </li>
+    <li class="nav-item">
+      <a class="nav-link" id="simple-tab-3" data-bs-toggle="tab" href="#simple-tabpanel-3" role="tab" aria-controls="simple-tabpanel-3" aria-selected="false">Foro</a>
+      <!-- <a class="nav-link" [routerLink]="['ruta2']">Administrar</a> -->
+    </li>
   </ul>
   
   <div class="tab-content">
@@ -31,5 +35,9 @@
     <div class="tab-pane" id="simple-tabpanel-2" role="tabpanel" aria-labelledby="simple-tab-2">
       <app-group-admin></app-group-admin>
     </div>
+    <div class="tab-pane" id="simple-tabpanel-3" role="tabpanel" aria-labelledby="simple-tab-3">
+      <app-messenger [userId]="userId" [groupId]="getGroup()" ></app-messenger>
+    </div>
+
     <router-outlet></router-outlet>
   </div>

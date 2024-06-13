@@ -7,6 +7,7 @@ import { MessagesService } from '../../services/messages.service';
 import { FormsModule } from '@angular/forms';
 import dayjs from 'dayjs';
 import { UsersService } from '../../services/users.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-messenger',
@@ -39,11 +40,8 @@ export class MessengerComponent {
   }
 
   async ngOnChanges() {
-    console.log("this.groupId", this.groupId);
-    console.log("this.userId", this.userId);
-    console.log(this.arrMessages);
     try {
-      if (this.arrMessages.length === 0 && this.groupId !== undefined) {
+      if (this.groupId !== undefined) {
         this.arrMessages = await this.msgService.getMessagesByGroupId(this.groupId);
         this.arrMembers = await this.userService.getUsersByGroup(this.groupId);
         // para cada mensaje, vamos a rellenar el campo username
@@ -51,8 +49,10 @@ export class MessengerComponent {
           msg.username = this.getUserName(msg.user_id);
         }
       }
-      console.log("this.arrMessages", this.arrMessages);
-    } catch (error) {
+    } catch (error: HttpErrorResponse | any) {
+      if (error.error.error === 'No hay mensajes') {
+        this.arrMessages = [];
+      }
       console.log(error);
     }
   }
@@ -64,15 +64,12 @@ export class MessengerComponent {
 
   async sendMessage() {
     if (this.newMessage !== '') {
-      console.log("Tu mensaje: ", this.newMessage);
-
       let newIMessage: IMessage = {
         message: this.newMessage,
         user_id: this.userId,
         group_id: this.groupId
       };
       newIMessage = await this.msgService.addMessage(newIMessage);
-      console.log("newIMessage", newIMessage);
       this.arrMessages.push(newIMessage);
       this.newMessage = '';
     }

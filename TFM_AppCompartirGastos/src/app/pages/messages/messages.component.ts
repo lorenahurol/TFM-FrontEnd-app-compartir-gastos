@@ -3,7 +3,7 @@ import { MessengerComponent } from '../../components/messenger/messenger.compone
 import { AuthService } from '../../services/auth.service';
 import { IUserGroups } from '../../interfaces/iuser-groups.interface';
 import { GroupsService } from '../../services/groups.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-messages',
@@ -16,17 +16,20 @@ export class MessagesComponent {
   activatedRoute = inject(ActivatedRoute);
   authService = inject(AuthService);
   groupService = inject(GroupsService);
+  router = inject(Router);
   userId!: number;
   groupId!: number;
   arrInfoGroups: IUserGroups[] = [];
 
-  // TO DO
-  // Obtener usuario de sesión
-  // Cargar grupos del usuario logueado
-  // Establecer como grupo seleccionado el que recibe la página como parámetro (si no se recibe, tendrá que cogerlo del desplegable)
-  // Cargar mensajes del grupo seleccionado (los que son del propio usuario alineados a derecha y los de los demás a la izquierda)
 
    async ngOnInit() {
+
+    // Establecer como grupo seleccionado el que recibe la página como parámetro (si no se recibe, tendrá que cogerlo del desplegable)
+    this.activatedRoute.params.subscribe(async (params: any) => {
+      if (params.groupId) {
+        this.groupId = params.groupId;
+      }
+    });
 
     // Obtener usuario de sesión
     const token = localStorage.getItem("login_token");
@@ -39,19 +42,14 @@ export class MessagesComponent {
 
     // Cargar grupos del usuario logueado
     this.arrInfoGroups = await this.groupService.getAllInfoGroupsByUser();
+   }
 
-    // Establecer como grupo seleccionado el que recibe la página como parámetro (si no se recibe, tendrá que cogerlo del desplegable)
-    this.activatedRoute.params.subscribe(async (params: any) => {
-      if (params.groupId) {
-        this.groupId = params.groupId;
-      }
-    });
+   isGroupId(id: number): boolean {
+    return Number(this.groupId) === Number(id);
+   }
 
-
-    // Cargar mensajes del grupo seleccionado (los que son del propio usuario alineados a derecha y los de los demás a la izquierda)
-    
-
-      
+   changeGroup(target: any){
+    this.groupId = target.value;
    }
 
 }

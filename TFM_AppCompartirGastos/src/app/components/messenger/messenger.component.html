@@ -3,24 +3,32 @@
     <div class="chat">
         <div class="container chat-history" #scrollContainer>
             <ul id="messages-history" class="m-b-0">
-                @for (msg of arrMessages; track msg.id) {
-                    <div clas="row">
-                    @if (msg.user_id === userId) {
-                        <li class="clearfix">
-                            <div class="message-data">
-                                <span class="message-data-time float-right small">{{dateFormat(msg.timestamp)}} - <mark><b> YO </b></mark></span><br>
-                                <div class="message my-message float-right"> {{msg.message}} </div><br>
-                            </div>
-                        </li>
-                    } @else {
-                        <li class="clearfix">
-                            <div class="message-data">
-                                <span class="message-data-time small">{{dateFormat(msg.timestamp)}} - <b>{{msg.username}}</b></span><br>
-                                <div class="message other-message"> {{msg.message}} </div><br>
-                            </div>
-                        </li>
+                @if (arrMessages.length > 0) {
+                    @for (msg of arrMessages; track msg.id) {
+                        <div clas="row">
+                        @if (msg.user_id === userId) {
+                            <li class="clearfix">
+                                <div class="message-data">
+                                    <span class="message-data-time float-right small">{{dateFormat(msg.timestamp)}} - <mark><b> YO </b></mark></span><br>
+                                    <div class="message my-message float-right"> {{msg.message}} </div><br>
+                                </div>
+                            </li>
+                        } @else {
+                            <li class="clearfix">
+                                <div class="message-data">
+                                    <span class="message-data-time small">{{dateFormat(msg.timestamp)}} - <b>{{msg.username}}</b></span><br>
+                                    <div class="message other-message"> {{msg.message}} </div><br>
+                                </div>
+                            </li>
+                        }
+                    </div>
                     }
-                </div>
+                } @else {
+                    <li class="clearfix">
+                        <div class="message-data">
+                            <span class="message-data-time small">No hay mensajes</span>
+                        </div>
+                    </li>
                 }
             </ul>
         </div>

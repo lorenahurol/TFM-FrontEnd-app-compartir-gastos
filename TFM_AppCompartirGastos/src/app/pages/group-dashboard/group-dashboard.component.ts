@@ -12,12 +12,13 @@ import { ImemberGroup } from '../../interfaces/imember-group';
 import { ExpenseListComponent } from '../expense-list/expense-list.component';
 import { PaymentsListComponent } from '../../components/payments-list/payments-list.component';
 import { GroupAdminComponent } from '../../components/group-admin/group-admin.component';
+import { MessengerComponent } from '../../components/messenger/messenger.component';
 
 
 @Component({
   selector: 'app-group-dashboard',
   standalone: true,
-  imports: [GroupInfoCardComponent, GroupAdminComponent, ExpenseListComponent, PaymentsListComponent,RouterOutlet, RouterLink],
+  imports: [GroupInfoCardComponent, GroupAdminComponent, ExpenseListComponent, PaymentsListComponent,RouterOutlet, RouterLink, MessengerComponent],
   templateUrl: './group-dashboard.component.html',
   styleUrl: './group-dashboard.component.css',
 })
@@ -61,5 +62,9 @@ export class GroupDashboardComponent {
         }
       }
     });
+  }
+
+  getGroup(): number {
+    return Number(this.groupId);
   }
 }

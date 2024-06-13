@@ -1,12 +1,11 @@
 <div class="container">
     <!-- Desplegable para seleccionar el grupo -->
-    <div class="form-group">
+    <div class="form-group my-3">
         <label for="groupSelect">Selecciona un grupo:</label>
-        <select class="form-control" id="groupSelect">
-            <!-- Aquí irían las opciones del desplegable -->
-            <option value="grupo1">Grupo 1</option>
-            <option value="grupo2">Grupo 2</option>
-            <!-- etc. -->
+        <select class="form-control" id="groupSelect" (change)="changeGroup($event.target)">
+            @for (infoGroup of arrInfoGroups; track infoGroup.group_id) {
+                <option [selected]="isGroupId(infoGroup.group_id)" [value]="infoGroup.group_id">{{infoGroup.description}}</option>
+            }
         </select>
     </div>
 
