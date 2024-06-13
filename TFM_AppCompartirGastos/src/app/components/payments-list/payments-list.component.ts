@@ -149,7 +149,7 @@ export class PaymentsListComponent {
     let strPercent: string = "Proporcional";
     if(percent > 0)
       {
-        strPercent = percent.toFixed(2).toString();
+        strPercent = (percent * 100.0).toFixed(2).toString();
         strPercent = strPercent.replace('.', ',');
         strPercent = strPercent.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') +  ' %';
       }

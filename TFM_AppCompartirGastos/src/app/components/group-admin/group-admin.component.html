@@ -36,10 +36,10 @@
                         @if (isAdmin) {
                             <td class="action-field">
                                 <div>
-                                    <button class="border-0 icon-button" (click)="editUser()">
+                                    <button class="border-0 icon-button" (click)="editUser(member)">
                                         <mat-icon fontIcon="edit" ></mat-icon>
                                     </button>
-                                    <button class="border-0 icon-button" (click)="deleteUser()">
+                                    <button class="border-0 icon-button" (click)="deleteUser(member)">
                                         <mat-icon fontIcon="delete"></mat-icon>
                                     </button>
                                 </div>

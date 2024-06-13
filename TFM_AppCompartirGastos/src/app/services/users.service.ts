@@ -133,4 +133,16 @@ export class UsersService {
       this.httpClient.put<updateResponse>(`${this.API_URL}/users/updatePwd`, newPassword)
     );
   }
+
+  /**
+   * @param {group_id}
+   * @param {user_id}
+   */
+  deleteMember(group_id: number, user_id: number)
+  {
+    console.log("GrupoId: "+group_id +" y user: "+user_id);
+    return lastValueFrom(
+      this.httpClient.delete<updateResponse>(`${this.API_URL}/members/${group_id}/${user_id}`)
+    );
+  }
 }

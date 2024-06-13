@@ -7,6 +7,9 @@ import { GroupsService } from '../../services/groups.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AlertModalService } from '../../services/alert-modal.service';
 import { MatIconModule } from '@angular/material/icon';
+import { ImemberGroup } from '../../interfaces/imember-group';
+import { IExpense } from '../../interfaces/iexpense.interface';
+import { ExpensesService } from '../../services/expenses.service';
 
 @Component({
   selector: 'app-group-admin',
@@ -25,6 +28,9 @@ export class GroupAdminComponent {
   alertModalService = inject(AlertModalService);
   groupId: string = '';
   isAdmin: boolean = false;
+
+  arrExpenses: IExpense[] = [];
+  expenseService = inject(ExpensesService);
 
   ngOnInit() {
 
@@ -63,12 +69,54 @@ export class GroupAdminComponent {
     }
   }
 
-  editUser()
+  editUser(member: IUser)
   {
 
   }
 
-  deleteUser(){
+  async deleteUser(member: IUser)
+  {
+    const expensesUser: Array<IExpense> = await this.expenseService.getExpensesByGroup(Number(this.groupId));
 
+    if(expensesUser.filter(e => e.payer_user_id == member.id && e.active == 1).length > 0)
+    {
+      this.alertModalService.newAlertModal({
+        icon: 'notifications',
+        title: 'Problema al eliminar',
+        body: `No se puede eliminar el usuario del grupo por que tiene gastos activos asignados`,
+        acceptAction: true,
+        backAction: false,
+      });
+    }
+    else{
+      //borrar
+
+      // this.alertModalService.newAlertModal({
+      //   icon: 'notifications',
+      //   title: 'Eliminar miembro',
+      //   body: `Esta seguro que desea eliminar el usuario del grupo`,
+      //   acceptAction: true,
+      //   backAction: true,
+      // });
+
+      this.userService.deleteMember(Number(this.groupId),member.id);
+
+      this.alertModalService.newAlertModal({
+        icon: 'notifications',
+        title: 'Miembro eliminado',
+        body: `Se ha eliminado correctamente al usuario del grupo`,
+        acceptAction: true,
+        backAction: false,
+      });
+
+      this.arrUsers = await this.userService.getUsersByGroup(Number(this.groupId));
+      
+      setTimeout(function () {
+        location.reload();
+      }, 2000);
+      
+
+      
+    }
   }
 }
