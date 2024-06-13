@@ -18,10 +18,10 @@ export class EmailsService {
 
   constructor() { }
 
-  sendEmail(emailBody: IEmailData) {
+  sendEmail(emailData: IEmailData) {
     try {
       return lastValueFrom(
-        this.httpClient.post<any>(`${this.API_URL}/mails/`, emailBody)
+        this.httpClient.post<any>(`${this.API_URL}/mails/`, emailData)
       );
     } catch (error) {
       return error;

@@ -199,29 +199,58 @@ export class RegisterFormComponent {
       }
       // Petición de registro de nuevo usuario
     } else {
+      // Petición de nuevo registro
       try {
-        const response = await this.usersServices.createNewUser(newUser);
-        if (!response.token) {
-          // Verifica si se recibe error de email duplicado en BBDD
-          if (response.errno === 1062) {
+        // Verifica que el usuario no se haya dado de baja previamente (email existente y active=false)
+        const emailState = await this.usersServices.checkMail(newUser.mail)
+        // El usuario existe y está activo
+        if (emailState.active === true) {
+          const alertModal = this.alertModalService.newAlertModal({
+            icon: 'warning',
+            title: 'Atención!',
+            body: `El email ${newUser.mail} ya existe en base de datos.\n
+            ¿Quieres ir a la página de login?`,
+            acceptAction: true,
+            backAction: true,
+          });
+          alertModal?.componentInstance.sendModalAccept.subscribe(
+            (isAccepted) => {
+              if (isAccepted) {
+                this.router.navigateByUrl('/login');
+              }
+            }
+          );
+        }
+        // El usuario existe pero se ha dado de baja
+        if (emailState.active === false) {
             const alertModal = this.alertModalService.newAlertModal({
               icon: 'warning',
-              title: 'Atención!',
-              body: `El email ${newUser.mail} ya existe en base de datos.\n
-              ¿Quieres ir a la página de login?`,
+              title: '¡Bienvuelto!',
+              body: `Hemos visto que ya has estado por aquí.\n
+              ¿Quieres reactivar tu cuenta?`,
               acceptAction: true,
               backAction: true,
             });
-            alertModal?.componentInstance.sendModalAccept.subscribe(
-              (isAccepted) => {
-                if (isAccepted) {
-                  this.router.navigateByUrl('/login');
-                }
+          alertModal?.componentInstance.sendModalAccept.subscribe(
+            (isAccepted) => {
+              if (isAccepted) {
+                const alertModal = this.alertModalService.newAlertModal({
+                icon: 'mail',
+                title: 'Genial!',
+                body: `Hemos mandado un email a tu correo ${newUser.mail} con las instrucciones`,
+                acceptAction: true,
+                backAction: true,
+              });
+                this.router.navigateByUrl('/landing');
               }
-            );
-          } else {
+            }
+          );
+        }
+        // El usuario no existe y se procede al registro
+        const response = await this.usersServices.createNewUser(newUser);
+
+        if (!response.token) {
             this.alertModalService.newAlertModal({body: response.message});
-          }
         } else {
           // En caso el registro sea correcto se recibe y almacena el token de login
           localStorage.setItem('login_token', response.token!);
@@ -289,5 +318,53 @@ export class RegisterFormComponent {
       this.username,
       currentUsername
     );
+  }
+  /**  
+  *Abre modal de confirmación de baja y lanza borrado lógico del usuario
+  */
+  unsubscribe() {
+    const alertModal = this.alertModalService.newAlertModal({
+      icon: 'sentiment_very_dissatisfied',
+      title: '¡Cuidadin!',
+      body: 'Estas a punto de eliminar tu cuenta.\n¿Estás seguro?',
+      acceptAction: true,
+      backAction: true,
+    });
+    alertModal?.componentInstance.sendModalAccept.subscribe(
+      async (isAccepted) => {
+        if (isAccepted) {
+          try {
+            // Lanza borrado lógico de BBDD
+            const response = await this.usersServices.unsubscribe(this.id)
+
+            // Envía email de confirmación
+            const emailData = {
+              bcc: [this.id],
+              selectedTemplate: 'unsubscribe'
+            }
+            this.emailService.sendEmail(emailData)
+
+            // realiza logout, confirma la baja y lleva a la landing
+            if (response.success) {
+
+              this.authServices.logout()
+
+              const alertModal = this.alertModalService.newAlertModal({
+                icon: 'sentiment_sad',
+                title: '¡Que pena!',
+                body: 'Ha sido un placer compartir este tiempo juntos.',
+                acceptAction: true,
+                backAction: false,
+              });
+            }
+            this.router.navigateByUrl('/landing')
+
+          } catch (error) {
+            this.alertModalService.newAlertModal({body: error})
+          }
+        }
+      }
+    );
+
   }
 }

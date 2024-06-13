@@ -19,3 +19,11 @@ input.ng-valid.ng-touched{
     font-size: small;
     color: tomato;
 }
+
+.unsubscribe {
+  text-decoration: none;
+}
+.unsubscribe:hover{
+  text-decoration: underline;
+  cursor: pointer;
+}
