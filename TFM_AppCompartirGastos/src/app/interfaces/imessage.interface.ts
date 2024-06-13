@@ -4,4 +4,5 @@ export interface IMessage {
   message: string;
   group_id: number;
   user_id: number;
+  username?: string;
 }

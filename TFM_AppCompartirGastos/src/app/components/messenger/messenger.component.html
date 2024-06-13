@@ -1,7 +1,7 @@
   <!-- Contenedor para mostrar el histórico de mensajes -->
   <div class="container">
     <div class="chat">
-        <div class="container chat-history">
+        <div class="container chat-history" #scrollContainer>
             <ul id="messages-history" class="m-b-0">
                 @for (msg of arrMessages; track msg.id) {
                     <div clas="row">
@@ -15,7 +15,7 @@
                     } @else {
                         <li class="clearfix">
                             <div class="message-data">
-                                <span class="message-data-time small">{{dateFormat(msg.timestamp)}} - <b>{{msg.user_id}}</b></span><br>
+                                <span class="message-data-time small">{{dateFormat(msg.timestamp)}} - <b>{{msg.username}}</b></span><br>
                                 <div class="message other-message"> {{msg.message}} </div><br>
                             </div>
                         </li>
@@ -27,7 +27,9 @@
         <div class="chat-message clearfix">
             <!-- Campo de texto y botón para enviar nuevos mensajes -->
             <div class="form-group">
-                <textarea class="form-control" id="newMessage" [(ngModel)]="newMessage" rows="3" placeholder="Introduce nuevo mensaje..."></textarea>
+                <textarea class="form-control" id="newMessage" [(ngModel)]="newMessage" rows="2"
+                (keydown.enter)="sendMessage(); $event.preventDefault()" 
+                placeholder="Introduce nuevo mensaje..."></textarea>
             </div>
             <button type="button" class="btn btn-primary" (click)="sendMessage()">Enviar</button>
         </div>

@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, Renderer2, inject } from '@angular/core';
+import { Component, ElementRef, Input, inject, AfterViewChecked, ViewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { IUser } from '../../interfaces/iuser.interface';
 import { IMessage } from '../../interfaces/imessage.interface';
@@ -6,6 +6,7 @@ import { IGroup } from '../../interfaces/igroup.interface';
 import { MessagesService } from '../../services/messages.service';
 import { FormsModule } from '@angular/forms';
 import dayjs from 'dayjs';
+import { UsersService } from '../../services/users.service';
 
 @Component({
   selector: 'app-messenger',
@@ -17,18 +18,25 @@ import dayjs from 'dayjs';
 export class MessengerComponent {
   @Input() groupId!: number;
   @Input() userId!: number;
+  @ViewChild('scrollContainer') private scrollContainer: ElementRef | any;
 
   msgService = inject(MessagesService);
+  userService = inject(UsersService);
   
 
   arrGroups: IGroup [] = [];
   userActived!: IUser;
   arrMessages: IMessage [] = [];
   newMessage: string = '';
-  //userId: number = 102;
-  //groupId: number = -1;
+  arrMembers: IUser [] = [];
 
-  constructor(private renderer: Renderer2, private el: ElementRef) { }
+  ngAfterViewChecked() {
+    this.scrollToBottom();
+  }
+
+  scrollToBottom(): void {
+    this.scrollContainer.nativeElement.scrollTop = this.scrollContainer.nativeElement.scrollHeight;
+  }
 
   async ngOnChanges() {
     console.log("this.groupId", this.groupId);
@@ -37,11 +45,21 @@ export class MessengerComponent {
     try {
       if (this.arrMessages.length === 0 && this.groupId !== undefined) {
         this.arrMessages = await this.msgService.getMessagesByGroupId(this.groupId);
-    
+        this.arrMembers = await this.userService.getUsersByGroup(this.groupId);
+        // para cada mensaje, vamos a rellenar el campo username
+        for (let msg of this.arrMessages) {
+          msg.username = this.getUserName(msg.user_id);
+        }
       }
+      console.log("this.arrMessages", this.arrMessages);
     } catch (error) {
       console.log(error);
     }
+  }
+
+  getUserName(userId: number) {
+    const user = this.arrMembers.find(user => user.id === userId);
+    return user ? user.username : '';
   }
 
   async sendMessage() {
@@ -56,6 +74,7 @@ export class MessengerComponent {
       newIMessage = await this.msgService.addMessage(newIMessage);
       console.log("newIMessage", newIMessage);
       this.arrMessages.push(newIMessage);
+      this.newMessage = '';
     }
   }
 
