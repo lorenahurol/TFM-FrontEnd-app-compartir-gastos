@@ -63,12 +63,10 @@ export class PaymentsListComponent {
    async getPayments(){
     //Recupero todos los gastos del grupo agrupados por usuario
     const totalExpenses:any [] = await this.expenseService.getExpensesGroupingByUser(Number(this.groupId));
-    console.log(totalExpenses);
     
     //Recupero los miembros del grupo
     const members: any[] = await this.userService.getMemberUserByGroup(Number(this.groupId));
-    console.log(members);
-
+    
     const membersAll: Array<ImemberGroup> = [];
 
     /* Recorro el array de miembros y busca en el array de gastos por pagador para cruzarlos

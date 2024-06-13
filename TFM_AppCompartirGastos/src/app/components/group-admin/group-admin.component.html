@@ -14,7 +14,7 @@
             <h4 class="mb-0 text-center flex-grow-1 ">MIEMBROS DEL GRUPO</h4>
             @if (isAdmin) {
                 <button class="btn btn-primary" [routerLink]="['/home/groupform/'+groupId]" >Editar grupo</button>
-                <button class="btn btn-primary" [routerLink]="['/home/groups/'+groupId+'invitation']" >Añadir miembro</button>
+                <button class="btn btn-primary" [routerLink]="['/home/groups/'+groupId+'/invitation']" >Añadir miembro</button>
             }
         </div>
         <table class="table table-striped">

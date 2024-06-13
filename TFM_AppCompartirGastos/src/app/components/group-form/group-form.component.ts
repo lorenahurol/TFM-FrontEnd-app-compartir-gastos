@@ -149,8 +149,20 @@ async ngOnInit(): Promise<void> {
 // Editar el grupo: btnText === "Actualizar"
       } else if (this.isAdmin) { // Solo el Admin tiene permiso para actualizar
         try {
-          const result = await this.groupsService.editGroup({...this.groupFormulario.value, id: this.groupId});
+                    
+          const { description, category } = this.groupFormulario.value;
+
+          const group: IGroup = {
+            id:this.groupId,
+            description: description,
+            category_id: category,
+            creator_user_id: this.userId, // Usuario loggeado
+            active: 1 
+          };
+
+          const result = await this.groupsService.editGroup(group);
           await this.router.navigate([`home/groups/${this.groupId}`]);
+          
           console.log(result);
         } catch (error) {
           console.log('Error al actualizar el grupo:', error);
