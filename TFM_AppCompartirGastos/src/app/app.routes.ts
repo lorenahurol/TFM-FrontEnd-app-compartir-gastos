@@ -23,7 +23,8 @@ export const routes: Routes = [
     children: [
       { path: '', component: UserDashboardComponent },
       { path: 'users/update', component: UpdateUserComponent },
-      { path: 'groupform', component: GroupFormPageComponent },
+      { path: 'groupform/new', component: GroupFormPageComponent },
+      { path: 'groupform/:groupId', component: GroupFormPageComponent, canActivate: [rolesGuard] },
       { path: 'groups/:groupId', component: GroupDashboardComponent, canActivate: [rolesGuard]},
       { path: 'groups/:groupId/invitation', component: AddGroupMembersPageComponent, canActivate: [rolesGuard]},
       { path: 'expenses/:groupId', component: ExpenseListComponent, canActivate: [rolesGuard]},
