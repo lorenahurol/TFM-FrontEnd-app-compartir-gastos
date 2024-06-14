@@ -48,4 +48,17 @@ export class AuthService {
       this.httpClient.get(`${this.API_URL}/login/${token}`)
     );
   }
+  
+  /**
+   * Logout deletes login_token from localStorage
+   * @returns 
+   */
+  logout() {
+    try {
+      localStorage.removeItem('login_token')
+      return {success : true}
+    } catch (error) {
+      return {success : false}
+    }
+  }
 }

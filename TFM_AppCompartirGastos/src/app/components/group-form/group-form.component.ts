@@ -5,8 +5,6 @@ import { Icategory } from '../../interfaces/icategory.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IGroup } from '../../interfaces/igroup.interface';
 import { AlertModalService } from '../../services/alert-modal.service';
-import { MatDialogRef } from '@angular/material/dialog';
-import { AlertModalComponent, IAlertData } from '../alert-modal/alert-modal.component';
 import { AuthService } from '../../services/auth.service';
 import { CommonFunctionsService } from '../../common/utils/common-functions.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -113,24 +111,25 @@ async ngOnInit(): Promise<void> {
       if (this.btnText === "Crear") {
         
         try {
-        await this.groupsService.addGroup(group);
-        const alertModal = this.alertModalService.newAlertModal({
-          icon: 'done_all',
-          title: 'Perfecto!',
-          body: 'Grupo creado correctamente',
-          acceptAction: true,
-          backAction: false,
-        });
-        alertModal?.componentInstance.sendModalAccept.subscribe(
-          (isAccepted) => {
-            if (isAccepted) {
-              this.router.navigateByUrl('/home');
-            }
+          const newGroup = await this.groupsService.addGroup(group);
+          if (newGroup.id) {
+            const alertModal = this.alertModalService.newAlertModal({
+              icon: 'done_all',
+              title: 'Perfecto!',
+              body: 'Grupo creado correctamente. Está todo listo para que invites a tus amigos',
+              acceptAction: true,
+              backAction: false,
+            });
+            alertModal?.componentInstance.sendModalAccept.subscribe(
+              (isAccepted) => {
+                if (isAccepted) {
+                  this.router.navigateByUrl(`/home/groups/${newGroup.id}/invitation`);
+                }
+              }
+            );
+  
+            this.groupFormulario.reset();
           }
-        );
-
-        this.groupFormulario.reset();
-          
         } catch (error: any) {
           // Error 409: Conflict (Group already exists):
         if (error.status === 409) {
@@ -149,8 +148,20 @@ async ngOnInit(): Promise<void> {
 // Editar el grupo: btnText === "Actualizar"
       } else if (this.isAdmin) { // Solo el Admin tiene permiso para actualizar
         try {
-          const result = await this.groupsService.editGroup({...this.groupFormulario.value, id: this.groupId});
+                    
+          const { description, category } = this.groupFormulario.value;
+
+          const group: IGroup = {
+            id:this.groupId,
+            description: description,
+            category_id: category,
+            creator_user_id: this.userId, // Usuario loggeado
+            active: 1 
+          };
+
+          const result = await this.groupsService.editGroup(group);
           await this.router.navigate([`home/groups/${this.groupId}`]);
+          
           console.log(result);
         } catch (error) {
           console.log('Error al actualizar el grupo:', error);

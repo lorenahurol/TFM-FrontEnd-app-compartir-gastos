@@ -1,5 +1,5 @@
 export interface ImemberGroup {
-    id: number;
+    user_id: number;
     group_id: number;
     totalEx: number;
     percent: number;

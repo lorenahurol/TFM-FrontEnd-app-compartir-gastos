@@ -4,6 +4,8 @@ import { environment } from '../../environments/environments';
 import { IUser } from '../interfaces/iuser.interface';
 import { lastValueFrom } from 'rxjs';
 import { PHONE_CODES } from '../db/international_codes.db';
+import { IUsername } from '../components/add-group-members/add-group-members.component';
+import { ImemberGroup } from '../interfaces/imember-group';
 
 type PhoneCode = {
   name: string,
@@ -97,6 +99,35 @@ export class UsersService {
   }
 
   /**
+   * Checks if an email already exists by sending a GET request to the /register/checkMail/:mail endpoint.
+   *
+   * @param {string} mail - The email to be checked.
+   * @returns {Promise<{active: boolean | null}>} - A promise that resolves to an object indicating whether the mail does not exist (null), exists and is active (true) or exists but has unsubscribed (false).
+   */
+  checkMail(mail: string) {
+    return lastValueFrom(
+      this.httpClient.get<{ active: boolean |null }>(
+        `${this.API_URL}/register/checkMail/${mail}`
+      )
+    );
+  }
+
+  /**
+ * Fetches usernames based on a provided filter string.
+ *
+ * @param {string} filter - The filter string to be used for searching usernames.
+ * @returns {Promise<IUsername[]>} A promise that resolves to an array of `IUsername` objects containing username and ID information.
+ * @throws {Error} - Rejects the promise with an error if the request fails.
+ */
+  getUsernames(filter: string) {
+    return lastValueFrom (
+      this.httpClient.get<IUsername[]>(`${this.API_URL}/users/filteredusernames/${filter}`
+      )
+    );
+  }
+
+
+  /**
    * Creates a new user by sending a POST request to the /register endpoint.
    *
    * @param {RegisterBody} newUser - The data for the new user to be registered.
@@ -122,7 +153,7 @@ export class UsersService {
   }
 
   /**
-   * Updates a user's password using a PUT request to the `/users/update/:id` endpoint.
+   * Updates a user's password using a PUT request to the `/users/updatePwd` endpoint.
    *
    * @param {RegisterBody} password - The updated user data object conforming to the `RegisterBody` interface.
    * @returns {Promise<any>} - A promise that resolves after the update request is sent.
@@ -131,6 +162,44 @@ export class UsersService {
   updatePassword(newPassword: object) {
     return lastValueFrom(
       this.httpClient.put<updateResponse>(`${this.API_URL}/users/updatePwd`, newPassword)
+    );
+  }
+
+    /**
+   * Unsubscribes a user using a DELETE request to the `/users/:UserId` endpoint.
+   *
+   * @param {RegisterBody} password - The updated user data object conforming to the `RegisterBody` interface.
+   * @returns {Promise<any>} - A promise that resolves after the update request is sent.
+   * @throws {Error} - If the request fails (e.g., network error, server-side error).
+   */
+  unsubscribe(userId: number) {
+    return lastValueFrom(this.httpClient.delete <any> (`${this.API_URL}/users/${userId}`))
+  /**
+   * @param {group_id}
+   * @param {user_id}
+   */
+  }
+
+  deleteMember(group_id: number, user_id: number)
+  {
+    console.log("GrupoId: "+group_id +" y user: "+user_id);
+    return lastValueFrom(
+      this.httpClient.delete<updateResponse>(`${this.API_URL}/members/${group_id}/${user_id}`)
+    );
+  }
+
+  getMemberByUserIdByGroupId(group_id: number, user_id: number)
+  {
+    return lastValueFrom(
+      this.httpClient.get<ImemberGroup>(`${this.API_URL}/members/${group_id}/${user_id}`)
+    );
+  }
+
+
+  updateMember(newMember: ImemberGroup) {
+    console.log(newMember);
+    return lastValueFrom(
+      this.httpClient.put<ImemberGroup>(`${this.API_URL}/members/${newMember.group_id}/${newMember.user_id}`, newMember)
     );
   }
 }

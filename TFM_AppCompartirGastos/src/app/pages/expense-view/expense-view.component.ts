@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ExpensesService } from '../../services/expenses.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { IExpense } from '../../interfaces/iexpense.interface';
@@ -23,6 +23,7 @@ export class ExpenseViewComponent {
   userService = inject(UsersService);
   router = inject(Router);
   activatedRoute = inject(ActivatedRoute);
+  users: IUser [] = [];
 
   constructor() {
     this.expenseForm = new FormGroup({
@@ -44,7 +45,10 @@ export class ExpenseViewComponent {
       if (params.groupId) {
         this.groupId = params.groupId;
         this.expenseForm.get('group_id')?.setValue(this.groupId);
-        this.arrUsers = await this.userService.getUsersByGroup(params.groupId);
+        this.users =  await this.userService.getUsersByGroup(params.groupId);
+        
+        //Filtrar por usuarios activos
+        this.arrUsers = this.users.filter((u) => u.active == true);
       }
       // si viene el expenseId es para editar
       if (params.expenseId) {
@@ -68,7 +72,7 @@ export class ExpenseViewComponent {
       try {
         const result = this.expensesService.addExpense(this.expenseForm.value);
         this.expenseForm.reset();
-        this.router.navigate([`/home/expenses/${this.groupId}`]);
+        this.router.navigate([`/home/groups/${this.groupId}`]);
         console.log(result);
       } catch (error) {
         console.error(error);
@@ -77,7 +81,7 @@ export class ExpenseViewComponent {
       // Editar
       try {
         const result = this.expensesService.editExpense(this.expenseForm.value);
-        this.router.navigate([`/home/expenses/${this.groupId}`]);
+        this.router.navigate([`/home/groups/${this.groupId}`]);
         console.log(result);
       } catch (error) {
         console.error(error);
@@ -95,7 +99,7 @@ export class ExpenseViewComponent {
 
   backExpensesGroup()
   {
-    this.router.navigate([`/home/expenses/${this.groupId}`]);
+    this.router.navigate([`/home/groups/${this.groupId}`]);
   }
   
 }
