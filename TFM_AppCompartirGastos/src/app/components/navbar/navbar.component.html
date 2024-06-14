@@ -28,11 +28,22 @@
                         Notificaciones
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item fs-5" [routerLink]="['/']">Invitaciones</a></li>
+                        <li><a class="dropdown-item fs-5" (click)="loadInvitations()">Invitaciones</a></li>
                         <li>
                             <hr class="dropdown-divider">
+                            <div class="modal-body">
+                                <div class="invitation">
+                                    @for(inv of invitations; track inv.id) {
+                                    <p>{{ inv.message }}</p>
+                                    <button class="btn btn-success btn-sm" (click)="handleInvitation(inv.id, 'accept')">Aceptar</button>
+                                    <button class="btn btn-danger btn-sm" (click)="handleInvitation(inv.id, 'reject')">Rechazar</button>
+                                    }
+                                </div>
+                            </div>
                         </li>
+                        <hr class="dropdown-divider">
                         <li><a class="dropdown-item fs-5" [routerLink]="['/']">Mensajes</a></li>
+                        <hr class="dropdown-divider">
                     </ul>
                 </li>
                 <li class="nav-item">

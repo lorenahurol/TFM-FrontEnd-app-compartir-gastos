@@ -37,7 +37,7 @@ export class InvitationsService {
   }
   }
 
-  // Get invitation associated with group and user:
+  // Get invitation associated with group and user: **REVISAR SI ES NECESARIO**
 async getInvitation(groupId: number, userId: number): Promise<IInvitation | null> {
   try {
     // Get PENDING (not accepted) invitations from DB:
@@ -47,8 +47,17 @@ async getInvitation(groupId: number, userId: number): Promise<IInvitation | null
   } catch (error) {
     throw new Error("No se ha encontrado la invitación");
   }
-}
-
+  }
+  
+  // Get all invitations for the logged in user:
+  async getInvitationsByUser(userId: number): Promise<IInvitation[]>{
+    try {
+      const result = await lastValueFrom(this.httpClient.get<IInvitation[]>(`${this.API_URL}/invitations/byuser/${userId}`))
+      return result;
+    } catch (error) {
+      throw new Error("No se han encontrado invitaciones");
+    }
+  }
   
   // Handle Invitation:
   async handleInvitation(invitationId: number, action: "accept" | "reject", userId: number): Promise<any>{
@@ -64,26 +73,6 @@ async getInvitation(groupId: number, userId: number): Promise<IInvitation | null
       } else {
         throw new Error('Error al procesar la invitación');
       }
-    }
-  }
-  
-  // Accept invitation:
-  async acceptInvitation(invitationId: number, userId: number): Promise<any> {
-    try {
-      const result = await lastValueFrom(this.httpClient.put(`${this.API_URL}/invitations/${invitationId}/accept`, { user_id: userId }));
-      return result
-    } catch (error) {
-      throw new Error("Error al aceptar la invitación");
-    }
-  }
-
-  // Reject invitation:
-  async rejectInvitation(invitationId: number, userId: number): Promise<any> {
-    try {
-      const result = await lastValueFrom(this.httpClient.put(`${this.API_URL}/invitations/${invitationId}/reject`, { user_id: userId }));
-      return result
-    } catch (error) {
-      throw new Error("Error al rechazar la invitación");
     }
   }
 
