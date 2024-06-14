@@ -5,8 +5,6 @@ import { Icategory } from '../../interfaces/icategory.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IGroup } from '../../interfaces/igroup.interface';
 import { AlertModalService } from '../../services/alert-modal.service';
-import { MatDialogRef } from '@angular/material/dialog';
-import { AlertModalComponent, IAlertData } from '../alert-modal/alert-modal.component';
 import { AuthService } from '../../services/auth.service';
 import { CommonFunctionsService } from '../../common/utils/common-functions.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -113,24 +111,25 @@ async ngOnInit(): Promise<void> {
       if (this.btnText === "Crear") {
         
         try {
-        await this.groupsService.addGroup(group);
-        const alertModal = this.alertModalService.newAlertModal({
-          icon: 'done_all',
-          title: 'Perfecto!',
-          body: 'Grupo creado correctamente',
-          acceptAction: true,
-          backAction: false,
-        });
-        alertModal?.componentInstance.sendModalAccept.subscribe(
-          (isAccepted) => {
-            if (isAccepted) {
-              this.router.navigateByUrl('/home');
-            }
+          const newGroup = await this.groupsService.addGroup(group);
+          if (newGroup.id) {
+            const alertModal = this.alertModalService.newAlertModal({
+              icon: 'done_all',
+              title: 'Perfecto!',
+              body: 'Grupo creado correctamente. Está todo listo para que invites a tus amigos',
+              acceptAction: true,
+              backAction: false,
+            });
+            alertModal?.componentInstance.sendModalAccept.subscribe(
+              (isAccepted) => {
+                if (isAccepted) {
+                  this.router.navigateByUrl(`/home/groups/${newGroup.id}/invitation`);
+                }
+              }
+            );
+  
+            this.groupFormulario.reset();
           }
-        );
-
-        this.groupFormulario.reset();
-          
         } catch (error: any) {
           // Error 409: Conflict (Group already exists):
         if (error.status === 409) {
