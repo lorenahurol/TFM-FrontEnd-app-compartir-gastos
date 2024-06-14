@@ -1,0 +1,45 @@
+  <!-- Contenedor para mostrar el histórico de mensajes -->
+  <div class="container">
+    <div class="chat">
+        <div class="container chat-history" #scrollContainer>
+            <ul id="messages-history" class="m-b-0">
+                @if (arrMessages.length > 0) {
+                    @for (msg of arrMessages; track msg.id) {
+                        <div clas="row">
+                        @if (msg.user_id === userId) {
+                            <li class="clearfix">
+                                <div class="message-data">
+                                    <span class="message-data-time float-right small">{{dateFormat(msg.timestamp)}} - <mark><b> YO </b></mark></span><br>
+                                    <div class="message my-message float-right"> {{msg.message}} </div><br>
+                                </div>
+                            </li>
+                        } @else {
+                            <li class="clearfix">
+                                <div class="message-data">
+                                    <span class="message-data-time small">{{dateFormat(msg.timestamp)}} - <b>{{msg.username}}</b></span><br>
+                                    <div class="message other-message"> {{msg.message}} </div><br>
+                                </div>
+                            </li>
+                        }
+                    </div>
+                    }
+                } @else {
+                    <li class="clearfix">
+                        <div class="message-data">
+                            <span class="message-data-time small">No hay mensajes</span>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+        <div class="chat-message clearfix">
+            <!-- Campo de texto y botón para enviar nuevos mensajes -->
+            <div class="form-group">
+                <textarea class="form-control" id="newMessage" [(ngModel)]="newMessage" rows="2"
+                (keydown.enter)="sendMessage(); $event.preventDefault()" 
+                placeholder="Introduce nuevo mensaje..."></textarea>
+            </div>
+            <button type="button" class="btn btn-primary" (click)="sendMessage()">Enviar</button>
+        </div>
+    </div>
+</div>

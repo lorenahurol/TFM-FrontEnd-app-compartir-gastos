@@ -1,1 +1,43 @@
-<p>group-Dashboard works!</p>
+<div class="accordion mt-2 mb-5" id="infoGroupAccordion">
+  <app-group-info-card [infoGroup]="group"></app-group-info-card>
+</div>
+
+      
+
+<!-- <app-group-info-card [infoGroup]="group"></app-group-info-card> -->
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link active" id="simple-tab-0" data-bs-toggle="tab" href="#simple-tabpanel-0" role="tab" aria-controls="simple-tabpanel-0" aria-selected="true">Gastos</a>
+      <!-- <a class="nav-link" [routerLink]="['/home/expenses/13']">Gastos</a> -->
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="simple-tab-1" data-bs-toggle="tab" href="#simple-tabpanel-1" role="tab" aria-controls="simple-tabpanel-1" aria-selected="false">Pagos</a>
+      <!-- <a class="nav-link" [routerLink]="['ruta2']">Pagos</a> -->
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="simple-tab-2" data-bs-toggle="tab" href="#simple-tabpanel-2" role="tab" aria-controls="simple-tabpanel-2" aria-selected="false">Administración</a>
+      <!-- <a class="nav-link" [routerLink]="['ruta2']">Administrar</a> -->
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="simple-tab-3" data-bs-toggle="tab" href="#simple-tabpanel-3" role="tab" aria-controls="simple-tabpanel-3" aria-selected="false">Foro</a>
+      <!-- <a class="nav-link" [routerLink]="['ruta2']">Administrar</a> -->
+    </li>
+  </ul>
+  
+  <div class="tab-content">
+    <div class="tab-pane active" id="simple-tabpanel-0" role="tabpanel" aria-labelledby="simple-tab-0">
+      <app-expense-list></app-expense-list>
+
+    </div>
+    <div class="tab-pane" id="simple-tabpanel-1" role="tabpanel" aria-labelledby="simple-tab-1">
+      <app-payments-list></app-payments-list>
+    </div>
+    <div class="tab-pane" id="simple-tabpanel-2" role="tabpanel" aria-labelledby="simple-tab-2">
+      <app-group-admin></app-group-admin>
+    </div>
+    <div class="tab-pane" id="simple-tabpanel-3" role="tabpanel" aria-labelledby="simple-tab-3">
+      <app-messenger [userId]="userId" [groupId]="getGroup()" ></app-messenger>
+    </div>
+
+    <router-outlet></router-outlet>
+  </div>

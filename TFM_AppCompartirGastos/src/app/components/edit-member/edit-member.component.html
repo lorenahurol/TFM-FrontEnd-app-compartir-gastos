@@ -1,0 +1,48 @@
+<div class="signup-view">
+    <hr />
+    <section class="container mt-2">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-body">
+                <p class="card-text">
+                    Editar miembro 
+                    <!-- {{user.firstname}} {{user.lastname}} -->
+                </p>
+            </div>
+
+            <form class="card p-3 shadow" [formGroup]="memberForm" (ngSubmit)="getDataForm()">
+                <div class="my-2">
+                    <label for="percent" class="form-label">Porcentaje</label>
+                        <input type="number" class="form-control" id="percent" formControlName="percent" placeholder="0">
+                        @if (checkControl('percent','required')) {
+                        <p class="error-msg">Campo obligatorio</p>
+                        }
+                </div>
+
+                <div class="row g-2">
+                    <div class="col-md-3 label">
+                        <label for="equitable" class="form-label">Equitativo:</label>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <select class="form-select" id="equitable" formControlName="equitable" (change)="changeEquitable()">
+                                    <option selected disabled value="">--Selecciona una opción--</option>                       
+                                    <option>Si</option>
+                                    <option>No</option>
+                                </select>
+                                @if (checkControl ('equitable', 'required')) {
+                                    <p class="error-msg">Requerido: Selecciona una opción</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <input type="submit" value="Guardar" class="btn btn-primary my-2" [disabled]="!memberForm.valid || !memberForm.dirty"/>
+                <button class="btn btn-secondary my-2" (click)="backGroup()" >Volver</button>
+
+            </form>
+        </div>
+    </section>
+    <hr/>
+</div>

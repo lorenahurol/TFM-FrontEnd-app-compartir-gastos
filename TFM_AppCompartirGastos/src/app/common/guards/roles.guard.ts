@@ -68,15 +68,32 @@ export const rolesGuard: CanActivateFn = async (route, state) => {
           isGranted = false;
         }
       } 
-    } else {
+    }
+    else {
       // Si el usuario no es miembro del grupo, no puede ver la información del grupo
       message = 'No tienes permisos para ver información de este grupo';
       redirectTo = '/home'
       isGranted = false;
     }
     
+  } else if (route.url[0].path.includes('messages')) {
+    roles = await groupService.getUserRolesByGroup();
+    if (roles.membergroups.includes(groupId)) {
+      isGranted = true;
+    } else {
+      message = 'No tienes permisos para acceder a los mensajes de este grupo';
+      redirectTo = '/home';
+      isGranted = false;
+    }
+  } else if (route.url[0].path.includes('groupform')) {
+    roles = await groupService.getUserRolesByGroup();
+
+    if (roles.membergroups.includes(groupId)) 
+    {
+      isGranted = true;
+    } 
   } else {
-    // Si pasa por aquí, la ruta no es de gastos ('expenses') ni de grupos ('groups')
+    // Si pasa por aquí, la ruta no es de gastos ('expenses') ni de grupos ('groups') ni de groupform
     message = 'Está intentando acceder a una ruta desconocida';
     redirectTo = '/home'
     isGranted = false;
