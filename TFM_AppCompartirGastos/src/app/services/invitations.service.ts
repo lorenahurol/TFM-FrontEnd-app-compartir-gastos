@@ -50,6 +50,23 @@ async getInvitation(groupId: number, userId: number): Promise<IInvitation | null
 }
 
   
+  // Handle Invitation:
+  async handleInvitation(invitationId: number, action: "accept" | "reject", userId: number): Promise<any>{
+    try {
+      const result = await lastValueFrom(this.httpClient.put<any>(`${this.API_URL}/invitations/${invitationId}/${action}`, { user_id: userId })
+      );
+      return result
+    } catch (error) {
+      if (action === 'accept') {
+        throw new Error('Error al aceptar la invitación');
+      } else if (action === 'reject') {
+        throw new Error('Error al rechazar la invitación');
+      } else {
+        throw new Error('Error al procesar la invitación');
+      }
+    }
+  }
+  
   // Accept invitation:
   async acceptInvitation(invitationId: number, userId: number): Promise<any> {
     try {
