@@ -23,24 +23,25 @@
                 <li class="nav-item">
                     <a class="nav-link fs-5" [routerLink]="['/home']">Home de usuario</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link fs-5" [routerLink]="['/home', 'groupform']">Nuevo Grupo</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link fs-5" [routerLink]="['/home', 'users', 'update']">Configuración</a>
-                </li>
                 <li class="nav-item dropdown fs-5">
                     <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Notificaciones
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item fs-5" [routerLink]="['/']">Mensajes</a></li>
+                        <li><a class="dropdown-item fs-5" [routerLink]="['/']">Invitaciones</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item fs-5" [routerLink]="['/']">Invitaciones</a></li>
+                        <li><a class="dropdown-item fs-5" [routerLink]="['/']">Mensajes</a></li>
                     </ul>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link fs-5" [routerLink]="['/']">Foro</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fs-5" [routerLink]="['/home', 'users', 'update']">Configuración</a>
+                </li>
+                
                 <li class="nav-item">
                     <button class="btn btn-lg btn-outline-light px-4 ms-md-4" (click)="logout()">Cerrar sesión</button>
                 </li>
