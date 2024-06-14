@@ -7,9 +7,9 @@ import { CommonFunctionsService } from '../../common/utils/common-functions.serv
 import { ImemberGroup } from '../../interfaces/imember-group';
 import { ExpensesService } from '../../services/expenses.service';
 import { IExpense } from '../../interfaces/iexpense.interface';
-import { GroupInfoCardComponent } from '../../components/group-info-card/group-info-card.component';
 import { IUser } from '../../interfaces/iuser.interface';
 import { UsersService } from '../../services/users.service';
+import { GroupInfoCardComponent } from '../../components/group-info-card/group-info-card.component';
 
 @Component({
   selector: 'app-user-dashboard',
