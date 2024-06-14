@@ -14,6 +14,7 @@ import { GroupFormPageComponent } from './pages/group-form/group-form-page.compo
 import { AddGroupMembersPageComponent } from './pages/add-group-members-page/add-group-members-page.component';
 import { rolesGuard } from './common/guards/roles.guard';
 import { MessagesComponent } from './pages/messages/messages.component';
+import { EditMemberComponent } from './components/edit-member/edit-member.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/landing', pathMatch: 'full' },
@@ -31,7 +32,8 @@ export const routes: Routes = [
       { path: 'expenses/:groupId', component: ExpenseListComponent, canActivate: [rolesGuard]},
       { path: 'expenses/:groupId/add', component: ExpenseViewComponent, canActivate: [rolesGuard]},
       { path: 'expenses/:groupId/edit/:expenseId', component: ExpenseViewComponent, canActivate: [rolesGuard]},
-      { path: 'messages/:groupId', component: MessagesComponent, canActivate: [rolesGuard]}
+      { path: 'messages/:groupId', component: MessagesComponent, canActivate: [rolesGuard]},
+      { path: 'members/:groupId/:userId', component: EditMemberComponent},
     ], canActivate: [authGuard]},
   { path: '**', component: Error404Component },
 ];

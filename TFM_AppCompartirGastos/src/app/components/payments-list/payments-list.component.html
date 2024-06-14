@@ -20,10 +20,10 @@
                 </tr>
             </thead>
             <tbody>
-            @for(member of arrMembers; track member.id) {
+            @for(member of arrMembers; track member.user_id) {
             <tr class="align-middle">
-                <td scope="row">{{member.id}}</td>
-                <td>{{ getUserName(member.id) }}
+                <td scope="row">{{member.user_id}}</td>
+                <td>{{ getUserName(member.user_id) }}
                 <td class="amount">{{ formatAmount(member.totalEx) }}</td> 
                 <td class="amount">{{formatPercent(member.percent)}}</td>
                 <td class="amount">{{ formatAmount(member.credit) }}</td>

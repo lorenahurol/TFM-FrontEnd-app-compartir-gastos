@@ -61,7 +61,7 @@ export class UserDashboardComponent {
         /* si existen, obtener pagos del grupo */
         let pagos: ImemberGroup[] = await this.commonFunc.getPayments(infoGroup.group_id);
         /* filtrar pagos por aquel cuyo id coincide con userId */
-        let pagoUsuario = pagos.filter((pago: ImemberGroup) => pago.id === this.userId);
+        let pagoUsuario = pagos.filter((pago: ImemberGroup) => pago.user_id === this.userId);
         infoGroup.totalexpenses = pagoUsuario[0].totalEx;
         infoGroup.balance = pagoUsuario[0].credit;
       } else {

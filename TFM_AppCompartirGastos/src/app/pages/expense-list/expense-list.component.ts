@@ -127,7 +127,7 @@ export class ExpenseListComponent {
     {
       let member : ImemberGroup;
       member = {
-        id: mb.user_id,
+        user_id: mb.user_id,
         group_id: mb.group_id,
         totalEx: 0,
         percent: mb.percent,

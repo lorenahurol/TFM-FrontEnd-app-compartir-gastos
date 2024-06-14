@@ -26,6 +26,7 @@ export class GroupAdminComponent {
   userService = inject(UsersService);
   groupService = inject(GroupsService);
   alertModalService = inject(AlertModalService);
+  router =  inject(Router);
   groupId: string = '';
   isAdmin: boolean = false;
 
@@ -71,7 +72,7 @@ export class GroupAdminComponent {
 
   editUser(member: IUser)
   {
-
+    this.router.navigate([`/home/members/${this.groupId}/${member.id}`]);
   }
 
   async deleteUser(member: IUser)

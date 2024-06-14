@@ -4,6 +4,7 @@ import { environment } from '../../environments/environments';
 import { IUser } from '../interfaces/iuser.interface';
 import { lastValueFrom } from 'rxjs';
 import { PHONE_CODES } from '../db/international_codes.db';
+import { ImemberGroup } from '../interfaces/imember-group';
 
 type PhoneCode = {
   name: string,
@@ -143,6 +144,21 @@ export class UsersService {
     console.log("GrupoId: "+group_id +" y user: "+user_id);
     return lastValueFrom(
       this.httpClient.delete<updateResponse>(`${this.API_URL}/members/${group_id}/${user_id}`)
+    );
+  }
+
+  getMemberByUserIdByGroupId(group_id: number, user_id: number)
+  {
+    return lastValueFrom(
+      this.httpClient.get<ImemberGroup>(`${this.API_URL}/members/${group_id}/${user_id}`)
+    );
+  }
+
+
+  updateMember(newMember: ImemberGroup) {
+    console.log(newMember);
+    return lastValueFrom(
+      this.httpClient.put<ImemberGroup>(`${this.API_URL}/members/${newMember.group_id}/${newMember.user_id}`, newMember)
     );
   }
 }
