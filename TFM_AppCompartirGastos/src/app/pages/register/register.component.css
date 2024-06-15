@@ -1,7 +1,23 @@
+.background {
+    background: var(--gradient-background);
+}
+
+.container {
+    border: none;
+}
+
+@media (min-width: 769px) {
+    .container {
+        border: 1px solid var(--primary-accent);
+        border-radius: 10px;
+    }
+}
+
 img {
-    width: 100%;
-    height: 80vh;
-    
+    max-width: 100%;
+    margin: 0 auto;
+    display: block;
+    filter: brightness(70%);
 }
 
 @media (max-width: 768px) {
