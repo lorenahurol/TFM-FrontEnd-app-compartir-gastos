@@ -8,7 +8,7 @@
 
 @media (min-width: 769px) {
     .container {
-        border: 1px solid var(--primary-accent);
+        border: 1px solid var(--secondary-accent);
         border-radius: 10px;
     }
 }
