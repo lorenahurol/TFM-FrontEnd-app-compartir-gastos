@@ -37,6 +37,10 @@ export class PaymentsListComponent {
   
   expenseId: number = -1;
   isAdmin: boolean = false;
+  percentEquitable: string = "Proporcional";
+  percentNoEquitable: number = 0;
+
+  totalExpenses:any [] = []
 
 
   ngOnInit() {
@@ -62,7 +66,7 @@ export class PaymentsListComponent {
    */
    async getPayments(){
     //Recupero todos los gastos del grupo agrupados por usuario
-    const totalExpenses:any [] = await this.expenseService.getExpensesGroupingByUser(Number(this.groupId));
+    this.totalExpenses = await this.expenseService.getExpensesGroupingByUser(Number(this.groupId));
     
     //Recupero los miembros del grupo
     const members: any[] = await this.userService.getMemberUserByGroup(Number(this.groupId));
@@ -91,7 +95,7 @@ export class PaymentsListComponent {
       {
           member.equitable = false;
       }
-      const foundElement = totalExpenses.find(element => element.payer_user_id === mb.user_id);
+      const foundElement = this.totalExpenses.find(element => element.payer_user_id === mb.user_id);
       if(foundElement)
       {
         member.totalEx = foundElement.total_expenses;
@@ -109,6 +113,7 @@ export class PaymentsListComponent {
       
       for(let member of noEquitableMembers)
       {
+        this.percentNoEquitable += member.percent;
         let xcredit = (member.percent * totalE) - member.totalEx;
         totalNoEquitable += xcredit;
         member.credit = - xcredit;
@@ -121,6 +126,7 @@ export class PaymentsListComponent {
     if(equitableMembers.length > 0)
     {
       let avegareExpenses: number = (totalE - totalNoEquitable) / equitableMembers.length ;
+      this.percentEquitable += " (" + ((100 - this.percentNoEquitable*100) / equitableMembers.length).toFixed(2).toString().replace('.', ',') + "%)";
 
       for(let member of equitableMembers)
       {
@@ -146,7 +152,7 @@ export class PaymentsListComponent {
   }
 
   formatPercent(percent: number): string {
-    let strPercent: string = "Proporcional";
+    let strPercent: string = this.percentEquitable;
     if(percent > 0)
       {
         strPercent = (percent * 100.0).toFixed(2).toString();
@@ -193,5 +199,14 @@ export class PaymentsListComponent {
         backAction: false,
       });
     }
+  }
+
+  settleExpenses() {
+    let arrBcc: number[] = []
+    console.log (this.totalExpenses)
+    this.totalExpenses.forEach(user => arrBcc.push(user.payer_user_id))
+    console.log(this.arrUsers)
+    console.log(this.groupId)
+    console.log (arrBcc)
   }
 }

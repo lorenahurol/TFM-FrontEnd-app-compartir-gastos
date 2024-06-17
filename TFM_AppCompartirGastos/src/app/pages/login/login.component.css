@@ -1,4 +1,15 @@
 .wrapper {
-  max-width: 450px;
+  max-width: 900px;
   width: 100%;
+}
+
+.card-color {
+  background-color: var(--gradient-card-purple);
+}
+
+label {
+  align-content: center;
+  font-size: var(--p-size);
+  font-family: var(--p-font);
+  color: var(--font-color);
 }

@@ -4,15 +4,14 @@
 
 .btn-circle {
   border-radius: 8px;
-  width: 2rem;
-  height: 2rem;
-  padding: 4px;
-  border-radius: 1rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 2px;
   font-size: 1rem;
   text-align: center;
 }
 
-.card{
+.card {
   display: flex;
   flex-direction: row;
   gap: 8px;
@@ -20,7 +19,7 @@
 }
 
 .suggestions-list {
-  border: 1px solid #d6d6d6;
+  border: 1px solid var(--font-color);
   height: 145px;
   overflow-y: auto;
   list-style-type: none;
@@ -32,8 +31,51 @@
 .suggestions-list li {
   padding: 4px;
   cursor: pointer;
+
+  color: var(--font-color);
 }
 
 .suggestions-list li:hover {
   background-color: #f0f0f0;
+  color: var(--background-color);
 }
+
+.btn {
+  width: 100%;
+}
+
+
+label {
+  align-content: center;
+  font-size: var(--p-size);
+  font-family: var(--p-font);
+  color: var(--font-color);
+}
+
+.card-color {
+  background-color: var(--gradient-card-green);
+}
+
+input.ng-invalid.ng-touched {
+  border-bottom: 2px solid tomato;
+}
+
+
+input.ng-valid.ng-touched {
+  border-bottom: 2px solid rgb(37, 134, 190)
+}
+
+.error-msg {
+  font-size: small;
+  color: tomato;
+}
+
+.unsubscribe {
+  text-decoration: none;
+}
+
+.unsubscribe:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+

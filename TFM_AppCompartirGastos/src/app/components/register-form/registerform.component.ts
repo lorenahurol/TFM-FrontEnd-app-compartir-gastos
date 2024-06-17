@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UsersService } from '../../services/users.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ChangePwdModalComponent } from '../change-pwd-modal/change-pwd-modal.component';
 import { CommonFunctionsService } from '../../common/utils/common-functions.service';
@@ -13,7 +13,7 @@ import { Subject, debounceTime, distinctUntilChanged } from 'rxjs'
 @Component({
   selector: 'app-register-form',
   standalone: true,
-  imports: [ReactiveFormsModule, ChangePwdModalComponent, AlertModalComponent],
+  imports: [ReactiveFormsModule, ChangePwdModalComponent, AlertModalComponent, RouterLink],
   templateUrl: './registerform.component.html',
   styleUrl: './registerform.component.css',
 })

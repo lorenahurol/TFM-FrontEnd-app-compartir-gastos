@@ -1,14 +1,10 @@
-.navbar-brand, .text-primary {
-    color: #F5F5F5;
+.navbar-brand {
+    color: var(--font-color);
 }
 
 .nav-link {
+    color: var(--font-color);
     font-weight: 400;
-    transition: font-weight 0.3s ease;
-}
-
-.nav-link:hover {
-    font-weight: 500;
 }
 
 .navbar-nav {
@@ -21,12 +17,27 @@
 }
 
 .navbar-nav .nav-item .btn {
-    padding: 0.375rem 1rem;
-    margin-left: 1.5rem;
+    padding: 0.5rem 1rem;
     line-height: 1.5;
     display: flex;
     align-items: center;
 }
+.navbar .dropdown-toggle {
+    color: var(--font-color);
+}
 
+.dropdown-menu li {
+    padding: 5px;
+}
 
+.navbar-toggler {
+    border-color: var(--font-color);
+}
 
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255, 255, 255, 1%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+.btn.btn-outline-light:hover {
+    font-weight: 500;
+}
