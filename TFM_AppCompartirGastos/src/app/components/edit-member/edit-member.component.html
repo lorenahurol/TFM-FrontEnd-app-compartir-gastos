@@ -5,22 +5,15 @@
             <div class="card-body">
                 <p class="card-text">
                     Editar miembro 
-                    <!-- {{user.firstname}} {{user.lastname}} -->
+                    {{user.firstname}} {{user.lastname}}
                 </p>
             </div>
 
             <form class="card p-3 shadow" [formGroup]="memberForm" (ngSubmit)="getDataForm()">
-                <div class="my-2">
-                    <label for="percent" class="form-label">Porcentaje</label>
-                        <input type="number" class="form-control" id="percent" formControlName="percent" placeholder="0">
-                        @if (checkControl('percent','required')) {
-                        <p class="error-msg">Campo obligatorio</p>
-                        }
-                </div>
 
                 <div class="row g-2">
                     <div class="col-md-3 label">
-                        <label for="equitable" class="form-label">Equitativo:</label>
+                        <label for="equitable" class="form-label">Reparto de gasto equitativo:</label>
                     </div>
                     <div class="col-md-9">
                         <div class="row">
@@ -36,6 +29,17 @@
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <div class="my-2">
+                    @if(!desactivePercent){
+
+                        <label for="percent" class="form-label">Porcentaje</label>
+                            <input type="number" class="form-control" id="percent" formControlName="percent" placeholder="0">
+                            @if (checkControl('percent','required')) {
+                            <p class="error-msg">Campo obligatorio</p>
+                            }
+                    }
                 </div>
                 
                 <input type="submit" value="Guardar" class="btn btn-primary my-2" [disabled]="!memberForm.valid || !memberForm.dirty"/>

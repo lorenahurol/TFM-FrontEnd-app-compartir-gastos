@@ -4,6 +4,7 @@ import { ImemberGroup } from '../../interfaces/imember-group';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UsersService } from '../../services/users.service';
 import { IUser } from '../../interfaces/iuser.interface';
+import { AlertModalService } from '../../services/alert-modal.service';
 
 @Component({
   selector: 'app-edit-member',
@@ -21,6 +22,10 @@ export class EditMemberComponent {
   groupId: string = "";
   userService = inject(UsersService);
   user!: IUser;
+  desactivePercent:boolean = true;
+
+  // manejo de la ventana modal de borrado
+  alertModalService = inject(AlertModalService);
 
   constructor() {
     this.memberForm = new FormGroup({
@@ -55,6 +60,7 @@ export class EditMemberComponent {
         let equi : string = "Si";
         if(this.member.equitable == false){
           equi = "No";
+          this.desactivePercent = false;
         }
 
         this.memberForm.get('equitable')?.setValue(equi);
@@ -64,7 +70,7 @@ export class EditMemberComponent {
 
   }
 
-  getDataForm() {
+  async getDataForm() {
 
     let equitable:  boolean= true;
     let percent: number = 0;
@@ -85,9 +91,23 @@ export class EditMemberComponent {
     this.member.percent = percent;
     this.member.equitable = equitable;
 
-    this.userService.updateMember(this.member);
+    //Funcion para calcular no pasarse del 100% de los no equitativos
+    let percentNoEquitable: number = await this.getTotalPercentNoEquitable();
+    if((percentNoEquitable + this.member.percent) > 1)
+      {
+        this.alertModalService.newAlertModal({
+          icon: 'notifications',
+          title: 'Problema al eliminar gasto',
+          body: `El % es mayor que el 100 entre todos los miembros del grupo`,
+          acceptAction: true,
+          backAction: false,
+        });
+      }
+      else{
+        this.userService.updateMember(this.member);
+        this.backGroup();
+      }
 
-    this.backGroup();
 
   }
 
@@ -104,20 +124,67 @@ export class EditMemberComponent {
   }
   
 
-  //En progreso
   changeEquitable()
   {
+   
+    console.log(this.memberForm.value.equitable);
     if(this.memberForm.value.equitable == "Si"){
-      this.memberForm.get('percent')?.disabled;
+      this.desactivePercent = true;
     }
     else if(this.memberForm.value.equitable == "No")
     {
-      this.memberForm.get('percent')?.enabled;
+      this.desactivePercent = false;
     }
     else{
-      this.memberForm.get('percent')?.enabled;
+      this.desactivePercent = false;
     }
     
   }
+
+  async getTotalPercentNoEquitable()
+  {
+    let totalPercentnoEqui = 0;
+    //Recupero los miembros del grupo
+    const members: any[] = await this.userService.getMemberUserByGroup(Number(this.groupId));
+    const membersAll: Array<ImemberGroup> = [];
+
+    /* Recorro el array de miembros y busca en el array de gastos por pagador para cruzarlos
+     y montar un nuevo array con toda informarcion, usando la interface IMenber-group
+     calculo el gasto total del grupo y el numero de usuarios en el grupo.
+     */
+
+    let totalE: number = 0;
+    for(let mb of members)
+    {
+      let member : ImemberGroup;
+      member = {
+        user_id: mb.user_id,
+        group_id: mb.group_id,
+        totalEx: 0,
+        percent: mb.percent,
+        equitable: true,
+        credit: 0
+      }
+
+      if(mb.equitable == 0)
+      {
+          member.equitable = false;
+      }
+    
+      membersAll.push(member);
+    }
+
+    //Calculo los que tienen un porcentaje especifico y no comparten a partes iguales
+    const noEquitableMembers : Array<ImemberGroup> = membersAll.filter(m => m.equitable === false && m.user_id != this.user.id);
+
+    if(noEquitableMembers.length > 0)
+    {
+        totalPercentnoEqui = noEquitableMembers.reduce((accumulator,currentValue) => accumulator + currentValue.percent, 0); 
+    }
+    
+    return totalPercentnoEqui;
+
+  }
+
 
 }
