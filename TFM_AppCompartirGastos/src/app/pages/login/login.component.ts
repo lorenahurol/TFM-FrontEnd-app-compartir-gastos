@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AlertModalService } from '../../services/alert-modal.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { AlertModalComponent, IAlertData } from '../../components/alert-modal/alert-modal.component';
@@ -9,7 +9,7 @@ import { AlertModalComponent, IAlertData } from '../../components/alert-modal/al
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, RouterLink],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })

@@ -1,4 +1,4 @@
-<form class="row g-1 class card p-3 shadow" novalidate [formGroup]="inputForm" (ngSubmit)="getDataForm()">
+<form class="card card-color row g-1 class card p-3 shadow" novalidate [formGroup]="inputForm" (ngSubmit)="getDataForm()">
 <!-- First Name -->
   <div class="row g-2">
     <div class="col-md-3  label">
@@ -6,13 +6,13 @@
     </div>
     <div class="col-md-9">
       <input type="text" class="form-control" id="first_name" formControlName="first_name" maxlength="45"  placeholder="Miguel" required>
-      @if (checkControl ('first_name','required')) {
-        <p class="error-msg">Campo obligatorio</p>
-      }
-      @if (checkControl ('first_name','pattern')) {
-        <p class="error-msg">Nombre invàlido</p>
-      }
     </div>
+    @if (checkControl ('first_name','required')) {
+    <p class="error-msg">Campo obligatorio</p>
+    }
+    @if (checkControl ('first_name','pattern')) {
+    <p class="error-msg">Nombre invàlido</p>
+    }
   </div>
 
 <!-- Last Name -->
@@ -22,13 +22,13 @@
     </div>
     <div class="col-md-9">
       <input type="text" class="form-control" id="last_name" formControlName="last_name" placeholder="de Cervantes Saavedra" maxlength="45"  required>
-      @if (checkControl ('last_name','required')) {
-        <p class="error-msg">Campo obligatorio</p>
-      }
-      @if (checkControl ('last_name','pattern')) {
-        <p class="error-msg">Nombre invàlido</p>
-      }
     </div>
+    @if (checkControl ('last_name','required')) {
+    <p class="error-msg">Campo obligatorio</p>
+    }
+    @if (checkControl ('last_name','pattern')) {
+    <p class="error-msg">Nombre invàlido</p>
+    }
   </div>
 <!-- Username -->
   <div class="row g-2">
@@ -39,18 +39,17 @@
       <div class="input-group has-validation">
         <span class="input-group-text" id="inputGroupPrepend">&#64;</span>
         <input type="text" class="form-control" id="username" formControlName="username" placeholder="MiguelDeCervantes_1547"  maxlength="45" required (input)="onUsernameInput ($event)">
-        
-      </div>
-      @if (this.usernameExists){
-        <p class="error-msg">Uix, alguien ya ha cojido este nombre de usuario!</p>
-      }
-      @if (checkControl ('username','required')) {
-        <p class="error-msg">Campo obligatorio</p>
-      }
-      @if (checkControl ('username','pattern')) {
-        <p class="error-msg">Debe contener por lo menos 4 números, letras o carácteres especiales sin espacios</p>
-      }
+      </div>   
     </div>
+    @if (this.usernameExists){
+    <p class="error-msg">Uix, alguien ya ha cojido este nombre de usuario!</p>
+    }
+    @if (checkControl ('username','required')) {
+    <p class="error-msg">Campo obligatorio</p>
+    }
+    @if (checkControl ('username','pattern')) {
+    <p class="error-msg">Debe contener por lo menos 4 números, letras o carácteres especiales sin espacios</p>
+    }
   </div>
 
 <!-- Telephone -->
@@ -60,7 +59,7 @@
     </div>
     <div class="col-md-9">
       <div class="row">
-        <div  class="col-md-4">
+        <div class="col-md-4">
           <select class="form-select" id="country_code"  formControlName="country_code">
             <option selected disabled value="">País...</option>
             @for (code of arrInternationalCodes; track $index) {
@@ -82,13 +81,13 @@
     </div>
     <div class="col-md-9">
       <input type="text" class="form-control" id="email" formControlName="email" placeholder="miguel_de_cervantes@email.es"  maxlength="45" required>
-      @if (checkControl ('email','required')) {
-        <p class="error-msg">Campo obligatorio</p>
-      }
-      @if (checkControl ('email','pattern')) {
-        <p class="error-msg">Correo invàlido</p>
-      }
     </div>
+    @if (checkControl ('email','required')) {
+    <p class="error-msg">Campo obligatorio</p>
+    }
+    @if (checkControl ('email','pattern')) {
+    <p class="error-msg">Correo invàlido</p>
+    }
 
   </div>
 
@@ -113,21 +112,21 @@
       </div>
       <div class="col-md-9">
         <input type="password" class="form-control" id="password_confirm" formControlName="password_confirm" required>
-        @if (inputForm.hasError('passwordControl')){
-          <p class="error-msg">Las contraseñas no coinciden</p>
-        }
       </div>
+      @if (inputForm.hasError('passwordControl')){
+      <p class="error-msg">Las contraseñas no coinciden</p>
+      }
     </div>}
 
   <div class="row g-1 mt-4  g-3">
   <!-- Form de registro: enlace a login y botón submit -->
   @if (!isUpdate) {
     <div class="col-12 col-md-8">
-      <p class="mb-0">¿Ya tienes una cuenta? <a href="">Accede</a> </p> 
+      <p class="text-light mb-0">¿Ya tienes una cuenta? <a class="fw-semibold fs-5 text-light" [routerLink]="['/login']">Accede</a> </p> 
     </div>
     <div class="col-12 col-md-4 mt-2 mt-md-0 pe-0">
       
-      <input class="btn btn-outline-dark w-100" type="submit" [disabled]="!inputForm.valid" value="Regístrate" >
+      <input class="btn btn-outline-light btn-lg px-5 py-1 rounded-3 mt-2" type="submit" [disabled]="!inputForm.valid" value="Regístrate" >
     </div>
   } @else {
     <!-- Form de update: botón al modal change-pwd-modal y validar datos-->
@@ -138,7 +137,7 @@
       <app-change-pwd-modal></app-change-pwd-modal>
     </div>
     <div class="col-12 col-lg-4 col-md-6  col-sm-6 mt-2 mt-md-0 pe-0">
-      <input  type="submit"  class="btn btn-outline-dark w-100"[disabled]="!inputForm.valid" value="Actualizar" >
+      <input  type="submit"  class="btn btn-outline-light btn-lg px-5 py-1 rounded-3 mt-2"[disabled]="!inputForm.valid" value="Actualizar" >
     </div>
     <div class="text-end">
       <p class="fs-6 text-primary unsubscribe" (click)="unsubscribe()">Darse de Baja</p>
@@ -146,6 +145,3 @@
   }
 </div>
 </form>
-
-<a href=""></a>
-<b></b>

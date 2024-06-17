@@ -37,6 +37,9 @@ export class PaymentsListComponent {
   
   expenseId: number = -1;
   isAdmin: boolean = false;
+  percentEquitable: string = "Proporcional";
+  percentNoEquitable: number = 0;
+
 
 
   ngOnInit() {
@@ -109,6 +112,7 @@ export class PaymentsListComponent {
       
       for(let member of noEquitableMembers)
       {
+        this.percentNoEquitable += member.percent;
         let xcredit = (member.percent * totalE) - member.totalEx;
         totalNoEquitable += xcredit;
         member.credit = - xcredit;
@@ -121,6 +125,7 @@ export class PaymentsListComponent {
     if(equitableMembers.length > 0)
     {
       let avegareExpenses: number = (totalE - totalNoEquitable) / equitableMembers.length ;
+      this.percentEquitable += " (" + ((100 - this.percentNoEquitable*100) / equitableMembers.length).toFixed(2).toString().replace('.', ',') + "%)";
 
       for(let member of equitableMembers)
       {
@@ -146,7 +151,7 @@ export class PaymentsListComponent {
   }
 
   formatPercent(percent: number): string {
-    let strPercent: string = "Proporcional";
+    let strPercent: string = this.percentEquitable;
     if(percent > 0)
       {
         strPercent = (percent * 100.0).toFixed(2).toString();

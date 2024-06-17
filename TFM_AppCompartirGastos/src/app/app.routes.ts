@@ -5,7 +5,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { Error404Component } from './pages/error404/error404.component';
 import { UserDashboardComponent } from './pages/user-dashboard/user-dashboard.component';
 import { GroupDashboardComponent } from './pages/group-dashboard/group-dashboard.component';
-import { LandingComponent } from './pages/landing/landing.component';
+import { LandingPageComponent } from './pages/landing/landing.component';
 import { ExpenseListComponent } from './pages/expense-list/expense-list.component';
 import { ExpenseViewComponent } from './pages/expense-view/expense-view.component';
 import { authGuard } from './common/guards/auth.guard';
@@ -18,7 +18,7 @@ import { EditMemberComponent } from './components/edit-member/edit-member.compon
 
 export const routes: Routes = [
   { path: '', redirectTo: '/landing', pathMatch: 'full' },
-  { path: 'landing', component: LandingComponent },
+  { path: 'landing', component: LandingPageComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'home', component: HomeComponent, 
