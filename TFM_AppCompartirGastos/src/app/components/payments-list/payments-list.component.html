@@ -16,7 +16,6 @@
                     <th scope="col" class="amount">Gastos pagados</th>
                     <th scope="col" class="amount">Participación</th>
                     <th scope="col" class="amount">Credito</th>
-                    <th scope="col" >Equitativo</th>
                 </tr>
             </thead>
             <tbody>
@@ -27,7 +26,6 @@
                 <td class="amount">{{ formatAmount(member.totalEx) }}</td> 
                 <td class="amount">{{formatPercent(member.percent)}}</td>
                 <td class="amount">{{ formatAmount(member.credit) }}</td>
-                <td scope="row">{{formatEquitable(member.equitable)}}</td>
             }
             </tbody>
         } @else {
