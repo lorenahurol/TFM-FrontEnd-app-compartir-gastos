@@ -40,6 +40,7 @@ export class PaymentsListComponent {
   percentEquitable: string = "Proporcional";
   percentNoEquitable: number = 0;
 
+  totalExpenses:any [] = []
 
 
   ngOnInit() {
@@ -65,7 +66,7 @@ export class PaymentsListComponent {
    */
    async getPayments(){
     //Recupero todos los gastos del grupo agrupados por usuario
-    const totalExpenses:any [] = await this.expenseService.getExpensesGroupingByUser(Number(this.groupId));
+    this.totalExpenses = await this.expenseService.getExpensesGroupingByUser(Number(this.groupId));
     
     //Recupero los miembros del grupo
     const members: any[] = await this.userService.getMemberUserByGroup(Number(this.groupId));
@@ -94,7 +95,7 @@ export class PaymentsListComponent {
       {
           member.equitable = false;
       }
-      const foundElement = totalExpenses.find(element => element.payer_user_id === mb.user_id);
+      const foundElement = this.totalExpenses.find(element => element.payer_user_id === mb.user_id);
       if(foundElement)
       {
         member.totalEx = foundElement.total_expenses;
@@ -198,5 +199,14 @@ export class PaymentsListComponent {
         backAction: false,
       });
     }
+  }
+
+  settleExpenses() {
+    let arrBcc: number[] = []
+    console.log (this.totalExpenses)
+    this.totalExpenses.forEach(user => arrBcc.push(user.payer_user_id))
+    console.log(this.arrUsers)
+    console.log(this.groupId)
+    console.log (arrBcc)
   }
 }

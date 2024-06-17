@@ -2,9 +2,9 @@
     <section class="container mt-2">
         <div class="card text-white bg-primary mb-3">
             <div class="d-flex justify-content-between align-items-center pt-3 pb-3">
-                <h4 class="mb-0 text-center flex-grow-1 ">PAGOS DEL GRUPO</h4>
+                <h4 class="mb-0 text-center flex-grow-1 ">SALDO POR USUARIO</h4>
                 @if (isAdmin) {
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Liquidar pagos</button>
+                    <button type="button" class="btn btn-primary"  (click)="settleExpenses()"><i class="bi bi-piggy-bank  me-2 h6"></i><span class="h6">SALDAR</span></button>
                 }
             </div>
     <table class="table table-striped">
@@ -24,7 +24,7 @@
                 <td scope="row">{{member.user_id}}</td>
                 <td>{{ getUserName(member.user_id) }}
                 <td class="amount">{{ formatAmount(member.totalEx) }}</td> 
-                <td class="amount">{{formatPercent(member.percent)}}</td>
+                <td class="amount">{{ formatPercent(member.percent) }}</td>
                 <td class="amount">{{ formatAmount(member.credit) }}</td>
             }
             </tbody>
