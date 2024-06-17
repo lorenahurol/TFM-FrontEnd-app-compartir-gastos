@@ -60,6 +60,8 @@ export class NavbarComponent {
     try {
       // Llamar al servicio para aceptar o rechazar la invitación
       await this.invitationsService.handleInvitation(invitationId, action, this.userId);
+
+      
       // Invitacion aceptada:
       if (action === "accept") {
         this.alertModalService.newAlertModal({
