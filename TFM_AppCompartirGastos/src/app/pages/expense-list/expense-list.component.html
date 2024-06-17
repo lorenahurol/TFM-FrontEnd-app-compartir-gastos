@@ -4,8 +4,9 @@
             <div class="d-flex justify-content-between align-items-center pt-3 pb-3">
                 <h4 class="mb-0 text-center flex-grow-1 ">GASTOS DEL GRUPO</h4>
                 @if (isAdmin) {
-                    <button class="btn btn-primary" [routerLink]="['/home/expenses/'+groupId+'/add']" >Añadir gasto</button>
-                }
+                    <i class="bi bi-plus-circle-fill me-3 h2" [routerLink]="['/home/expenses/'+groupId+'/add']" title="Añade un nuevo gasto"></i>
+                    }
+                <i class="bi bi-bank me-3 h2" (click)="getPayments()" data-bs-toggle="modal" data-bs-target="#staticBackdropPayments" title="Saldos"></i>
             </div>
             <table class="table table-striped">
                 @if (arrExpenses.length > 0) {
@@ -54,13 +55,7 @@
             </table>
         </div>
     </section>
-    <!-- <div class="row justify-content-between">
-        <div></div>
-        <div>
-            <button class="btn btn-primary" (click)="getPayments()" data-bs-toggle="modal" data-bs-target="#staticBackdropPayments" >Ver Pagos</button>
-        </div>
-        
-    </div> -->
+    <hr/>
     
 </div>
 
