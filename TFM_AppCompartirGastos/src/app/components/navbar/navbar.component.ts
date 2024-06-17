@@ -61,11 +61,6 @@ export class NavbarComponent {
   async handleInvitation(invitationId: number, action: 'accept' | 'reject') {
     try {
       // Llamar al servicio para aceptar o rechazar la invitación
-<<<<<<< HEAD
-      await this.invitationsService.handleInvitation(invitationId, action, this.userId);
-
-      
-=======
       let invitation: IInvitation = this.invitations.find(invitation => invitation.id === invitationId);
       if (action === 'accept') {
         invitation.accepted = 1;
@@ -73,7 +68,6 @@ export class NavbarComponent {
         invitation.active = 0;
       }
       await this.invitationsService.updateInvitation(invitation);
->>>>>>> first_revision
       // Invitacion aceptada:
 
       // Actualizar la lista de invitaciones
