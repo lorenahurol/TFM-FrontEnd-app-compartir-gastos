@@ -1,27 +1,25 @@
 import { Component, inject } from '@angular/core';
-import { IExpense } from '../../interfaces/iexpense.interface';
-import { ExpensesService } from '../../services/expenses.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import dayjs from 'dayjs';
+import { ImemberGroup } from '../../interfaces/imember-group';
+import { IExpense } from '../../interfaces/iexpense.interface';
 import { IUser } from '../../interfaces/iuser.interface';
+import { ExpensesService } from '../../services/expenses.service';
 import { UsersService } from '../../services/users.service';
-import { HttpErrorResponse } from '@angular/common/http';
 import { GroupsService } from '../../services/groups.service';
-import { IRoles } from '../../interfaces/iroles.interface';
 import { CommonFunctionsService } from '../../common/utils/common-functions.service';
 import { AlertModalService } from '../../services/alert-modal.service';
-import { ImemberGroup } from '../../interfaces/imember-group';
-import {MatIconModule} from '@angular/material/icon';
-
+import { HttpErrorResponse } from '@angular/common/http';
+import { IRoles } from '../../interfaces/iroles.interface';
+import dayjs from 'dayjs';
 
 @Component({
-  selector: 'app-expense-list',
+  selector: 'app-payments-list',
   standalone: true,
-  imports: [RouterLink, MatIconModule],
-  templateUrl: './expense-list.component.html',
-  styleUrl: './expense-list.component.css',
+  imports: [RouterLink],
+  templateUrl: './payments-list.component.html',
+  styleUrl: './payments-list.component.css'
 })
-export class ExpenseListComponent {
+export class PaymentsListComponent {
   arrExpenses: IExpense[] = [];
   arrUsers: IUser[] = [];
   groupId: string = '';
@@ -40,6 +38,7 @@ export class ExpenseListComponent {
   expenseId: number = -1;
   isAdmin: boolean = false;
 
+
   ngOnInit() {
     this.activatedRoute.params.subscribe(async (params: any) => {
       if (params.groupId) {
@@ -52,69 +51,22 @@ export class ExpenseListComponent {
           console.error(error);
         }
       }
+
+      this.getPayments();
     });
   }
 
-  editExpense(expenseId: number) {
-    this.router.navigate([`/home/expenses/${this.groupId}/edit/${expenseId}`]);
-  }
 
-  async deleteExpense() {
-    if (this.expenseId !== -1) {
-      try {
-        console.log(this.expenseId);
-        const exp = await this.expenseService.deleteExpenseById(this.expenseId);
-
-        /* Como sólo el admin puede eliminar, no tiene sentido recgargar con BD */
-        this.arrExpenses = this.arrExpenses.filter((expense) => expense.id !== this.expenseId);
-      } catch (error: HttpErrorResponse | any) {
-        console.error(error);
-        this.alertModalService.newAlertModal({
-          icon: 'notifications',
-          title: 'Problema al eliminar gasto',
-          body: `Se produjo el siguiente problema: ${error.error.error}`,
-          acceptAction: true,
-          backAction: false,
-        });
-      }
-    } else {
-      console.error('No expense selected');
-    }
-  }
-
-  deleteExpenseById(expenseId: number) {
-    this.expenseId = expenseId;
-
-    const alertModal = this.alertModalService.newAlertModal({
-      icon: 'notifications',
-      title: 'Eliminar gasto',
-      body: '¿Estás seguro de que quieres eliminar este gasto?',
-      acceptAction: true,
-      backAction: true,
-    });
-    alertModal?.componentInstance.sendModalAccept.subscribe(
-      (isAccepted) => {
-        if (isAccepted) {
-          this.deleteExpense();
-        }
-      }
-    );
-  
-  }
-
-
-  /**
+   /**
    * Metodo para calcular los pagos
    */
-  async getPayments(){
+   async getPayments(){
     //Recupero todos los gastos del grupo agrupados por usuario
     const totalExpenses:any [] = await this.expenseService.getExpensesGroupingByUser(Number(this.groupId));
-    console.log(totalExpenses);
     
     //Recupero los miembros del grupo
     const members: any[] = await this.userService.getMemberUserByGroup(Number(this.groupId));
-    console.log(members);
-
+    
     const membersAll: Array<ImemberGroup> = [];
 
     /* Recorro el array de miembros y busca en el array de gastos por pagador para cruzarlos
@@ -181,20 +133,36 @@ export class ExpenseListComponent {
     this.arrMembers = membersAll;
   }
 
-  saveIdExpense(expenseId: number){
-    this.expenseId = expenseId;
-  }
-
 
   formatDate(date: Date): string {
     return dayjs(date).format('DD/MM/YYYY');
   }
 
   formatAmount(amount: number): string {
-    let strAmount: string = amount.toString();
+    let strAmount: string = amount.toFixed(2).toString();
     strAmount = strAmount.replace('.', ',');
     strAmount = strAmount.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
     return strAmount + ' €';
+  }
+
+  formatPercent(percent: number): string {
+    let strPercent: string = "Proporcional";
+    if(percent > 0)
+      {
+        strPercent = (percent * 100.0).toFixed(2).toString();
+        strPercent = strPercent.replace('.', ',');
+        strPercent = strPercent.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') +  ' %';
+      }
+      return strPercent;
+  }
+
+  formatEquitable(equitable: boolean): string {
+    let strEquitable: string = "No";
+    if(equitable)
+      {
+        strEquitable = "Si"
+      }
+      return strEquitable;
   }
 
   getUserName(userId: number): string {
@@ -227,4 +195,3 @@ export class ExpenseListComponent {
     }
   }
 }
-

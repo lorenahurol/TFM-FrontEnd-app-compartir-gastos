@@ -5,6 +5,7 @@ import { IUser } from '../interfaces/iuser.interface';
 import { lastValueFrom } from 'rxjs';
 import { PHONE_CODES } from '../db/international_codes.db';
 import { IUsername } from '../components/add-group-members/add-group-members.component';
+import { ImemberGroup } from '../interfaces/imember-group';
 
 type PhoneCode = {
   name: string,
@@ -173,5 +174,32 @@ export class UsersService {
    */
   unsubscribe(userId: number) {
     return lastValueFrom(this.httpClient.delete <any> (`${this.API_URL}/users/${userId}`))
+  /**
+   * @param {group_id}
+   * @param {user_id}
+   */
+  }
+
+  deleteMember(group_id: number, user_id: number)
+  {
+    console.log("GrupoId: "+group_id +" y user: "+user_id);
+    return lastValueFrom(
+      this.httpClient.delete<updateResponse>(`${this.API_URL}/members/${group_id}/${user_id}`)
+    );
+  }
+
+  getMemberByUserIdByGroupId(group_id: number, user_id: number)
+  {
+    return lastValueFrom(
+      this.httpClient.get<ImemberGroup>(`${this.API_URL}/members/${group_id}/${user_id}`)
+    );
+  }
+
+
+  updateMember(newMember: ImemberGroup) {
+    console.log(newMember);
+    return lastValueFrom(
+      this.httpClient.put<ImemberGroup>(`${this.API_URL}/members/${newMember.group_id}/${newMember.user_id}`, newMember)
+    );
   }
 }

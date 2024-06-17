@@ -1,0 +1,41 @@
+<div class="signup-view mt-4">
+    <section class="container mt-2">
+        <div class="card text-white bg-primary mb-3">
+            <div class="d-flex justify-content-between align-items-center pt-3 pb-3">
+                <h4 class="mb-0 text-center flex-grow-1 ">PAGOS DEL GRUPO</h4>
+                @if (isAdmin) {
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Liquidar pagos</button>
+                }
+            </div>
+    <table class="table table-striped">
+        @if (arrMembers.length > 0) {
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Miembro</th>
+                    <th scope="col" class="amount">Gastos pagados</th>
+                    <th scope="col" class="amount">Porcentaje</th>
+                    <th scope="col" class="amount">Credito</th>
+                    <th scope="col" >Equitativo</th>
+                </tr>
+            </thead>
+            <tbody>
+            @for(member of arrMembers; track member.user_id) {
+            <tr class="align-middle">
+                <td scope="row">{{member.user_id}}</td>
+                <td>{{ getUserName(member.user_id) }}
+                <td class="amount">{{ formatAmount(member.totalEx) }}</td> 
+                <td class="amount">{{formatPercent(member.percent)}}</td>
+                <td class="amount">{{ formatAmount(member.credit) }}</td>
+                <td scope="row">{{formatEquitable(member.equitable)}}</td>
+            }
+            </tbody>
+        } @else {
+            <thead>
+                <tr>
+                    <strong>NO HAY PAGOS ACTIVOS</strong>
+                </tr>
+            </thead>
+        }
+    </table>
+

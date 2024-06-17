@@ -2,16 +2,19 @@ import { Component, inject } from '@angular/core';
 import { IUserGroups } from '../../interfaces/iuser-groups.interface';
 import { GroupsService } from '../../services/groups.service';
 import { IRoles } from '../../interfaces/iroles.interface';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CommonFunctionsService } from '../../common/utils/common-functions.service';
 import { ImemberGroup } from '../../interfaces/imember-group';
 import { ExpensesService } from '../../services/expenses.service';
 import { IExpense } from '../../interfaces/iexpense.interface';
+import { IUser } from '../../interfaces/iuser.interface';
+import { UsersService } from '../../services/users.service';
+import { GroupInfoCardComponent } from '../../components/group-info-card/group-info-card.component';
 
 @Component({
   selector: 'app-user-dashboard',
   standalone: true,
-  imports: [],
+  imports: [GroupInfoCardComponent, RouterLink],
   templateUrl: './user-dashboard.component.html',
   styleUrl: './user-dashboard.component.css',
 })
@@ -20,9 +23,11 @@ export class UserDashboardComponent {
   roles: IRoles | any = {};
   filter: string = 'todos';
   groupService = inject(GroupsService);
+  userService = inject(UsersService);
   expensesService = inject(ExpensesService);
   commonFunc = inject(CommonFunctionsService);
   router = inject(Router);
+  user: IUser | any;
   userId: number | any;
   
 
@@ -33,6 +38,7 @@ export class UserDashboardComponent {
 
     this.roles = await this.groupService.getUserRolesByGroup();
     this.userId = await this.commonFunc.getUserId();
+    this.user = await this.userService.getUserById(this.userId);
 
     /* recorrer arrInfoGroups y añadimos isAdmin a true si el group_id está en this.roles.admingroups */
     this.arrInfoGroups.forEach((group: IUserGroups) => {
@@ -55,7 +61,7 @@ export class UserDashboardComponent {
         /* si existen, obtener pagos del grupo */
         let pagos: ImemberGroup[] = await this.commonFunc.getPayments(infoGroup.group_id);
         /* filtrar pagos por aquel cuyo id coincide con userId */
-        let pagoUsuario = pagos.filter((pago: ImemberGroup) => pago.id === this.userId);
+        let pagoUsuario = pagos.filter((pago: ImemberGroup) => pago.user_id === this.userId);
         infoGroup.totalexpenses = pagoUsuario[0].totalEx;
         infoGroup.balance = pagoUsuario[0].credit;
       } else {
@@ -77,14 +83,4 @@ export class UserDashboardComponent {
     this.router.navigate([`/home/groups/${group_id}`]);
   }
 
-  formatAmount(amount: number | undefined): string {
-    if (amount === undefined) {
-      return '';
-    } else {
-      amount = Math.round((amount + Number.EPSILON) * 100) / 100;
-    }
-    let strAmount: string = amount.toString();
-    strAmount = strAmount.replace('.', ',');
-    return strAmount + ' €';
-  }
 }

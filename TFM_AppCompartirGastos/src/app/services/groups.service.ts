@@ -83,4 +83,14 @@ export class GroupsService {
       this.httpClient.get<IUserGroups[]>(`${this.API_URL}/groups/getallbyuser`)
     );
   }
+
+  /**
+   * Método para obtener toda la información de un grupo por su id
+   * @param groupId
+   */
+  getAllInfoGroupById(groupId: number): Promise<IUserGroups> {
+    return lastValueFrom(
+      this.httpClient.get<IUserGroups>(`${this.API_URL}/groups/getallinfobyid/${groupId}`)
+    );
+  }
 }
