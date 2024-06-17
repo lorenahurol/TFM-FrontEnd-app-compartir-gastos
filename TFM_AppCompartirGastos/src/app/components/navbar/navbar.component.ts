@@ -4,6 +4,7 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { AlertModalService } from '../../services/alert-modal.service';
 import { InvitationsService } from '../../services/invitations.service';
+import { IInvitation } from '../../interfaces/iinvitation.interface';
 
 @Component({
   selector: 'app-navbar',
@@ -38,6 +39,7 @@ export class NavbarComponent {
         if (tokenVerification && tokenVerification.id) {
           this.isLoggedIn = true;
           this.userId = tokenVerification.id;
+          this.loadInvitations();
         }
       } catch (error) {
         this.isLoggedIn = false;
@@ -59,8 +61,18 @@ export class NavbarComponent {
   async handleInvitation(invitationId: number, action: 'accept' | 'reject') {
     try {
       // Llamar al servicio para aceptar o rechazar la invitación
-      await this.invitationsService.handleInvitation(invitationId, action, this.userId);
+      let invitation: IInvitation = this.invitations.find(invitation => invitation.id === invitationId);
+      if (action === 'accept') {
+        invitation.accepted = 1;
+      } else if (action === 'reject') {
+        invitation.active = 0;
+      }
+      await this.invitationsService.updateInvitation(invitation);
       // Invitacion aceptada:
+
+      // Actualizar la lista de invitaciones
+      this.invitations = this.invitations.filter(invitation => invitation.id !== invitationId);
+
       if (action === "accept") {
         this.alertModalService.newAlertModal({
           icon: 'done_all',
