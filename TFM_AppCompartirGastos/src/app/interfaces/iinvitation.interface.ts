@@ -6,5 +6,4 @@ export interface IInvitation {
   accepted: number;
   active: number;
   message: string;
-  showToast?: boolean;
 }
