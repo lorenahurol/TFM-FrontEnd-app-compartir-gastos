@@ -36,7 +36,7 @@
             <!-- Campo de texto y botón para enviar nuevos mensajes -->
             <div class="form-group">
                 <textarea class="form-control" id="newMessage" [(ngModel)]="newMessage" rows="2"
-                (keydown.enter)="sendMessage(); $event.preventDefault()" 
+                (focus)="scrollToBottom()" (keydown.enter)="sendMessage(); $event.preventDefault()" 
                 placeholder="Introduce nuevo mensaje..." [disabled]="groupId === undefined || groupId === null || groupId === 0"></textarea>
             </div>
             <!-- deshabilitar el botón si groupId es undefined, null o 0 -->
