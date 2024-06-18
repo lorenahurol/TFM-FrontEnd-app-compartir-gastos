@@ -49,6 +49,7 @@ export class LoginComponent {
       try {
         let response = await this.authServices.login(loginBody);
         localStorage.setItem('login_token', response.token!);
+        this.authServices.loginSubject(true)
         this.router.navigateByUrl('/home');
       } catch (err: any) {
           this.openAlertModal({
@@ -72,7 +73,10 @@ export class LoginComponent {
     if (token) {
       try {
         const response = await this.authServices.verifyToken(token);
-        if (!response.error) this.router.navigateByUrl('/home');
+        if (!response.error) {
+          this.authServices.loginSubject(true)
+          this.router.navigateByUrl('/home')
+        };
       } catch (error) {
         alert(error);
       }

@@ -32,12 +32,17 @@ export class NavbarComponent {
   }
 
   async ngOnInit(): Promise<void> {
+    // subscribe al observable de estado de login
+    this.authService.isLoggedIn$.subscribe(isLoggedIn => {
+      this.isLoggedIn = isLoggedIn
+    })
     const token = localStorage.getItem("login_token");
     if (token) {
       try {
         const tokenVerification = await this.authService.verifyToken(token);
         if (tokenVerification && tokenVerification.id) {
-          this.isLoggedIn = true;
+          // this.authService.loginSubject(true)
+          // this.isLoggedIn = true;
           this.userId = tokenVerification.id;
           this.loadInvitations();
         }
@@ -106,12 +111,9 @@ export class NavbarComponent {
  
 
   logout() {
-    const result = this.authService.logout();
-    if (result.success) {
-      this.isLoggedIn = false;
-      this.router.navigate(['/login']);
-    } else {
-      console.error("Error al cerrar sesión");
-    }
+    this.authService.loginSubject(false);
+    this.authService.logout()
+    this.isLoggedIn = false; 
+    this.router.navigate(['/login'])
   }
 }
