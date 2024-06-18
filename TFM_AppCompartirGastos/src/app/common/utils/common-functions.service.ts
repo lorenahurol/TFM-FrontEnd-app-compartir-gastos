@@ -62,7 +62,6 @@ export class CommonFunctionsService {
         );
         return usernameExists.exists;
       } catch (error: any) {
-        console.log(error.message);
         return false;
       }
     }

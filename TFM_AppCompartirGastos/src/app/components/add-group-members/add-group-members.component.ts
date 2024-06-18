@@ -106,8 +106,6 @@ export class AddGroupMembersComponent {
       
       let bcc: number[] = []
       this.arrInvitedUsers.forEach(user => bcc.push(user.id))
-      console.log(bcc)
-      console.log(invitationForm)
       const emailBody = {
         bcc: bcc,
         html: message,

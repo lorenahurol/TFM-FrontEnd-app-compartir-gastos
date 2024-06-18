@@ -182,7 +182,6 @@ export class UsersService {
 
   deleteMember(group_id: number, user_id: number)
   {
-    console.log("GrupoId: "+group_id +" y user: "+user_id);
     return lastValueFrom(
       this.httpClient.delete<updateResponse>(`${this.API_URL}/members/${group_id}/${user_id}`)
     );
@@ -197,7 +196,6 @@ export class UsersService {
 
 
   updateMember(newMember: ImemberGroup) {
-    console.log(newMember);
     return lastValueFrom(
       this.httpClient.put<ImemberGroup>(`${this.API_URL}/members/${newMember.group_id}/${newMember.user_id}`, newMember)
     );
