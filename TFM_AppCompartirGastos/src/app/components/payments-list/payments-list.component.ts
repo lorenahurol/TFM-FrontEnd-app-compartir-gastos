@@ -208,37 +208,48 @@ export class PaymentsListComponent {
   // Función para liquidar gastos de un grupo
   async settleExpenses() {
     try {
-      // Crea el array de pagos (el valor del pago es el inverso del crédito)
-      let arrPayments = this.arrMembers.map(user => {
-        return {user_id: user.user_id, credit: -user.credit, group_id: user.group_id}
-        })
-      
-      // Borrado lógico de la tabla de gastos y creación en la tabla de pagos
-      const deactivateResponse = await this.expenseService.deactivateExpenses({ groupId: this.groupId })
-      const createPayment = await this.paymentsService.addPayment ( arrPayments )
-
-      if (deactivateResponse.success && createPayment.success) {
-        const alertModal = this.alertModalService.newAlertModal({
-          icon: 'done_all',
-          title: 'Perfecto!',
-          body: 'Todos los gastos se han saldado correctamente ',
-          acceptAction: true,
-          backAction: false,
-          });
-          alertModal?.componentInstance.sendModalAccept.subscribe(
-            (isAccepted) => {
-              if (isAccepted) {
-                this.router.navigateByUrl(`/home`, { skipLocationChange: true }).then(() => {
-                  this.router.navigate([`/home/groups/${this.groupId}`])
-                })
-              }
-              }
-            );
-        // this.sendEmails()
-      }
-      
+      const alertModal = this.alertModalService.newAlertModal({
+        icon: 'notifications',
+        title: '¡Atención!',
+        body: 'Estás a punto de saldar todas las cuentas del grupo: ¿estás segur@?',
+        acceptAction: true,
+        backAction: true,
+        });
+        alertModal?.componentInstance.sendModalAccept.subscribe(
+          (isAccepted) => {
+            if (isAccepted) {
+              this.settleExpensesExecution()
+            }
+            }
+          );      
     } catch (error) {
       this.alertModalService.newAlertModal({body: error})
+    }
+  }
+
+  async settleExpensesExecution() {
+    // Crea el array de pagos (el valor del pago es el inverso del crédito)
+    let arrPayments = this.arrMembers.map(user => {
+      return {user_id: user.user_id, credit: -user.credit, group_id: user.group_id}
+      })
+    
+    // Borrado lógico de la tabla de gastos y creación en la tabla de pagos
+    const deactivateResponse = await this.expenseService.deactivateExpenses({ groupId: this.groupId })
+    const createPayment = await this.paymentsService.addPayment ( arrPayments )
+    
+
+    if (deactivateResponse.success && createPayment.success) {
+      const alertModal = this.alertModalService.newAlertModal({
+        icon: 'done_all',
+        title: 'Perfecto!',
+        body: 'Todos los gastos se han saldado correctamente ',
+        acceptAction: true,
+        backAction: false,
+      });
+      this.router.navigateByUrl(`/home`, { skipLocationChange: true }).then(() => {
+        this.router.navigate([`/home/groups/${this.groupId}`])
+      })
+      this.sendEmails()
     }
   }
 
