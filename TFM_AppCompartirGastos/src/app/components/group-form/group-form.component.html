@@ -1,46 +1,50 @@
-<form class="row g-1" novalidate [formGroup]="groupFormulario" (ngSubmit)="getDataForm()">
-    <!-- Group Name -->
-    <div class="row g-2">
-        <div class="col-md-3 label">
-            <label for="description" class="form-label">Título o descripción del grupo: *</label>
+<section>
+    <form class="row g-1" novalidate [formGroup]="groupFormulario" (ngSubmit)="getDataForm()">
+        <!-- Group Name -->
+        <div class="row g-2">
+            <div class="col-md-3 label">
+                <label for="description" class="form-label">Título o descripción del grupo: *</label>
+            </div>
+            <div class="col-md-9">
+                <input type="text" class="form-control" id="description" formControlName="description" placeholder="Fiesta de Fin de Año" required>
+                @if (checkControl ('description', 'required')) {
+                    <p class="error-msg">Campo Obligatorio</p>
+                }
+                @if (checkControl ('description', 'minlength')) {
+                <p class="error-msg">Introduce al menos 3 caracteres</p>
+                }
+            </div>
         </div>
-        <div class="col-md-9">
-            <input type="text" class="form-control" id="description" formControlName="description" placeholder="Fiesta de Fin de Año" required>
-            @if (checkControl ('description', 'required')) {
-                <p class="error-msg">Campo Obligatorio</p>
-            }
-            @if (checkControl ('description', 'minlength')) {
-            <p class="error-msg">Introduce al menos 3 caracteres</p>
-            }
-        </div>
-    </div>
-    
-    <!-- Category -->
-    <div class="row g-2">
-        <div class="col-md-3 label">
-            <label for="category" class="form-label">Categoría:</label>
-        </div>
-        <div class="col-md-9">
-            <div class="row">
-                <div class="col-md-4">
-                    <select class="form-select" id="category" formControlName="category">
-                        <option selected disabled value="">--Selecciona una Categoría--</option>                       
-                        @for(category of arrCategories; track category.id) {
-                            <option [value]="category.id">{{category.description}}</option>
+        
+        <!-- Category -->
+        <div class="row g-2">
+            <div class="col-md-3 label">
+                <label for="category" class="form-label">Categoría:</label>
+            </div>
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="col-md-4">
+                        <select class="form-select" id="category" formControlName="category">
+                            <option selected disabled value="">--Selecciona una Categoría--</option>                       
+                            @for(category of arrCategories; track category.id) {
+                                <option [value]="category.id">{{category.description}}</option>
+                            }
+                        </select>
+                        @if (checkControl ('category', 'required')) {
+                        <p class="error-msg">Requerido: Selecciona una categoría</p>
                         }
-                    </select>
-                    @if (checkControl ('category', 'required')) {
-                    <p class="error-msg">Requerido: Selecciona una categoría</p>
-                    }
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
 
-<div class="row g-1 mt-4">
-    <div class="col-12 col-md-4 mt-2 mt-md-0 pe-2">
-        <input class="btn btn-outline-dark w-100" type="submit" [disabled]="!groupFormulario.valid" value={{btnText}}>
+    <div class="row g-1 mt-4">
+        <div class="col-12 col-md-4 mt-2 mt-md-0 pe-2">
+            <input class="btn btn-outline-light w-100" type="submit" [disabled]="!groupFormulario.valid" value={{btnText}}>
+
+            <button class="btn btn-dark my-2" (click)="backGroupOrHome()" >Volver</button>
+        </div>
     </div>
-</div>
-</form>
+    </form>
+</section>
