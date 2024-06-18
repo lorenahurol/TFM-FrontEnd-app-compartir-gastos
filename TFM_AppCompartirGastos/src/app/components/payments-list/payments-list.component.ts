@@ -42,7 +42,7 @@ export class PaymentsListComponent {
   expenseId: number = -1;
   isAdmin: boolean = false;
   percentEquitable: string = "Proporcional";
-  percentNoEquitable: number = -1;
+  percentNoEquitable: number = 0;
 
   totalExpenses:any [] = []
 
