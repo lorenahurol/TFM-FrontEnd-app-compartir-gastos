@@ -183,4 +183,9 @@ export class AddGroupMembersComponent {
   async usernameSuggestions(currentUsername: string) {
     this.arrUsernameSuggestions = await this.usersService.getUsernames(currentUsername);
   }
+
+  backGroupHome()
+  {
+    this.router.navigate([`/home/groups/${this.groupId}`]);
+  }
 }
