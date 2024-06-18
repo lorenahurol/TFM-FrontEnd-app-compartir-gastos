@@ -3,6 +3,7 @@
 }
 
 .nav-link {
+    cursor: pointer;
     color: var(--font-color);
     font-weight: 400;
 }
