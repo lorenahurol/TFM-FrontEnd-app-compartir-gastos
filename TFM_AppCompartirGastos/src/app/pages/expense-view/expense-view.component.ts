@@ -39,7 +39,6 @@ export class ExpenseViewComponent {
 
   // Reutilizar el form para edición
   ngOnInit() {
-    console.log(this.activatedRoute.params);
     this.activatedRoute.params.subscribe(async (params: any) => {
       // el groupId viene siempre
       if (params.groupId) {
@@ -67,13 +66,11 @@ export class ExpenseViewComponent {
   }
 
   getDataForm() {
-    console.log(this.expenseForm.value); 
     if (this.tipo === 'NUEVO') {
       try {
         const result = this.expensesService.addExpense(this.expenseForm.value);
         this.expenseForm.reset();
         this.router.navigate([`/home/groups/${this.groupId}`]);
-        console.log(result);
       } catch (error) {
         console.error(error);
       }
@@ -82,7 +79,6 @@ export class ExpenseViewComponent {
       try {
         const result = this.expensesService.editExpense(this.expenseForm.value);
         this.router.navigate([`/home/groups/${this.groupId}`]);
-        console.log(result);
       } catch (error) {
         console.error(error);
       }

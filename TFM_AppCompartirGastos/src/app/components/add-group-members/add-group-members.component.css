@@ -1,15 +1,16 @@
+.btn {
+  width: 100%;
+}
+
 .add-remove {
   font-weight: 700;
+  width: 40%;
 }
 
 .btn-circle {
-  border-radius: 8px;
-  width: 1.5rem;
-  height: 1.5rem;
-  padding: 2px;
-  font-size: 1rem;
-  text-align: center;
+  border-radius: 1.5rem;
 }
+
 
 .card {
   display: flex;
@@ -31,7 +32,7 @@
 .suggestions-list li {
   padding: 4px;
   cursor: pointer;
-
+  
   color: var(--font-color);
 }
 
@@ -40,9 +41,6 @@
   color: var(--background-color);
 }
 
-.btn {
-  width: 100%;
-}
 
 
 label {

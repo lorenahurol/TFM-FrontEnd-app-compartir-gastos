@@ -32,6 +32,7 @@ export const routes: Routes = [
       { path: 'expenses/:groupId', component: ExpenseListComponent, canActivate: [rolesGuard]},
       { path: 'expenses/:groupId/add', component: ExpenseViewComponent, canActivate: [rolesGuard]},
       { path: 'expenses/:groupId/edit/:expenseId', component: ExpenseViewComponent, canActivate: [rolesGuard]},
+      { path: 'messages', component: MessagesComponent},
       { path: 'messages/:groupId', component: MessagesComponent, canActivate: [rolesGuard]},
       { path: 'members/:groupId/:userId', component: EditMemberComponent},
     ], canActivate: [authGuard]},

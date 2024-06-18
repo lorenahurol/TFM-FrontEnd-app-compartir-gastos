@@ -80,7 +80,6 @@ export class UserDashboardComponent {
   }
 
   goToGroup(group_id: number) {
-    console.log('ir a grupo', group_id);
     this.router.navigate([`/home/groups/${group_id}`]);
   }
 

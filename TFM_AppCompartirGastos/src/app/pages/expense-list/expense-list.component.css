@@ -47,6 +47,18 @@
     text-align: center;
 }
 
+
+.bi{
+    font-family: var(--p-font);
+    color: var(--font_color);
+    transition: color 0.2s ease, border-color 0.2s ease, font-weight 0.2s ease;
+    }
+    
+.bi:hover {
+    color: var(--background-color);
+    cursor:pointer ;
+}
+
 .icon-button {
     background-color: transparent;
 }

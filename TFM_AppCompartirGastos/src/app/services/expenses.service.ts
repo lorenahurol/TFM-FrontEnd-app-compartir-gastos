@@ -55,6 +55,15 @@ export class ExpensesService {
     return lastValueFrom(this.httpClient.put<IExpense>(`${this.API_URL}/expenses/${expense.id}`, expense));
   }
 
+/**
+ *  Método para desactivar gastos saldados de un grupo
+ *  /bygroup/deactivate/:group_id
+ */
+  deactivateExpenses(groupId: any) : Promise <any> {
+    return lastValueFrom(this.httpClient.put <any> (`${this.API_URL}/expenses/bygroup/deactivate`, groupId))
+  }
+
+
   /**
    * Metodo para eliminar un gasto por id
    */
@@ -62,12 +71,5 @@ export class ExpensesService {
       return firstValueFrom(this.httpClient.delete<IExpense>(`${this.API_URL}/expenses/${expenseId}`));
   }
 
-  /**
-   * Metodo para desactivar todos los gastos de un grupo
-   */
-    deleteExpensesByGroupId(group_id: number)
-    {
-      return firstValueFrom(this.httpClient.delete<IExpense>(`${this.API_URL}/expenses/bygroup/desactive/${group_id}`));
-    }
   
 }

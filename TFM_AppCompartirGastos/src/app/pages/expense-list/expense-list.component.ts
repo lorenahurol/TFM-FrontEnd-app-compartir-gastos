@@ -62,7 +62,6 @@ export class ExpenseListComponent {
   async deleteExpense() {
     if (this.expenseId !== -1) {
       try {
-        console.log(this.expenseId);
         const exp = await this.expenseService.deleteExpenseById(this.expenseId);
 
         /* Como sólo el admin puede eliminar, no tiene sentido recgargar con BD */
@@ -109,11 +108,9 @@ export class ExpenseListComponent {
   async getPayments(){
     //Recupero todos los gastos del grupo agrupados por usuario
     const totalExpenses:any [] = await this.expenseService.getExpensesGroupingByUser(Number(this.groupId));
-    console.log(totalExpenses);
     
     //Recupero los miembros del grupo
     const members: any[] = await this.userService.getMemberUserByGroup(Number(this.groupId));
-    console.log(members);
 
     const membersAll: Array<ImemberGroup> = [];
 

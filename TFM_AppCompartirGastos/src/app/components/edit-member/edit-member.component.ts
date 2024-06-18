@@ -37,7 +37,6 @@ export class EditMemberComponent {
 
   ngOnInit()
   {
-    console.log(this.activatedRoute.params);
     this.activatedRoute.params.subscribe(async (params: any) => {
       // el groupId viene siempre
       if (params.groupId) {
@@ -126,8 +125,6 @@ export class EditMemberComponent {
 
   changeEquitable()
   {
-   
-    console.log(this.memberForm.value.equitable);
     if(this.memberForm.value.equitable == "Si"){
       this.desactivePercent = true;
     }

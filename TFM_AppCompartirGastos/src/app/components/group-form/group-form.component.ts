@@ -162,7 +162,6 @@ async ngOnInit(): Promise<void> {
           const result = await this.groupsService.editGroup(group);
           await this.router.navigate([`home/groups/${this.groupId}`]);
           
-          console.log(result);
         } catch (error) {
           console.log('Error al actualizar el grupo:', error);
         }

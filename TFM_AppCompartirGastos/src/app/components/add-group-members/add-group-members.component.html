@@ -25,9 +25,8 @@
               @for (user of arrInvitedUsers; track $index) {
               <div class="card p-1 medium-card d-flex flex-row align-items-center p-1">
                 <p class="m-1 small">{{user.username}}</p>
-                <button class="btn-circle btn-sm ms-2 d-flex justify-content-center align-items-center"
-                  (click)="editInvitations(invitationForm,$event, user,'remove')">
-                  <span class="material-symbols-outlined">close</span>
+                <button class="btn btn-dark add-remove btn-circle px-2 py-0"
+                  (click)="editInvitations(invitationForm,$event, user,'remove')">x
                 </button>
               </div>
               }
