@@ -1,39 +1,12 @@
-.btn-secondary {
-    background-color: #80afdf !important;
-    border-color: #80afdf !important;
-    font-size: small;
-    border-radius: 5px;
-    margin-right: 2em;
-}
-
-.accordion-header {
-    background-color: #80afdf !important;
-    border-color: #80afdf !important;
-    font-size: small;
-    font-weight: 700;
-    border-radius: 10px;
-}
-
-.accordion-button {
-    background-color: #bbd4ee !important;
-    border-color: #bbd4ee !important;
-    border-radius: 10px;
-    font-weight: 700;
-}
-
-#role-tag {
-    font-size: x-small !important;
-    font-weight: 500;
-}
 
 .nav-link {
-    color: #135496 !important;
+    color: var(--primary-accent);
+    border-color: var(--font-color);  
 }
 
-.menu-option {
-    font-weight: 700;
+.btn-outline-light{
+    background-color: var(--secondary-accent);
+    border-color: var(--secondary-accent);
+    padding: 10px 20px 10px 20px;
 }
 
-.filter-option {
-    text-decoration: underline;
-}
