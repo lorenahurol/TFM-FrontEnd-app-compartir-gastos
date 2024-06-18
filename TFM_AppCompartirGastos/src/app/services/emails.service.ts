@@ -7,6 +7,8 @@ export type IEmailData = {
   bcc: number[];
   html?: string;
   selectedTemplate: string;
+  groupName?: string;
+  balance?: object;
 };
 
 @Injectable({

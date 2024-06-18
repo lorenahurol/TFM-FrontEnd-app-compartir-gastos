@@ -11,6 +11,7 @@ import { AlertModalService } from '../../services/alert-modal.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { IRoles } from '../../interfaces/iroles.interface';
 import dayjs from 'dayjs';
+import { EmailsService, IEmailData } from '../../services/emails.service';
 
 @Component({
   selector: 'app-payments-list',
@@ -22,13 +23,14 @@ import dayjs from 'dayjs';
 export class PaymentsListComponent {
   arrExpenses: IExpense[] = [];
   arrUsers: IUser[] = [];
-  groupId: string = '';
+  groupId: number = 0;
   expenseService = inject(ExpensesService);
   userService = inject(UsersService);
   groupService = inject(GroupsService);
   activatedRoute = inject(ActivatedRoute);
   commonFunc = inject(CommonFunctionsService);
   router = inject(Router);
+  emailsService = inject(EmailsService);
 
   // manejo de la ventana modal de borrado
   alertModalService = inject(AlertModalService);
@@ -38,7 +40,7 @@ export class PaymentsListComponent {
   expenseId: number = -1;
   isAdmin: boolean = false;
   percentEquitable: string = "Proporcional";
-  percentNoEquitable: number = 0;
+  percentNoEquitable: number = -1;
 
   totalExpenses:any [] = []
 
@@ -46,7 +48,7 @@ export class PaymentsListComponent {
   ngOnInit() {
     this.activatedRoute.params.subscribe(async (params: any) => {
       if (params.groupId) {
-        this.groupId = params.groupId;
+        this.groupId = +params.groupId;
         try {
           this.getIsAdmin();
           this.arrExpenses = await this.expenseService.getExpensesByGroup(params.groupId);
@@ -201,12 +203,48 @@ export class PaymentsListComponent {
     }
   }
 
-  settleExpenses() {
+  async settleExpenses() {
+    console.log (this.groupId)
+    try {
+      const response = await this.expenseService.deactivateExpenses({groupId: this.groupId})
+      if (response.success) {
+        const alertModal = this.alertModalService.newAlertModal({
+          icon: 'done_all',
+          title: 'Perfecto!',
+          body: 'Todos los gastos se han saldado correctamente ',
+          acceptAction: true,
+          backAction: false,
+          });
+          alertModal?.componentInstance.sendModalAccept.subscribe(
+            (isAccepted) => {
+              if (isAccepted) {
+                this.router.navigateByUrl(`/home`, { skipLocationChange: true }).then(() => {
+                  this.router.navigate([`/home/groups/${this.groupId}`])
+                })
+              }
+              }
+            );
+        this.sendEmails()
+      }
+      
+    } catch (error) {
+      this.alertModalService.newAlertModal({body: error})
+    }
+  }
+
+  async sendEmails() {
+    // rellena el array de destiniatarios de correo con los usuarios del grupo
     let arrBcc: number[] = []
-    console.log (this.totalExpenses)
     this.totalExpenses.forEach(user => arrBcc.push(user.payer_user_id))
-    console.log(this.arrUsers)
-    console.log(this.groupId)
-    console.log (arrBcc)
+    
+    // recupera el nombre del grupo
+    const groupData = await this.groupService.getAllInfoGroupById(this.groupId)
+    const emailData: IEmailData = {
+      bcc: arrBcc,
+      selectedTemplate: "settleExpenses",
+      groupName: groupData.description,
+      balance: this.arrMembers
+    }
+    await this.emailsService.sendEmail (emailData)
   }
 }
