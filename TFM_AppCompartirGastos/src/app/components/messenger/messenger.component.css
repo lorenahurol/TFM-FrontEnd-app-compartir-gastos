@@ -23,7 +23,7 @@ body{
 
 .chat-app .chat {
     margin-left: 280px;
-    border-left: 1px solid #eaeaea
+    border-left: 1px solid #eaeaea;    
 }
 
 .people-list {
@@ -93,7 +93,8 @@ body{
     /*border-bottom: 2px solid #fff;*/
     height: 500px; 
     overflow-y: auto; 
-    border: 1px solid #ccc;
+    border: 1px solid var(--secondary-accent);
+    background-color:#434651
 }
 
 .chat .chat-history ul {
@@ -119,7 +120,7 @@ body{
 }
 
 .chat .chat-history .message-data-time {
-    color: #434651;
+    color: var(--primary-accent);
     padding-left: 6px
 }
 

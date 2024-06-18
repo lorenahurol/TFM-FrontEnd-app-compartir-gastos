@@ -1,4 +1,5 @@
 @if (infoGroup !== undefined) {
+<div class="accordion">
 <div class="accordion-item" id="heading{{infoGroup.description}}">
     <h2 class="accordion-header d-flex justify-content-between align-items-center">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -10,7 +11,7 @@
             }
         </button>
         @if (!isGroupHome()) {
-        <button class="btn btn-secondary mx-2" (click)="goToGroup(infoGroup.group_id)">Abrir</button>
+        <button class="btn btn-outline-light mx-2" (click)="goToGroup(infoGroup.group_id)">Abrir</button>
         }
     </h2>
     <div id="flush-collapseOne{{infoGroup.group_id}}" class="accordion-collapse collapse"
@@ -18,30 +19,28 @@
         <div class="accordion-body">
             <div class="card">
                 <div class="pt-3 pb-3">
-                    <table class="table">
+
+                    <table class="table table-bordered table-dark">
                         <tbody>
-                            <tr>
-                                <th class="px-3 py-0 label-info-table" scope="row">#</th>
-                                <td class="px-3 py-0">{{infoGroup.group_id}}</td>
-                            </tr>
-                            <tr>
+                            <!-- <tr>
                                 <th class="px-3 py-0 label-info-table" scope="row">Descripción</th>
                                 <td class="px-3 py-0">{{infoGroup.description}}</td>
-                            </tr>
+                            </tr> -->
                             <tr>
-                                <th class="px-3 py-0 label-info-table" scope="row">Usuario creador</th>
-                                <td class="px-3 py-0">{{infoGroup.creator_user}}</td>
+                                <th class="px-3 label-info-table payments-field" scope="row">Usuario creador</th>
+                                <th class="px-3 label-info-table payments-field" scope="row">Categoría</th>
+                                
                             </tr>
-                            <tr>
-                                <th class="px-3 py-0 label-info-table" scope="row">Categoría</th>
-                                <td class="px-3 py-0">{{infoGroup.category}}</td>
+                            <tr class="table-secondary">
+                                <td class="px-3 payments-field">{{infoGroup.creator_user}}</td>
+                                <td class="px-3 payments-field">{{infoGroup.category}}</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 <div class="pt-3 pb-3">
                     @if (infoGroup !== undefined && infoGroup.thereAreExpenses) {
-                    <table class="table table-bordered">
+                    <table class="table table-bordered table-dark">
                         <thead>
                             <tr>
                                 <th class="px-3 payments-field">Gastos total</th>
@@ -49,7 +48,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
+                            <tr class="table-secondary">
                                 <td class="px-3 payments-field">{{formatAmount(infoGroup.totalexpenses)}}</td>
                                 <td class="px-3 payments-field">{{formatAmount(infoGroup.balance)}}</td>
                             </tr>
@@ -62,5 +61,6 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 }

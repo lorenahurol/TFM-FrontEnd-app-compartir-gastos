@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { environment } from '../../environments/environments';
-import { lastValueFrom } from 'rxjs';
+import { BehaviorSubject, Observable, lastValueFrom } from 'rxjs';
 import { ITokenVerification } from '../interfaces/itoken-verification.interface';
 import { ILoginBody } from '../interfaces/ilogin-body.interface';
 import { ILoginResponse } from '../interfaces/ilogin-response.interface';
@@ -12,6 +12,10 @@ import { ILoginResponse } from '../interfaces/ilogin-response.interface';
 })
 export class AuthService {
   private httpClient = inject(HttpClient);
+  private isLoggedInSubject = new BehaviorSubject<boolean>(false)
+
+  // Se crea un observable que verifica el estado de login
+  isLoggedIn$: Observable<boolean> = this.isLoggedInSubject.asObservable();
 
   // URL de entorno
   private API_URL: string | undefined;
@@ -49,16 +53,15 @@ export class AuthService {
     );
   }
   
-  /**
-   * Logout deletes login_token from localStorage
-   * @returns 
-   */
   logout() {
-    try {
-      localStorage.removeItem('login_token')
-      return {success : true}
-    } catch (error) {
-      return {success : false}
-    }
+    localStorage.removeItem('login_token');
   }
+
+  /**
+   * Actualiza el estado de login/out para la recarga inmediata del navbar
+   */
+  loginSubject(state : boolean) {
+    this.isLoggedInSubject.next(state)
+  }
+
 }

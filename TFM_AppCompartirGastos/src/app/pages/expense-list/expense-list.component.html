@@ -11,7 +11,7 @@
                 @if (arrExpenses.length > 0) {
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
+                            <!-- <th scope="col">#</th> -->
                             <th scope="col">Descripción</th>
                             <th scope="col">Pagado por</th>
                             <th scope="col" class="amount">Cantidad</th>
@@ -24,7 +24,7 @@
                     <tbody>
                     @for(expense of arrExpenses; track expense.id) {
                     <tr class="align-middle">
-                        <th scope="row">{{expense.id}}</th>
+                        <!-- <th scope="row">{{expense.id}}</th> -->
                         <td>{{ expense.description }}</td>
                         <td>{{ getUserName(expense.payer_user_id) }}</td>
                         <td class="amount">{{ formatAmount(expense.amount) }}</td>

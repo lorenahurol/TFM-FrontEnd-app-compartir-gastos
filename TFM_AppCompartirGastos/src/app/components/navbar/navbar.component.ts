@@ -5,11 +5,12 @@ import { AuthService } from '../../services/auth.service';
 import { AlertModalService } from '../../services/alert-modal.service';
 import { InvitationsService } from '../../services/invitations.service';
 import { IInvitation } from '../../interfaces/iinvitation.interface';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, MatIconModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
@@ -32,12 +33,17 @@ export class NavbarComponent {
   }
 
   async ngOnInit(): Promise<void> {
+    // subscribe al observable de estado de login
+    this.authService.isLoggedIn$.subscribe(isLoggedIn => {
+      this.isLoggedIn = isLoggedIn
+    })
     const token = localStorage.getItem("login_token");
     if (token) {
       try {
         const tokenVerification = await this.authService.verifyToken(token);
         if (tokenVerification && tokenVerification.id) {
-          this.isLoggedIn = true;
+          // this.authService.loginSubject(true)
+          // this.isLoggedIn = true;
           this.userId = tokenVerification.id;
           this.loadInvitations();
         }
@@ -106,12 +112,9 @@ export class NavbarComponent {
  
 
   logout() {
-    const result = this.authService.logout();
-    if (result.success) {
-      this.isLoggedIn = false;
-      this.router.navigate(['/login']);
-    } else {
-      console.error("Error al cerrar sesión");
-    }
+    this.authService.loginSubject(false);
+    this.authService.logout()
+    this.isLoggedIn = false; 
+    this.router.navigate(['/login'])
   }
 }

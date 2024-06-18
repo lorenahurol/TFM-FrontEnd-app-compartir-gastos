@@ -10,11 +10,12 @@ import { IExpense } from '../../interfaces/iexpense.interface';
 import { IUser } from '../../interfaces/iuser.interface';
 import { UsersService } from '../../services/users.service';
 import { GroupInfoCardComponent } from '../../components/group-info-card/group-info-card.component';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
   selector: 'app-user-dashboard',
   standalone: true,
-  imports: [GroupInfoCardComponent, RouterLink],
+  imports: [GroupInfoCardComponent, RouterLink, MatIconModule],
   templateUrl: './user-dashboard.component.html',
   styleUrl: './user-dashboard.component.css',
 })

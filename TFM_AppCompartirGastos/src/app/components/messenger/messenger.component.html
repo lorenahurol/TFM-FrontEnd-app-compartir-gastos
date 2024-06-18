@@ -1,5 +1,5 @@
   <!-- Contenedor para mostrar el histórico de mensajes -->
-  <div class="container">
+  <div class="container mt-4">
     <div class="chat">
         <div class="container chat-history" #scrollContainer>
             <ul id="messages-history" class="m-b-0">
@@ -9,7 +9,7 @@
                         @if (msg.user_id === userId) {
                             <li class="clearfix">
                                 <div class="message-data">
-                                    <span class="message-data-time float-right small">{{dateFormat(msg.timestamp)}} - <mark><b> YO </b></mark></span><br>
+                                    <span class="message-data-time float-right small">{{dateFormat(msg.timestamp)}} - <mark><strong> YO </strong></mark></span><br>
                                     <div class="message my-message float-right"> {{msg.message}} </div><br>
                                 </div>
                             </li>
@@ -40,7 +40,7 @@
                 placeholder="Introduce nuevo mensaje..." [disabled]="groupId === undefined || groupId === null || groupId === 0"></textarea>
             </div>
             <!-- deshabilitar el botón si groupId es undefined, null o 0 -->
-            <button type="button" class="btn btn-primary" [disabled]="groupId === undefined || groupId === null || groupId === 0" (click)="sendMessage()">Enviar</button>
+            <button type="button" class="btn btn-outline-light mt-3" [disabled]="groupId === undefined || groupId === null || groupId === 0" (click)="sendMessage()">Enviar</button>
         </div>
     </div>
 </div>
