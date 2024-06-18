@@ -204,11 +204,32 @@ export class PaymentsListComponent {
   }
 
   async settleExpenses() {
-    
-
-    this.sendEmails()
-
-
+    console.log (this.groupId)
+    try {
+      const response = await this.expenseService.deactivateExpenses({groupId: this.groupId})
+      if (response.success) {
+        const alertModal = this.alertModalService.newAlertModal({
+          icon: 'done_all',
+          title: 'Perfecto!',
+          body: 'Todos los gastos se han saldado correctamente ',
+          acceptAction: true,
+          backAction: false,
+          });
+          alertModal?.componentInstance.sendModalAccept.subscribe(
+            (isAccepted) => {
+              if (isAccepted) {
+                this.router.navigateByUrl(`/home`, { skipLocationChange: true }).then(() => {
+                  this.router.navigate([`/home/groups/${this.groupId}`])
+                })
+              }
+              }
+            );
+        this.sendEmails()
+      }
+      
+    } catch (error) {
+      this.alertModalService.newAlertModal({body: error})
+    }
   }
 
   async sendEmails() {
