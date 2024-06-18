@@ -33,6 +33,11 @@ export class UserDashboardComponent {
   
 
   async ngOnInit() {
+    // si en localStorage tenemos el item 'activeTab' lo borramos (es algo que usamos en la home de grupo)
+    if (localStorage.getItem('activeTab')) {
+      localStorage.removeItem('activeTab');
+    }
+
     await this.groupService.getAllInfoGroupsByUser().then((data: IUserGroups[]) => {
       this.arrInfoGroups = data;
     });

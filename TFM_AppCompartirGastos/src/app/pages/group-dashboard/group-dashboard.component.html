@@ -7,34 +7,35 @@
 
 <ul class="nav nav-tabs">
     <li class="nav-item">
-      <a class="nav-link active" id="expenses-tab" data-bs-toggle="tab" href="#expenses-tabpanel" role="tab" aria-controls="expenses-tabpanel" aria-selected="true">Gastos</a>
+      <a class="nav-link" [class.active]="this.activeTab === 'expenses'" id="expenses-tab" data-bs-toggle="tab" href="#expenses-tabpanel" role="tab" 
+        (click)="changeTab('expenses')" aria-controls="expenses-tabpanel" [attr.aria-selected]="this.activeTab === 'expenses' ">Gastos</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" id="payments-tab" data-bs-toggle="tab" href="#payments-tabpanel" role="tab" aria-controls="payments-tabpanel" aria-selected="false">Pagos</a>
-
+      <a class="nav-link" [class.active]="this.activeTab === 'payments'" id="payments-tab" data-bs-toggle="tab" href="#payments-tabpanel" role="tab"
+        (click)="changeTab('payments')" aria-controls="payments-tabpanel" [attr.aria-selected]="this.activeTab === 'payments' ">Pagos</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" id="admin-tab" data-bs-toggle="tab" href="#admin-tabpanel" role="tab" aria-controls="admin-tabpanel" aria-selected="false">Administración</a>
-
+      <a class="nav-link" [class.active]="this.activeTab === 'admin'" id="admin-tab" data-bs-toggle="tab" href="#admin-tabpanel" role="tab" 
+        (click)="changeTab('admin')" aria-controls="admin-tabpanel" [attr.aria-selected]="this.activeTab === 'admin' ">Administración</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" id="messages-tab" data-bs-toggle="tab" href="#messages-tabpanel" role="tab" aria-controls="messages-tabpanel" aria-selected="false">Foro</a>
-
+      <a class="nav-link" [class.active]="this.activeTab === 'messages'" id="messages-tab" data-bs-toggle="tab" href="#messages-tabpanel" role="tab" 
+      (click)="changeTab('messages')" aria-controls="messages-tabpanel" [attr.aria-selected]="this.activeTab === 'messages' ">Foro</a>
     </li>
-  </ul>
+</ul>
   
   <div class="tab-content">
-    <div class="tab-pane active" id="expenses-tabpanel" role="tabpanel" aria-labelledby="expenses-tab">
+    <div class="tab-pane" [class.active]="this.activeTab === 'expenses'" id="expenses-tabpanel" role="tabpanel" aria-labelledby="expenses-tab">
       <app-expense-list></app-expense-list>
 
     </div>
-    <div class="tab-pane" id="payments-tabpanel" role="tabpanel" aria-labelledby="payments-tab">
+    <div class="tab-pane" [class.active]="this.activeTab === 'payments'" id="payments-tabpanel" role="tabpanel" aria-labelledby="payments-tab">
       <app-payments-list></app-payments-list>
     </div>
-    <div class="tab-pane" id="admin-tabpanel" role="tabpanel" aria-labelledby="admin-tab">
+    <div class="tab-pane" [class.active]="this.activeTab === 'admin'" id="admin-tabpanel" role="tabpanel" aria-labelledby="admin-tab">
       <app-group-admin></app-group-admin>
     </div>
-    <div class="tab-pane" id="messages-tabpanel" role="tabpanel" aria-labelledby="messages-tab">
+    <div class="tab-pane" [class.active]="this.activeTab === 'messages'" id="messages-tabpanel" role="tabpanel" aria-labelledby="messages-tab">
       <app-messenger [userId]="userId" [groupId]="getGroup()"></app-messenger>
     </div>
 
