@@ -37,9 +37,10 @@
             <div class="form-group">
                 <textarea class="form-control" id="newMessage" [(ngModel)]="newMessage" rows="2"
                 (keydown.enter)="sendMessage(); $event.preventDefault()" 
-                placeholder="Introduce nuevo mensaje..."></textarea>
+                placeholder="Introduce nuevo mensaje..." [disabled]="groupId === undefined || groupId === null || groupId === 0"></textarea>
             </div>
-            <button type="button" class="btn btn-primary" (click)="sendMessage()">Enviar</button>
+            <!-- deshabilitar el botón si groupId es undefined, null o 0 -->
+            <button type="button" class="btn btn-primary" [disabled]="groupId === undefined || groupId === null || groupId === 0" (click)="sendMessage()">Enviar</button>
         </div>
     </div>
 </div>
