@@ -2,16 +2,7 @@
     background: var(--gradient-background);
 }
 
-.container {
-    border: none;
-}
 
-@media (min-width: 769px) {
-    .container {
-        border: 1px solid var(--secondary-accent);
-        border-radius: 10px;
-    }
-}
 
 img {
     max-width: 100%;

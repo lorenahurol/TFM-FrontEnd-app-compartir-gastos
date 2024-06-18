@@ -1,27 +1,12 @@
-.footer-navbar .navbar-brand,
-.footer-navbar .text-primary {
-    color: #F5F5F5;
+.footer-navbar, .navbar-brand, .p {
+    color: var(--font-color);
 }
 
 .footer-navbar {
-    font-weight: 400;
-    transition: font-weight 0.3s ease;
-}
-
-
-.footer-navbar {
-    display: flex;
-    align-items: center;
-}
-
-.footer-navbar {
-    padding: 0.5rem 1rem;
-}
-
-.footer-navbar{
     padding: 0.375rem 1rem;
     margin-left: 1.5rem;
     line-height: 1.5;
+    font-weight: 400;
     display: flex;
     align-items: center;
 }

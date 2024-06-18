@@ -118,7 +118,7 @@
       }
     </div>}
 
-  <div class="row g-1 mt-4  g-3">
+  <div class="row g-1 mt-4 g-3">
   <!-- Form de registro: enlace a login y botón submit -->
   @if (!isUpdate) {
     <div class="col-12 col-md-8">
@@ -128,19 +128,20 @@
       
       <input class="btn btn-outline-light btn-lg" type="submit" [disabled]="!inputForm.valid" value="Regístrate" >
     </div>
+
   } @else {
     <!-- Form de update: botón al modal change-pwd-modal y validar datos-->
-    <div class="col-12 col-lg-4  col-sm-0 mt-2 mt-md-0 pe-0">
+    <div class="col-12 col-lg-4 col-sm-0 mt-2 mt-md-0 pe-0">
     </div>
     <div class="col-12 col-lg-4 col-md-6  col-sm-6 mt-2 mt-md-0 pe-0">
-      <button  type="button" class="btn btn-outline-warning w-100" data-bs-toggle="modal" data-bs-target="#changePwdModal"> Modificar contraseña </button>
+      <button type="button" class="btn btn-outline-warning btn-lg px-6 py-1 rounded-3 mt-2 text-center" data-bs-toggle="modal" data-bs-target="#changePwdModal"> Modificar contraseña </button>
       <app-change-pwd-modal></app-change-pwd-modal>
     </div>
     <div class="col-12 col-lg-4 col-md-6  col-sm-6 mt-2 mt-md-0 pe-0">
       <input  type="submit"  class="btn btn-outline-light btn-lg px-5 py-1 rounded-3 mt-2"[disabled]="!inputForm.valid" value="Actualizar" >
     </div>
     <div class="text-end">
-      <p class="fs-6 text-primary unsubscribe" (click)="unsubscribe()">Darse de Baja</p>
+      <a class="fs-6 fw-semibold text-danger unsubscribe" (click)="unsubscribe()">Darse de Baja</a>
     </div>
   }
 </div>
