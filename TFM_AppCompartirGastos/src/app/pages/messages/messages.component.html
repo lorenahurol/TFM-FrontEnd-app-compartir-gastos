@@ -2,7 +2,10 @@
     <!-- Desplegable para seleccionar el grupo -->
     <div class="form-group my-3">
         <label for="groupSelect">Selecciona un grupo:</label>
-        <select class="form-control" id="groupSelect" (change)="changeGroup($event.target)">
+        <select class="form-control" id="groupSelect" (change)="changeGroup($event.target)">ç
+            @if (groupId === undefined || groupId === null || groupId === 0) {
+                <option value="0"> - Selecciona un grupo - </option>
+            }
             @for (infoGroup of arrInfoGroups; track infoGroup.group_id) {
                 <option [selected]="isGroupId(infoGroup.group_id)" [value]="infoGroup.group_id">{{infoGroup.description}}</option>
             }
