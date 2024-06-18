@@ -4,41 +4,38 @@
 </div>
 </section>
 
-      
 
-<!-- <app-group-info-card [infoGroup]="group"></app-group-info-card> -->
 <ul class="nav nav-tabs">
     <li class="nav-item">
-      <a class="nav-link active" id="simple-tab-0" data-bs-toggle="tab" href="#simple-tabpanel-0" role="tab" aria-controls="simple-tabpanel-0" aria-selected="true">Gastos</a>
-      <!-- <a class="nav-link" [routerLink]="['/home/expenses/13']">Gastos</a> -->
+      <a class="nav-link active" id="expenses-tab" data-bs-toggle="tab" href="#expenses-tabpanel" role="tab" aria-controls="expenses-tabpanel" aria-selected="true">Gastos</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" id="simple-tab-1" data-bs-toggle="tab" href="#simple-tabpanel-1" role="tab" aria-controls="simple-tabpanel-1" aria-selected="false">Saldos</a>
-      <!-- <a class="nav-link" [routerLink]="['ruta2']">Pagos</a> -->
+      <a class="nav-link" id="payments-tab" data-bs-toggle="tab" href="#payments-tabpanel" role="tab" aria-controls="payments-tabpanel" aria-selected="false">Pagos</a>
+
     </li>
     <li class="nav-item">
-      <a class="nav-link" id="simple-tab-2" data-bs-toggle="tab" href="#simple-tabpanel-2" role="tab" aria-controls="simple-tabpanel-2" aria-selected="false">Administración</a>
-      <!-- <a class="nav-link" [routerLink]="['ruta2']">Administrar</a> -->
+      <a class="nav-link" id="admin-tab" data-bs-toggle="tab" href="#admin-tabpanel" role="tab" aria-controls="admin-tabpanel" aria-selected="false">Administración</a>
+
     </li>
     <li class="nav-item">
-      <a class="nav-link" id="simple-tab-3" data-bs-toggle="tab" href="#simple-tabpanel-3" role="tab" aria-controls="simple-tabpanel-3" aria-selected="false">Foro</a>
-      <!-- <a class="nav-link" [routerLink]="['ruta2']">Administrar</a> -->
+      <a class="nav-link" id="messages-tab" data-bs-toggle="tab" href="#messages-tabpanel" role="tab" aria-controls="messages-tabpanel" aria-selected="false">Foro</a>
+
     </li>
   </ul>
   
   <div class="tab-content">
-    <div class="tab-pane active" id="simple-tabpanel-0" role="tabpanel" aria-labelledby="simple-tab-0">
+    <div class="tab-pane active" id="expenses-tabpanel" role="tabpanel" aria-labelledby="expenses-tab">
       <app-expense-list></app-expense-list>
 
     </div>
-    <div class="tab-pane" id="simple-tabpanel-1" role="tabpanel" aria-labelledby="simple-tab-1">
+    <div class="tab-pane" id="payments-tabpanel" role="tabpanel" aria-labelledby="payments-tab">
       <app-payments-list></app-payments-list>
     </div>
-    <div class="tab-pane" id="simple-tabpanel-2" role="tabpanel" aria-labelledby="simple-tab-2">
+    <div class="tab-pane" id="admin-tabpanel" role="tabpanel" aria-labelledby="admin-tab">
       <app-group-admin></app-group-admin>
     </div>
-    <div class="tab-pane" id="simple-tabpanel-3" role="tabpanel" aria-labelledby="simple-tab-3">
-      <app-messenger [userId]="userId" [groupId]="getGroup()" ></app-messenger>
+    <div class="tab-pane" id="messages-tabpanel" role="tabpanel" aria-labelledby="messages-tab">
+      <app-messenger [userId]="userId" [groupId]="getGroup()"></app-messenger>
     </div>
 
     <router-outlet></router-outlet>

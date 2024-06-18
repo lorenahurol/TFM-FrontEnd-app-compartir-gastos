@@ -11,7 +11,7 @@
         @if (arrMembers.length > 0) {
             <thead>
                 <tr>
-                    <th scope="col">#</th>
+                    <!-- <th scope="col">#</th> -->
                     <th scope="col">Miembro</th>
                     <th scope="col" class="amount">Gastos pagados</th>
                     <th scope="col" class="amount">Participación</th>
@@ -21,7 +21,7 @@
             <tbody>
             @for(member of arrMembers; track member.user_id) {
             <tr class="align-middle">
-                <td scope="row">{{member.user_id}}</td>
+                <!-- <td scope="row">{{member.user_id}}</td> -->
                 <td>{{ getUserName(member.user_id) }}
                 <td class="amount">{{ formatAmount(member.totalEx) }}</td> 
                 <td class="amount">{{ formatPercent(member.percent) }}</td>

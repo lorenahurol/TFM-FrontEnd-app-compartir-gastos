@@ -7,42 +7,76 @@
     text-align: center;
 }
 
-.btn-secondary {
-    background-color: #80afdf !important;
-    border-color: #80afdf !important;
-    font-size: small;
-    border-radius: 5px;
-    margin-right: 2em;
-}
-
 .accordion-header {
-    background-color: #80afdf !important;
-    border-color: #80afdf !important;
+    background-color: var(--background-color) !important;
+    border-color: var(--primary-accent) !important;
     font-size: small;
     font-weight: 700;
-    border-radius: 10px;
+    color: var(--primary-accent) ;
+    
 }
+
+/* Ovewritte Boostrap styles */
+.text-bg-danger{
+    background: var(--secondary-accent) !important;
+}
+
+.text-center{
+    font-size:large;
+    color: var(--primary-accent);
+}
+
 
 .accordion-button {
-    background-color: #bbd4ee !important;
-    border-color: #bbd4ee !important;
-    border-radius: 10px;
-    font-weight: 700;
+    background-color: var(--background-color) !important;
+    border-color: var(--font-color) !important;
+    font-weight: 500;
+    color: var(--font-color) !important; 
+    border-bottom: 1px solid var(--font-color);
+    /* --bs-accordion-btn-icon-width: 50px; */
+    --bs-accordion-btn-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+    --bs-accordion-btn-active-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e"); 
 }
+
+.accordion-item{
+    border: none;
+    background-color: var(--background-color) ;
+    color: var(--primary-accent);
+}
+
+.accordion-button:not(.collapsed){
+    background-color: var(--background-color) ;
+    box-shadow: none;
+
+}
+
+.accordion-button:focus{
+    box-shadow: none;
+}
+
 
 #role-tag {
     font-size: x-small !important;
-    font-weight: 500;
-}
-
-.nav-link {
-    color: #135496 !important;
+    font-weight: 600;
 }
 
 .menu-option {
     font-weight: 700;
 }
 
-.filter-option {
-    text-decoration: underline;
+.card{
+    background-color: var(--background-color);
 }
+
+.table{
+    border: 1px solid var(--font-color);
+}
+
+.myTableBody{
+    background-color: var(--background-color);
+}
+.table-dark{
+    --bs-table-bg: var(--secondary-accent);
+}
+
+

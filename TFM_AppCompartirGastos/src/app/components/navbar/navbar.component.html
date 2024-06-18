@@ -20,43 +20,64 @@
                     <button class="btn btn-lg btn-outline-light px-4 ms-md-4" [routerLink]="['/login']">Acceso</button>
                 </li>
                 } @else {
-                <li class="nav-item">
-                    <a class="nav-link fs-5" [routerLink]="['/home']">Home de usuario</a>
-                </li>
-                <li class="nav-item dropdown fs-5">
-                    <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Notificaciones
+                <li class="nav-item" title="Inicio">
+                    <a class="nav-link fs-5" [routerLink]="['/home']">
+                        <mat-icon fontIcon="home"></mat-icon>
                     </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item fs-5">Invitaciones</a></li>
+                </li>
+                <li class="nav-item dropdown fs-5" title="Notificaciones">
+                    <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <mat-icon fontIcon="notifications" ></mat-icon>
+                    </a>
+                    <ul class="dropdown-menu" title="Invitaciones">
+                        <li><a class="dropdown-item fs-5">
+                            <mat-icon fontIcon="group" ></mat-icon>
+                        </a></li>
                         <li>
                             <hr class="dropdown-divider">
                             <div class="modal-body">
                                 <div class="invitation">
-                                    @for(inv of invitations; track inv.id) {
-                                    <p>{{ inv.message }}</p>
-                                    <button class="btn btn-success btn-sm"
-                                        (click)="handleInvitation(inv.id, 'accept')">Aceptar</button>
-                                    <button class="btn btn-danger btn-sm"
-                                        (click)="handleInvitation(inv.id, 'reject')">Rechazar</button>
+                                    @if(invitations.length > 0){
+
+                                    
+                                        @for(inv of invitations; track inv.id) {
+                                        <p>{{ inv.message }}</p>
+                                        <button class="btn btn-success btn-sm"
+                                            (click)="handleInvitation(inv.id, 'accept')" title="Aceptar">
+                                            <mat-icon fontIcon="check" ></mat-icon>
+                                        </button>
+                                        <button class="btn btn-danger btn-sm"
+                                            (click)="handleInvitation(inv.id, 'reject')"  title="Rechazar">
+                                            <mat-icon fontIcon="cancel"></mat-icon>
+                                        </button>
+                                        }
+                                    }@else {
+                                        <p>No hay invitaciones pendientes</p>
                                     }
                                 </div>
                             </div>
                         </li>
-                        <hr class="dropdown-divider">
-                        <li><a class="dropdown-item fs-5" [routerLink]="['/']">Mensajes</a></li>
-                        <hr class="dropdown-divider">
+                        <!-- <hr class="dropdown-divider" title="Foro">
+                        <li><a class="dropdown-item fs-5" [routerLink]="['/home/messages']">
+                            <mat-icon fontIcon="chat"></mat-icon></a></li>
+                        <hr class="dropdown-divider"> -->
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link fs-5" [routerLink]="['/home/messages']">Foro</a>
+                <li class="nav-item" title="Foro">
+                    <a class="nav-link fs-5" [routerLink]="['/home/messages']">
+                        <mat-icon fontIcon="forum"></mat-icon>
+                    </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link fs-5" [routerLink]="['/home', 'users', 'update']">Configuración</a>
+                <li class="nav-item" title="Ajustes de usuario">
+                    <a class="nav-link fs-5" [routerLink]="['/home', 'users', 'update']">
+                        <mat-icon fontIcon="person_edit"></mat-icon>
+                    </a>
                 </li>
 
-                <li class="nav-item">
-                    <button class="btn btn-lg btn-outline-light px-4 ms-md-4" (click)="logout()">Cerrar sesión</button>
+                <li class="nav-item" title="Cerrar sesión">
+                    <button class="btn btn-lg btn-outline-light px-4 ms-md-4" (click)="logout()">
+                        <mat-icon fontIcon="logout"></mat-icon>
+                    </button>
                 </li>
                 }
             </ul>
