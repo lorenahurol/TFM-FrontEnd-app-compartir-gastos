@@ -12,6 +12,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { IRoles } from '../../interfaces/iroles.interface';
 import dayjs from 'dayjs';
 import { EmailsService, IEmailData } from '../../services/emails.service';
+import { PaymentsService } from '../../services/payments.service';
 
 @Component({
   selector: 'app-payments-list',
@@ -31,6 +32,7 @@ export class PaymentsListComponent {
   commonFunc = inject(CommonFunctionsService);
   router = inject(Router);
   emailsService = inject(EmailsService);
+  paymentsService = inject(PaymentsService)
 
   // manejo de la ventana modal de borrado
   alertModalService = inject(AlertModalService);
@@ -203,11 +205,19 @@ export class PaymentsListComponent {
     }
   }
 
+  // Función para liquidar gastos de un grupo
   async settleExpenses() {
-    console.log (this.groupId)
     try {
-      const response = await this.expenseService.deactivateExpenses({groupId: this.groupId})
-      if (response.success) {
+      // Crea el array de pagos (el valor del pago es el inverso del crédito)
+      let arrPayments = this.arrMembers.map(user => {
+        return {user_id: user.user_id, credit: -user.credit, group_id: user.group_id}
+        })
+      
+      // Borrado lógico de la tabla de gastos y creación en la tabla de pagos
+      const deactivateResponse = await this.expenseService.deactivateExpenses({ groupId: this.groupId })
+      const createPayment = await this.paymentsService.addPayment ( arrPayments )
+
+      if (deactivateResponse.success && createPayment.success) {
         const alertModal = this.alertModalService.newAlertModal({
           icon: 'done_all',
           title: 'Perfecto!',
@@ -224,7 +234,7 @@ export class PaymentsListComponent {
               }
               }
             );
-        this.sendEmails()
+        // this.sendEmails()
       }
       
     } catch (error) {
@@ -235,7 +245,7 @@ export class PaymentsListComponent {
   async sendEmails() {
     // rellena el array de destiniatarios de correo con los usuarios del grupo
     let arrBcc: number[] = []
-    this.totalExpenses.forEach(user => arrBcc.push(user.payer_user_id))
+    this.arrMembers.forEach(user => arrBcc.push(user.user_id))
     
     // recupera el nombre del grupo
     const groupData = await this.groupService.getAllInfoGroupById(this.groupId)
