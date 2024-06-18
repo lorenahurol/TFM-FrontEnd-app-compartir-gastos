@@ -21,6 +21,11 @@
     background: var(--secondary-accent) !important;
 }
 
+.text-center{
+    font-size:large;
+    color: var(--primary-accent);
+}
+
 
 .accordion-button {
     background-color: var(--background-color) !important;

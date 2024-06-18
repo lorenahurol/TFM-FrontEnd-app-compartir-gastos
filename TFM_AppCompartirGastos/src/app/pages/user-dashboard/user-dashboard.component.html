@@ -27,8 +27,13 @@
     </div>
     <div>
       <div class="accordion mt-3" id="infoGroupAccordion">
-        @for (infoGroup of arrInfoGroups; track infoGroup.group_id) {
-        <app-group-info-card [infoGroup]="infoGroup"></app-group-info-card>
+        @if(arrInfoGroups.length > 0)
+        {
+          @for (infoGroup of arrInfoGroups; track infoGroup.group_id) {
+          <app-group-info-card [infoGroup]="infoGroup"></app-group-info-card>
+          }
+        }@else {
+          <p class="text-center mt-5">No hay grupos de esta categoría</p>
         }
       </div>
     </div>
