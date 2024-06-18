@@ -5,7 +5,9 @@
             <div class="card-body">
                 <p class="card-text">
                     Editar miembro 
-                    {{user.firstname}} {{user.lastname}}
+                    @if (user !== undefined) {
+                        {{user.firstname}} {{user.lastname}}
+                    }
                 </p>
             </div>
 

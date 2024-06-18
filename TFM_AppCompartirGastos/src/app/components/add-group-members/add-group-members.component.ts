@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { InvitationsService } from '../../services/invitations.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { IInvitation } from '../../interfaces/iinvitation.interface';
 import { UsersService } from '../../services/users.service';
 import { AlertModalService } from '../../services/alert-modal.service';
@@ -19,7 +19,7 @@ export type IUsername = {
 @Component({
   selector: 'app-add-group-members',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, RouterLink],
   templateUrl: './add-group-members.component.html',
   styleUrl: './add-group-members.component.css',
 })
@@ -184,8 +184,4 @@ export class AddGroupMembersComponent {
     this.arrUsernameSuggestions = await this.usersService.getUsernames(currentUsername);
   }
 
-  backGroupHome()
-  {
-    this.router.navigate([`/home/groups/${this.groupId}`]);
-  }
 }
