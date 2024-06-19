@@ -1,13 +1,28 @@
+.wrapper {
+    max-width: 450px;
+    width: 100%;
+}
+
+.card-color {
+    background-color: var(--gradient-card-green);
+}
 
 .nav-link {
     color: var(--primary-accent);
-    border-color: var(--font-color);  
+    border-color: var(--font-color);
+    font-size: var(--p-size);
+    font-family: var(--p-font);
+}
+
+.nav-link:hover {
+    cursor: pointer;
+    color: rgb(10, 10, 10);
+    background-color: var(--primary-accent);
 }
 
 .btn-outline-light{
     background-color: var(--secondary-accent);
     border-color: var(--secondary-accent);
-    padding: 10px 20px 10px 20px;
 }
 
 .text-center{

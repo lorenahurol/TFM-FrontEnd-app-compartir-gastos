@@ -1,13 +1,13 @@
-.background {
-    background: var(--gradient-background);
-}
-
-.container {
+.wrapper {
+    max-width: 1440px;
+    width: 100%;
     border: none;
+    overflow: hidden;
+    margin: 0 auto;
 }
 
 @media (min-width: 769px) {
-    .container {
+    .wrapper {
         border: 1px solid var(--secondary-accent);
         border-radius: 10px;
     }

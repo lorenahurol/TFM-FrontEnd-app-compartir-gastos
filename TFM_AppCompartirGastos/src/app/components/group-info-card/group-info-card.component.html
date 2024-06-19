@@ -1,7 +1,8 @@
+<!-- Información general del grupo -->
 @if (infoGroup !== undefined) {
 <div class="accordion">
 <div class="accordion-item" id="heading{{infoGroup.description}}">
-    <h2 class="accordion-header d-flex justify-content-between align-items-center">
+    <h4 class="accordion-header d-flex justify-content-between align-items-center">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
             [attr.data-bs-target]="'#flush-collapseOne'+infoGroup.group_id" aria-expanded="false"
             aria-controls="flush-collapseOne">
@@ -13,54 +14,43 @@
         @if (!isGroupHome()) {
         <button class="btn btn-outline-light mx-2" (click)="goToGroup(infoGroup.group_id)">Abrir</button>
         }
-    </h2>
+    </h4>
     <div id="flush-collapseOne{{infoGroup.group_id}}" class="accordion-collapse collapse"
         data-bs-parent="#infoGroupAccordion">
         <div class="accordion-body">
-            <div class="card">
-                <div class="pt-3 pb-3">
-
-                    <table class="table table-bordered table-dark">
-                        <tbody>
-                            <!-- <tr>
-                                <th class="px-3 py-0 label-info-table" scope="row">Descripción</th>
-                                <td class="px-3 py-0">{{infoGroup.description}}</td>
-                            </tr> -->
-                            <tr>
-                                <th class="px-3 label-info-table payments-field" scope="row">Usuario creador</th>
-                                <th class="px-3 label-info-table payments-field" scope="row">Categoría</th>
-                                
-                            </tr>
-                            <tr class="table-secondary">
-                                <td class="px-3 payments-field">{{infoGroup.creator_user}}</td>
-                                <td class="px-3 payments-field">{{infoGroup.category}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="pt-3 pb-3">
+            <div class="card gradient-background">
+                <div class="p-5">
+                    <div class="row mt-3 g-4 justify-content-center">
+                        <p class="text-light">Usuario Creador: <span>{{infoGroup.creator_user}}</span></p>
+                        <p class="text-light">Categoría: <span>{{infoGroup.category}}</span></p>
+                        <hr>
+                    </div>
                     @if (infoGroup !== undefined && infoGroup.thereAreExpenses) {
-                    <table class="table table-bordered table-dark">
-                        <thead>
-                            <tr>
-                                <th class="px-3 payments-field">Gastos total</th>
-                                <th class="px-3 payments-field">Mi saldo</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="table-secondary">
-                                <td class="px-3 payments-field">{{formatAmount(infoGroup.totalexpenses)}}</td>
-                                <td class="px-3 payments-field">{{formatAmount(infoGroup.balance)}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    } @else {
-                    <p class="text-center">No hay gastos registrados</p>
-                    }
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
-}
+                        <table class="table table-striped table-striped-columns table-rounded">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Gastos total</th>
+                                    <th scope="col">Mi saldo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="table-secondary">
+                                    <td scope="col">{{formatAmount(infoGroup.totalexpenses)}}</td>
+                                    <td scope="col">{{formatAmount(infoGroup.balance)}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        
+                        } @else {
+                            <p class="text-center">No hay gastos registrados</p>
+                        }
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                        }
+                   
+                    

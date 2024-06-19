@@ -1,149 +1,132 @@
-<form class="card card-color row g-1 p-3 shadow" novalidate [formGroup]="inputForm" (ngSubmit)="getDataForm()">
+<form class="card card-color row g-1 p-4" novalidate [formGroup]="inputForm" (ngSubmit)="getDataForm()">
 <!-- First Name -->
-  <div class="row g-2">
-    <div class="col-md-3 label">
-      <label for="first_name" class="form-label mb-0">Nombre *</label>
-    </div>
-    <div class="col-md-9">
-      <input type="text" class="form-control" id="first_name" formControlName="first_name" maxlength="45"  placeholder="Miguel" required>
-    </div>
+ <div class="mb-3">
+  <label for="first_name" class="form-label">Nombre: *</label>
+  <input type="text" class="form-control" id="first_name" formControlName="first_name" maxlength="45" placeholder="Escribe tu nombre..." required>
     @if (checkControl ('first_name','required')) {
     <p class="error-msg fw-semibold mt-1">Campo obligatorio</p>
     }
     @if (checkControl ('first_name','pattern')) {
     <p class="error-msg fw-semibold mt-1">Nombre invàlido</p>
     }
-  </div>
+ </div>
 
 <!-- Last Name -->
-  <div class="row g-2">
-    <div class="col-md-3 label">
-      <label for="last_name" class="form-label mb-0">Apellidos *</label>
-    </div>
-    <div class="col-md-9">
-      <input type="text" class="form-control" id="last_name" formControlName="last_name" placeholder="de Cervantes Saavedra" maxlength="45"  required>
-    </div>
+<div class="mb-3">
+  <label for="last_name" class="form-label">Apellidos: *</label>
+  <input type="text" class="form-control" id="last_name" formControlName="last_name" placeholder="Escribe tu apellido/apellidos..." maxlength="45" required>
     @if (checkControl ('last_name','required')) {
     <p class="error-msg fw-semibold mt-1">Campo obligatorio</p>
     }
     @if (checkControl ('last_name','pattern')) {
     <p class="error-msg fw-semibold mt-1">Nombre invàlido</p>
     }
-  </div>
+</div>
 
 <!-- Username -->
-  <div class="row g-2">
-    <div class="col-md-3 label">
-      <label for="username" class="form-label mb-0">Username *</label>
-    </div>
-    <div class="col-md-9">
-      <div class="input-group has-validation">
-        <span class="input-group-text" id="inputGroupPrepend">&#64;</span>
-        <input type="text" class="form-control" id="username" formControlName="username" placeholder="MiguelDeCervantes_1547"  maxlength="45" required (input)="onUsernameInput ($event)">
-      </div>   
-    </div>
-    @if (this.usernameExists){
-    <p class="error-msg fw-semibold mt-1">Uix, alguien ya ha cojido este nombre de usuario!</p>
-    }
-    @if (checkControl ('username','required')) {
-    <p class="error-msg fw-semibold mt-1">Campo obligatorio</p>
-    }
-    @if (checkControl ('username','pattern')) {
-    <p class="error-msg fw-semibold mt-1">Debe contener por lo menos 4 números, letras o carácteres especiales sin espacios</p>
-    }
+<div class="mb-3">
+  <label for="username" class="form-label">Username: *</label>
+  <div class="input-group has-validation">
+    <span class="input-group-text" id="inputGroupPrepend">&#64;</span>
+    <input type="text" class="form-control" id="username" formControlName="username" placeholder="MiguelDeCervantes_1547"
+      maxlength="45" required (input)="onUsernameInput ($event)">
   </div>
+      @if (this.usernameExists){
+      <p class="error-msg fw-semibold mt-1">Uix, alguien ya ha cojido este nombre de usuario!</p>
+      }
+      @if (checkControl ('username','required')) {
+      <p class="error-msg fw-semibold mt-1">Campo obligatorio</p>
+      }
+      @if (checkControl ('username','pattern')) {
+      <p class="error-msg fw-semibold mt-1">Debe contener por lo menos 4 números, letras o carácteres especiales sin espacios
+      </p>
+      }
+</div>
 
 <!-- Telephone -->
-  <div class="row g-2">
-    <div class="col-md-3  label">
-      <label for="telephone" class="form-label mb-0">Teléfono</label>
+ <div class="mb-3">
+  <label for="telephone" class="form-label">Teléfono:</label>
+  <div class="row">
+    <div class="col-md-2">
+      <select class="form-select mb-3" id="country_code" formControlName="country_code">
+        <option selected disabled value="">País...</option>
+        @for (code of arrInternationalCodes; track $index) {
+        <option value="{{code.code}}">{{code.name}} ({{code.code}})</option>
+        }
+      </select>
     </div>
-    <div class="col-md-9">
-      <div class="row">
-        <div class="col-md-4">
-          <select class="form-select" id="country_code"  formControlName="country_code">
-            <option selected disabled value="">País...</option>
-            @for (code of arrInternationalCodes; track $index) {
-              <option value="{{code.code}}">{{code.name}} ({{code.code}})</option>
-            }
-          </select>
-        </div>
-        <div class="col-md-8">
-          <input type="text" class="form-control" id="telephone" formControlName="telephone" placeholder="123456789"  maxlength="20">
-        </div>
-      </div>
+    <div class="col-md-10">
+      <input type="text" class="form-control mb-3" id="telephone" formControlName="telephone" placeholder="123456789" maxlength="20">
     </div>
+ </div>
+
+ <!-- Email -->
+  <div class="mb-3">
+    <label for="email" class="form-label">Correo electrónico: *</label>
+    <input type="text" class="form-control" id="email" formControlName="email" placeholder="tucorreoelectronico@email.es"
+      maxlength="45" required>
+      @if (checkControl ('email','required')) {
+      <p class="error-msg fw-semibold mt-1">Campo obligatorio</p>
+      }
+      @if (checkControl ('email','pattern')) {
+      <p class="error-msg fw-semibold mt-1">Correo invàlido</p>
+      }
   </div>
 
-<!-- email -->
-  <div class="row g-2">
-    <div class="col-md-3 label">
-      <label for="email" class="form-label mb-0">Correo electrónico *</label>
-    </div>
-    <div class="col-md-9">
-      <input type="text" class="form-control" id="email" formControlName="email" placeholder="miguel_de_cervantes@email.es"  maxlength="45" required>
-    </div>
-    @if (checkControl ('email','required')) {
-    <p class="error-msg fw-semibold mt-1">Campo obligatorio</p>
-    }
-    @if (checkControl ('email','pattern')) {
-    <p class="error-msg fw-semibold mt-1">Correo invàlido</p>
-    }
-
-  </div>
+  <!-- Si no está actualizando, mostrar campos de password -->
 
   @if (!this.isUpdate) {
-      <!-- Password -->
-    <div class="row g-2">
-      <div class="col-md-3 label">
-        <label for="password" class="form-label mb-0">Contraseña *</label>
-      </div>
-      <div class="col-md-9">
-        <input type="password" class="form-control" id="password" formControlName="password"  maxlength="30" required>
+  <!-- Password -->
+  <div class="mb-3">
+      <label for="password" class="form-label">Contraseña: *</label>
+      <input type="password" class="form-control" id="password" formControlName="password" maxlength="30" required>
         @if (checkControl ('password','required')) {
-          <p class="error-msg fw-semibold mt-1">Campo obligatorio</p>
+        <p class="error-msg fw-semibold mt-1">Campo obligatorio</p>
         }
-      </div>
-    </div>
+  </div>
 
+  
   <!-- Confirm password -->
-    <div class="row g-2">
-      <div class="col-md-3 label">
-        <label for="password_confirm" class="form-label mb-0">Confirmar contraseña *</label>
-      </div>
-      <div class="col-md-9">
-        <input type="password" class="form-control" id="password_confirm" formControlName="password_confirm" required>
-      </div>
+  <div class="mb-3">
+      <label for="password_confirm" class="form-label">Confirmar contraseña: *</label>
+      <input type="password" class="form-control" id="password_confirm" formControlName="password_confirm" required>
       @if (inputForm.hasError('passwordControl')){
       <p class="error-msg fw-semibold mt-1">Las contraseñas no coinciden</p>
       }
-    </div>}
-
-  <div class="row g-1 mt-4 g-3">
-  <!-- Form de registro: enlace a login y botón submit -->
-  @if (!isUpdate) {
+  </div>
+}
+  
+  <div class="row my-4 g-1">
+    <!-- Form de registro: enlace a login y botón submit -->
+    @if (!isUpdate) {
     <div class="col-12 col-md-8">
-      <p class="text-light mb-0">¿Ya tienes una cuenta? <a class="fw-semibold fs-5 text-light" [routerLink]="['/login']">Accede</a> </p> 
+      <p class="text-light mb-0">¿Ya tienes una cuenta? <a class="fw-semibold fs-5 text-light"
+          [routerLink]="['/login']">Accede</a> </p>
     </div>
     <div class="col-12 col-md-4 mt-2 mt-md-0 pe-0">
-      
-      <input class="btn btn-outline-light btn-lg" type="submit" [disabled]="!inputForm.valid" value="Regístrate" >
+      <input class="btn btn-outline-light btn-lg" type="submit" [disabled]="!inputForm.valid" value="Regístrate">
     </div>
-
-  } @else {
+  
+  
+    } @else {
     <!-- Form de update: botón al modal change-pwd-modal y validar datos-->
-    <div class="col-12 col-lg-4 col-sm-0 mt-2 mt-md-0 pe-0">
-    </div>
-    <div class="col-12 col-lg-4 col-md-6  col-sm-6 mt-2 mt-md-0 pe-0">
-      <button type="button" class="btn btn-outline-warning btn-lg px-6 py-1 rounded-3 mt-2 text-center" data-bs-toggle="modal" data-bs-target="#changePwdModal"> Modificar contraseña </button>
+    <div class="row justify-content-end g-3">
+    <div class="col-12 col-md-4 mt-2 mt-md-0 pe-0">
+      <button type="button" class="btn btn-outline-warning btn-lg px-6 py-1 rounded-3 mt-2"
+        data-bs-toggle="modal" data-bs-target="#changePwdModal"> Modificar contraseña </button>
       <app-change-pwd-modal></app-change-pwd-modal>
     </div>
-    <div class="col-12 col-lg-4 col-md-6  col-sm-6 mt-2 mt-md-0 pe-0">
-      <input  type="submit"  class="btn btn-outline-light btn-lg px-5 py-1 rounded-3 mt-2"[disabled]="!inputForm.valid" value="Actualizar" >
+    <div class="col-12 col-md-4 mt-2 mt-md-0 pe-0">
+      <input type="submit" class="btn btn-outline-light btn-lg px-5 py-1 rounded-3 mt-2" [disabled]="!inputForm.valid"
+        value="Actualizar">
     </div>
-    <div class="text-end">
+    <div class="text-end pt-3">
       <a class="fs-6 fw-semibold text-danger unsubscribe" (click)="unsubscribe()">Darse de Baja</a>
     </div>
-  }
+    </div>
+    }
+  </div>
 </div>
 </form>
+
+

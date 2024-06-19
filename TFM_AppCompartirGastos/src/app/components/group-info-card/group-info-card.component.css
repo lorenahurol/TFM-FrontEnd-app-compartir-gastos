@@ -2,8 +2,11 @@
     width: 150px;
 }
 
-.payments-field {
-    align-items: center;
+.date-text {
+    text-align: center;
+}
+
+.action-field {
     text-align: center;
 }
 
@@ -64,12 +67,25 @@
     font-weight: 700;
 }
 
-.card{
-    background-color: var(--background-color);
+.card {
+    background-color: var(--gradient-background);
+    border: 1px solid var(--font-color);
 }
 
-.table{
-    border: 1px solid var(--font-color);
+.card-box-1 {
+    background-color: var(--gradient-card-green);
+}
+
+.table th {
+    background-color: var(--gradient-card-green);
+    color: var(--font-color);
+    font-family: var(--p-font);
+    font-size: var(--p-size);
+}
+
+.table-rounded {
+    border-radius: 10px;
+    overflow: hidden;
 }
 
 .myTableBody{
