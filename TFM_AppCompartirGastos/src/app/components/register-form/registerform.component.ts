@@ -346,7 +346,6 @@ export class RegisterFormComponent {
 
             // realiza logout, confirma la baja y lleva a la landing
             if (response.success) {
-              this.authServices.loginSubject(false)
               this.authServices.logout()
               this.router.navigate(['/login'])
 

@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg">
     <div class="container py-2">
-        <a class="navbar-brand fw-bold fs-3" href="#">Explit</a>
+        <a class="navbar-brand fw-bold fs-3" [routerLink]="['/landing']">Explit</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -25,31 +25,37 @@
                         <mat-icon fontIcon="home"></mat-icon>
                     </a>
                 </li>
-                <li class="nav-item dropdown fs-5" title="Notificaciones">
+                <li class="nav-item dropdown fs-5" title="Notificación de invitaciones">
                     <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <mat-icon fontIcon="notifications" ></mat-icon>
+                        @if(processedInvitations.length > 0){
+                            <span class="notification">{{processedInvitations.length}}</span>
+                        }
                     </a>
                     <ul class="dropdown-menu" title="Invitaciones">
-                        <li><a class="dropdown-item fs-5">
+                        <!-- <li><a class="dropdown-item fs-5">
                             <mat-icon fontIcon="group" ></mat-icon>
-                        </a></li>
+                            </a>
+                        </li> -->
                         <li>
-                            <hr class="dropdown-divider">
+                            <!-- <hr class="dropdown-divider"> -->
                             <div class="modal-body">
                                 <div class="invitation">
-                                    @if(invitations.length > 0){
+                                    @if(processedInvitations.length > 0){
+                                    <span class="invitations-font">Invitaciones</span>
+                                        @for(inv of processedInvitations; track inv.id) {
+                                        <div class="d-flex flex-grow-1 mt-1">
+                                            <button class="btn btn-success btn-sm py-0 px-1 me-1 mb-1"
+                                                (click)="handleInvitation(inv.id, 'accept')" title="Aceptar">
+                                            <mat-icon fontIcon="check" class="invitation-icons"></mat-icon>
+                                            </button>
+                                            <button class="btn btn-danger btn-sm  py-0 px-1 me-1 mb-1"
+                                                (click)="handleInvitation(inv.id, 'reject')"  title="Rechazar">
+                                            <mat-icon fontIcon="cancel" class="invitation-icons"></mat-icon>
+                                            </button>
+                                            <span class="ms-1 invitations-font">{{inv.description.substring(0,8)}}</span>
+                                        </div>
 
-                                    
-                                        @for(inv of invitations; track inv.id) {
-                                        <p>{{ inv.message }}</p>
-                                        <button class="btn btn-success btn-sm"
-                                            (click)="handleInvitation(inv.id, 'accept')" title="Aceptar">
-                                            <mat-icon fontIcon="check" ></mat-icon>
-                                        </button>
-                                        <button class="btn btn-danger btn-sm"
-                                            (click)="handleInvitation(inv.id, 'reject')"  title="Rechazar">
-                                            <mat-icon fontIcon="cancel"></mat-icon>
-                                        </button>
                                         }
                                     }@else {
                                         <p>No hay invitaciones pendientes</p>

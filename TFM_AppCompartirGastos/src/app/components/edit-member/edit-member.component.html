@@ -1,6 +1,6 @@
 <main class="d-flex justify-content-center align-items-baseline gradient-background vh-100 py-5">
     <div class="wrapper">
-        <h3 class="custom text-light pt-md-4 pb-3 text-center">Editar miembro: <span class="h3"> {{user.firstname}} {{user.lastname}}</span></h3>
+        <h3 class="custom text-light pt-md-4 pb-3 text-center">Editar miembro: @if (user !== undefined) { <span class="h3"> {{user.firstname}} {{user.lastname}}</span> } </h3>
 
         <form class="card card-color row g-1 p-4" [formGroup]="memberForm" (ngSubmit)="getDataForm()">
         

@@ -206,9 +206,13 @@ async ngOnInit(): Promise<void> {
     }
   }
 
-// Boton Volver:
-  backHome() {
-    this.router.navigate([`/home`]);
+  backGroupOrHome()
+  {
+    if(this.groupId != 0){
+      this.router.navigate([`/home/groups/${this.groupId}`]);
+    }else{
+      this.router.navigate([`/home/`]);
+    }
+    
   }
-  
-};
+}

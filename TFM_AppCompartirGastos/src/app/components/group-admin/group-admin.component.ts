@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ImemberGroup } from '../../interfaces/imember-group';
 import { IExpense } from '../../interfaces/iexpense.interface';
 import { ExpensesService } from '../../services/expenses.service';
+import { IGroup } from '../../interfaces/igroup.interface';
 
 @Component({
   selector: 'app-group-admin',
@@ -79,6 +80,7 @@ export class GroupAdminComponent {
   {
     const expensesUser: Array<IExpense> = await this.expenseService.getExpensesByGroup(Number(this.groupId));
 
+    const group: IGroup = await this.groupService.getGroupById(Number(this.groupId));
     if(expensesUser.filter(e => e.payer_user_id == member.id && e.active == 1).length > 0)
     {
       this.alertModalService.newAlertModal({
@@ -88,33 +90,53 @@ export class GroupAdminComponent {
         acceptAction: true,
         backAction: false,
       });
-    }
+    } else if(member.id == group.creator_user_id)
+      {
+        this.alertModalService.newAlertModal({
+          icon: 'notifications',
+          title: 'Problema al eliminar',
+          body: `No se puede eliminar el usuario porque es el adminastrador del grupo`,
+          acceptAction: true,
+          backAction: false,
+        });
+      }
     else{
-      //borrar
 
-      // this.alertModalService.newAlertModal({
-      //   icon: 'notifications',
-      //   title: 'Eliminar miembro',
-      //   body: `Esta seguro que desea eliminar el usuario del grupo`,
-      //   acceptAction: true,
-      //   backAction: true,
-      // });
-
-      this.userService.deleteMember(Number(this.groupId),member.id);
-
-      this.alertModalService.newAlertModal({
+      //Model de confirmacion
+      const alertModal =this.alertModalService.newAlertModal({
         icon: 'notifications',
-        title: 'Miembro eliminado',
-        body: `Se ha eliminado correctamente al usuario del grupo`,
+        title: 'Eliminar miembro',
+        body: `Esta seguro que desea eliminar el usuario del grupo`,
         acceptAction: true,
-        backAction: false,
+        backAction: true,
       });
 
+      //Si acepta se procede al borrado
+      alertModal?.componentInstance.sendModalAccept.subscribe(
+        (isAccepted) => {
+          if (isAccepted) {
+            this.userService.deleteMember(Number(this.groupId),member.id);
+            this.alertModalService.newAlertModal({
+              icon: 'notifications',
+              title: 'Miembro eliminado',
+              body: `Se ha eliminado correctamente al usuario del grupo`,
+              acceptAction: true,
+              backAction: false,
+            });
+          }
+        }
+      );
+
+      //Se recargan los datos
       this.arrUsers = await this.userService.getUsersByGroup(Number(this.groupId));
       
       setTimeout(function () {
         location.reload();
       }, 2000);
+
+
+      
+
       
 
       
