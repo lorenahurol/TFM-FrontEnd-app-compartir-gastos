@@ -36,9 +36,11 @@ export class NavbarComponent {
     // subscribe al observable de estado de login
     this.authService.isLoggedIn$.subscribe(isLoggedIn => {
       this.isLoggedIn = isLoggedIn
-    })
+    });
     const token = localStorage.getItem("login_token");
     if (token) {
+      /* En caso de recarga mantenemos el isLoggedIn a true, ya que el observable se pierde */
+      this.isLoggedIn = true;
       try {
         const tokenVerification = await this.authService.verifyToken(token);
         if (tokenVerification && tokenVerification.id) {

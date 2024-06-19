@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg">
     <div class="container py-2">
-        <a class="navbar-brand fw-bold fs-3" href="#">Explit</a>
+        <a class="navbar-brand fw-bold fs-3" [routerLink]="['/landing']">Explit</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -30,11 +30,12 @@
                         <mat-icon fontIcon="notifications" ></mat-icon>
                     </a>
                     <ul class="dropdown-menu" title="Invitaciones">
-                        <li><a class="dropdown-item fs-5">
+                        <!-- <li><a class="dropdown-item fs-5">
                             <mat-icon fontIcon="group" ></mat-icon>
-                        </a></li>
+                            </a>
+                        </li> -->
                         <li>
-                            <hr class="dropdown-divider">
+                            <!-- <hr class="dropdown-divider"> -->
                             <div class="modal-body">
                                 <div class="invitation">
                                     @if(invitations.length > 0){
@@ -42,14 +43,17 @@
                                     
                                         @for(inv of invitations; track inv.id) {
                                         <p>{{ inv.message }}</p>
-                                        <button class="btn btn-success btn-sm"
-                                            (click)="handleInvitation(inv.id, 'accept')" title="Aceptar">
+                                        <div class="flex-grow-1">
+                                            <button class="btn btn-success btn-sm"
+                                                (click)="handleInvitation(inv.id, 'accept')" title="Aceptar">
                                             <mat-icon fontIcon="check" ></mat-icon>
-                                        </button>
-                                        <button class="btn btn-danger btn-sm"
-                                            (click)="handleInvitation(inv.id, 'reject')"  title="Rechazar">
+                                            </button>
+                                            <button class="btn btn-danger btn-sm"
+                                                (click)="handleInvitation(inv.id, 'reject')"  title="Rechazar">
                                             <mat-icon fontIcon="cancel"></mat-icon>
-                                        </button>
+                                            </button>
+                                        </div>
+
                                         }
                                     }@else {
                                         <p>No hay invitaciones pendientes</p>

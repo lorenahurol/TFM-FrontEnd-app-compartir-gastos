@@ -13,11 +13,12 @@ import { IRoles } from '../../interfaces/iroles.interface';
 import dayjs from 'dayjs';
 import { EmailsService, IEmailData } from '../../services/emails.service';
 import { PaymentsService } from '../../services/payments.service';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
   selector: 'app-payments-list',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, MatIconModule],
   templateUrl: './payments-list.component.html',
   styleUrl: './payments-list.component.css'
 })

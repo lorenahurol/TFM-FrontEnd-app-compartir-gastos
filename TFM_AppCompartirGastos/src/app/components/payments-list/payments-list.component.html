@@ -4,7 +4,12 @@
             <div class="d-flex justify-content-between align-items-center pt-3 pb-3">
                 <h4 class="mb-0 text-center flex-grow-1 ">SALDO POR USUARIO</h4>
                 @if (isAdmin) {
-                    <button type="button" class="btn btn-primary"  (click)="settleExpenses()"><i class="bi bi-piggy-bank  me-2 h6"></i><span class="h6">SALDAR</span></button>
+                    <!-- <button type="button" class="btn btn-primary"  (click)="settleExpenses()">
+                        <i class="bi bi-piggy-bank  me-2 h6"></i><span class="h6">SALDAR</span>
+                    </button> -->
+                    <button class="btn btn-outline-light my-2 me-3" (click)="settleExpenses()" title="Saldar los pagos del grupo">
+                        <mat-icon fontIcon="payments" ></mat-icon>
+                    </button>
                 }
             </div>
     <table class="table table-striped">

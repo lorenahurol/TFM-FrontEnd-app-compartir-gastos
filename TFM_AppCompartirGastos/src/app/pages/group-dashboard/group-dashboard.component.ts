@@ -32,6 +32,7 @@ export class GroupDashboardComponent {
   groupId: string = '';
   user: IUser | any;
   userId: number | any;
+  activeTab: string = 'expenses'; // puede tomar los valores 'expenses', 'payments', 'admin', 'messages'
 
   async ngOnInit() {
     this.activatedRoute.params.subscribe(async (params: any) => {
@@ -62,6 +63,16 @@ export class GroupDashboardComponent {
         }
       }
     });
+    this.activeTab = localStorage.getItem('activeTab') || 'expenses';
+  }
+
+  async changeTab(tab: string) {
+    this.activeTab = tab;
+    localStorage.setItem('activeTab', tab);
+  }
+
+  async getClassTab(tab: string) {
+    return this.activeTab === tab ? 'nav-link active' : 'nav-link';
   }
 
   getGroup(): number {
