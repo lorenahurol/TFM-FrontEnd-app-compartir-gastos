@@ -134,12 +134,56 @@ export class GroupAdminComponent {
         location.reload();
       }, 2000);
 
-
-      
-
-      
-
-      
     }
   }
+
+  async deleteGroup(){
+    const expensesGroup: Array<IExpense> = await this.expenseService.getExpensesByGroup(Number(this.groupId));
+
+    const group: IGroup = await this.groupService.getGroupById(Number(this.groupId));
+    if(expensesGroup.length > 0)
+    {
+      this.alertModalService.newAlertModal({
+        icon: 'notifications',
+        title: 'Problema al eliminar',
+        body: `No se puede eliminar el grupo por que tiene gastos activos asignados`,
+        acceptAction: true,
+        backAction: false,
+      });
+    } 
+    else{
+
+      //Model de confirmacion
+      const alertModal =this.alertModalService.newAlertModal({
+        icon: 'notifications',
+        title: 'Eliminar grupo',
+        body: `Esta seguro que desea eliminar el grupo`,
+        acceptAction: true,
+        backAction: true,
+      });
+
+      //Si acepta se procede al borrado
+      alertModal?.componentInstance.sendModalAccept.subscribe(
+        (isAccepted) => {
+          if (isAccepted) {
+            //eliminar grupo
+            this.groupService.deleteGroup(group);
+
+            this.alertModalService.newAlertModal({
+              icon: 'notifications',
+              title: 'Grupo eliminado',
+              body: `Se ha eliminado correctamente el grupo`,
+              acceptAction: true,
+              backAction: false,
+            });
+
+            this.router.navigate([`/home/`]);
+            
+          }
+        }
+      )
+    };
+  }
+
+
 }
