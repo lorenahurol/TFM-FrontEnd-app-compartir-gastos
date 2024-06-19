@@ -121,7 +121,7 @@ body{
 
 .chat .chat-history .message-data-time {
     color: var(--primary-accent);
-    padding-left: 6px
+    padding-left: 6px;
 }
 
 .chat .chat-history .message {
@@ -149,7 +149,9 @@ body{
 }
 
 .chat .chat-history .my-message {
-    background: #efefef
+    background: #efefef;
+    margin-top: 10px;
+    margin-bottom: 20px;
 }
 
 .chat .chat-history .my-message:after {

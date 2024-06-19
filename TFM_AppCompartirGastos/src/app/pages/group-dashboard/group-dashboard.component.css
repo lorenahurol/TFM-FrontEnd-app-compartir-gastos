@@ -8,3 +8,15 @@
     border-color: var(--font-color);
     font-weight: bold;  
 }
+
+/* .nav-link:active{
+    color: var(--primary-accent);
+    border-color: var(--font-color);
+    font-weight: bold; 
+} */
+
+.nav-tabs{
+
+    --bs-nav-tabs-link-active-color:var(--font-color);
+    --bs-nav-tabs-link-active-bg:var(--secondary-accent);
+}
