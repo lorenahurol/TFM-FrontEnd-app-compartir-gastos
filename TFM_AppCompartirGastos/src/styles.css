@@ -138,7 +138,24 @@ p {
   font-weight: 700;
 }
 
+.bg-primary-table {
+  background-color: var(--secondary-accent) !important;
+  opacity: 0.8;
+}
 
+.amount {
+  text-align: right;
+  padding-right: 1em;
+  white-space: nowrap;
+}
+
+.date-text {
+  text-align: center;
+}
+
+.action-field {
+  text-align: center;
+}
 
 /* Material Symbols styles */
 .material-symbols-outlined {
