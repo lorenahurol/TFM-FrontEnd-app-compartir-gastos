@@ -64,39 +64,39 @@ async ngOnInit(): Promise<void> {
     }
   }
 
-// Reutilizar el formulario para edicion:
-    // Edicion/Actualizacion:
-    this.activatedRoute.params.subscribe(async (params: any) => {
-      if (params.groupId) {
-        this.groupId = params.groupId;
-        this.typeH2.emit("Actualiza tu");
-        this.typeH3.emit("Editar");
-        this.btnText = "Actualizar";
-        try {
-          const group = await this.groupsService.getGroupById(this.groupId);
-          // Get the user ID of the group admin (creator === admin):
-          this.adminUserId = group.creator_user_id;
-          await this.getIsAdmin();
+  // Reutilizar el formulario para edicion:
+  // Edicion/Actualizacion:
+  this.activatedRoute.params.subscribe(async (params: any) => {
+    if (params.groupId) {
+      this.groupId = params.groupId;
+      this.typeH2.emit("Actualiza tu");
+      this.typeH3.emit("Editar");
+      this.btnText = "Actualizar";
+      try {
+        const group = await this.groupsService.getGroupById(this.groupId);
+        // Get the user ID of the group admin (creator === admin):
+        this.adminUserId = group.creator_user_id;
+        await this.getIsAdmin();
 
-          this.groupFormulario.setValue({
-            description: group.description,
-            category: group.category_id
-          })
-        } catch (error) {
-          console.log("No se ha encontrado el grupo", error);
-        }
-      
-      } else {
-        // Cambiar los titulos de la página:
-        this.typeH2.emit("Crear");
-        this.typeH3.emit("Nuevo");
+        this.groupFormulario.setValue({
+          description: group.description,
+          category: group.category_id
+        })
+      } catch (error) {
+        console.log("No se ha encontrado el grupo", error);
       }
-      })
+    
+    } else {
+      // Cambiar los titulos de la página:
+      this.typeH2.emit("Crear");
+      this.typeH3.emit("Nuevo");
+    }
+    })
 
   }
 
   // Trabajar con los datos del formulario:
- async getDataForm(): Promise<void> {
+  async getDataForm(): Promise<void> {
     if (this.groupFormulario.valid) {
       const { description, category } = this.groupFormulario.value;
 
@@ -107,9 +107,8 @@ async ngOnInit(): Promise<void> {
         active: 1 
       };
 
-// Insertar nuevo grupo:
+      // Insertar nuevo grupo:
       if (this.btnText === "Crear") {
-        
         try {
           const newGroup = await this.groupsService.addGroup(group);
           if (newGroup.id) {
@@ -132,25 +131,22 @@ async ngOnInit(): Promise<void> {
           }
         } catch (error: any) {
           // Error 409: Conflict (Group already exists):
-        if (error.status === 409) {
-          this.alertModalService.newAlertModal({
-            icon: 'error',
-            title: 'Error!',
-            body: 'El grupo ya existe',
-            acceptAction: true,
-            backAction: false,
-          });
-        } else {
-          console.log('Error al crear el grupo', error);
+          if (error.status === 409) {
+            this.alertModalService.newAlertModal({
+              icon: 'error',
+              title: 'Error!',
+              body: 'El grupo ya existe',
+              acceptAction: true,
+              backAction: false,
+            });
+          } else {
+            console.log('Error al crear el grupo', error);
+          }
         }
-        }
-        
-// Editar el grupo: btnText === "Actualizar"
+      // Editar el grupo: btnText === "Actualizar"
       } else if (this.isAdmin) { // Solo el Admin tiene permiso para actualizar
         try {
-                    
           const { description, category } = this.groupFormulario.value;
-
           const group: IGroup = {
             id:this.groupId,
             description: description,

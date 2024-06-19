@@ -43,7 +43,7 @@
 
             <input type="submit" value="{{btnText}}" class="btn btn-outline-light btn-lg px-5 py-1 rounded-3 mt-2"
                 [disabled]="!expenseForm.valid || !expenseForm.dirty" />
-            <button class="btn btn-dark btn-lg px-5 py-1 rounded-3 mt-2" (click)="backExpensesGroup()">Volver</button>
+            <a class="btn btn-dark btn-lg px-5 py-1 rounded-3 mt-2" [routerLink]="['/home/groups/'+groupId]">Volver</a>
         </form>
     </div>
 </main>

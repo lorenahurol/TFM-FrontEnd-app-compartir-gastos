@@ -77,7 +77,6 @@ export class UserDashboardComponent {
 
   }
 
-
   updateFilterTable(filter: string) {
     this.filter = filter;
     /* recargar tabla aplicando filtro */

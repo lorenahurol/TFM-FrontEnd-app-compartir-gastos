@@ -32,7 +32,7 @@ export class GroupDashboardComponent {
   groupId: string = '';
   user: IUser | any;
   userId: number | any;
-  activeTab: string = 'expenses'; // puede tomar los valores 'expenses', 'payments', 'admin', 'messages'
+  activeTab: string = 'expenses'; // Pesaña activa. Puede tomar los valores 'expenses', 'payments', 'admin', 'messages'
 
   async ngOnInit() {
     this.activatedRoute.params.subscribe(async (params: any) => {

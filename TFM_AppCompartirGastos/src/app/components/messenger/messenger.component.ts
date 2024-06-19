@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, inject, AfterViewChecked, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, inject, ViewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { IUser } from '../../interfaces/iuser.interface';
 import { IMessage } from '../../interfaces/imessage.interface';

@@ -6,15 +6,15 @@
         
             <div class="mb-3">
                 <label for="equitable" class="form-label">Reparto de gasto equitativo: *</label>
-                    <select class="form-select" id="equitable" formControlName="equitable" (change)="changeEquitable()">
-                        <option selected disabled value="">--Selecciona una opción--</option>
-                        <option>Si</option>
-                        <option>No</option>
-                    </select>
-                        @if (checkControl ('equitable', 'required')) {
-                        <p class="error-msg fw-semibold mt-1">Requerido: Selecciona una opción</p>
-                        }
-                </div>
+                <select class="form-select" id="equitable" formControlName="equitable" (change)="changeEquitable()">
+                    <option selected disabled value="">--Selecciona una opción--</option>
+                    <option>Si</option>
+                    <option>No</option>
+                </select>
+                    @if (checkControl ('equitable', 'required')) {
+                    <p class="error-msg fw-semibold mt-1">Requerido: Selecciona una opción</p>
+                    }
+            </div>
     
             <div class="mb-3">
                 @if(!desactivePercent){
