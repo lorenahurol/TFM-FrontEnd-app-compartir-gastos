@@ -1,54 +1,39 @@
-<div class="signup-view">
-    <hr />
-    <section class="container mt-2">
-        <div class="card text-white bg-primary mb-3">
-            <div class="card-body">
-                <p class="card-text">
-                    Editar miembro 
-                    @if (user !== undefined) {
-                        {{user.firstname}} {{user.lastname}}
-                    }
-                </p>
+<main class="d-flex justify-content-center align-items-baseline gradient-background vh-100 py-5">
+    <div class="wrapper">
+        <h3 class="custom text-light pt-md-4 pb-3 text-center">Editar miembro: @if (user !== undefined) { <span class="h3"> {{user.firstname}} {{user.lastname}}</span> } </h3>
+
+        <form class="card card-color row g-1 p-4" [formGroup]="memberForm" (ngSubmit)="getDataForm()">
+        
+            <div class="mb-3">
+                <label for="equitable" class="form-label">Reparto de gasto equitativo: *</label>
+                    <select class="form-select" id="equitable" formControlName="equitable" (change)="changeEquitable()">
+                        <option selected disabled value="">--Selecciona una opción--</option>
+                        <option>Si</option>
+                        <option>No</option>
+                    </select>
+                        @if (checkControl ('equitable', 'required')) {
+                        <p class="error-msg fw-semibold mt-1">Requerido: Selecciona una opción</p>
+                        }
+                </div>
+    
+            <div class="mb-3">
+                @if(!desactivePercent){
+                    <label for="percent" class="form-label">Porcentaje: *</label>
+                    <input type="number" class="form-control" id="percent" formControlName="percent" placeholder="0">
+                        @if (checkControl('percent','required')) {
+                        <p class="error-msg fw-semibold mt-1">Campo obligatorio</p>
+                        }
+                }
             </div>
+        
+            <input type="submit" value="Guardar" class="btn btn-outline-light btn-lg px-5 py-1 rounded-3 mt-2"
+                [disabled]="!memberForm.valid || !memberForm.dirty" />
+            <button class="btn btn-dark btn-lg px-5 py-1 rounded-3 mt-2" (click)="backGroup()">Volver</button>
+        </form>
+    </div>
+</main>
 
-            <form class="card p-3 shadow" [formGroup]="memberForm" (ngSubmit)="getDataForm()">
 
-                <div class="row g-2">
-                    <div class="col-md-3 label">
-                        <label for="equitable" class="form-label">Reparto de gasto equitativo:</label>
-                    </div>
-                    <div class="col-md-9">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <select class="form-select" id="equitable" formControlName="equitable" (change)="changeEquitable()">
-                                    <option selected disabled value="">--Selecciona una opción--</option>                       
-                                    <option>Si</option>
-                                    <option>No</option>
-                                </select>
-                                @if (checkControl ('equitable', 'required')) {
-                                    <p class="error-msg">Requerido: Selecciona una opción</p>
-                                }
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="my-2">
-                    @if(!desactivePercent){
-
-                        <label for="percent" class="form-label">Porcentaje</label>
-                            <input type="number" class="form-control" id="percent" formControlName="percent" placeholder="0">
-                            @if (checkControl('percent','required')) {
-                            <p class="error-msg">Campo obligatorio</p>
-                            }
-                    }
-                </div>
-                
-                <input type="submit" value="Guardar" class="btn btn-primary my-2" [disabled]="!memberForm.valid || !memberForm.dirty"/>
-                <button class="btn btn-secondary my-2" (click)="backGroup()" >Volver</button>
-
-            </form>
-        </div>
-    </section>
-    <hr/>
-</div>
+            
+        

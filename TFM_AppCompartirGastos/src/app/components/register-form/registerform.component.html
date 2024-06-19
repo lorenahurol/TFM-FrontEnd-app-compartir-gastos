@@ -1,17 +1,17 @@
-<form class="card card-color row g-1 class card p-3 shadow" novalidate [formGroup]="inputForm" (ngSubmit)="getDataForm()">
+<form class="card card-color row g-1 p-3 shadow" novalidate [formGroup]="inputForm" (ngSubmit)="getDataForm()">
 <!-- First Name -->
   <div class="row g-2">
-    <div class="col-md-3  label">
+    <div class="col-md-3 label">
       <label for="first_name" class="form-label mb-0">Nombre *</label>
     </div>
     <div class="col-md-9">
       <input type="text" class="form-control" id="first_name" formControlName="first_name" maxlength="45"  placeholder="Miguel" required>
     </div>
     @if (checkControl ('first_name','required')) {
-    <p class="error-msg">Campo obligatorio</p>
+    <p class="error-msg fw-semibold mt-1">Campo obligatorio</p>
     }
     @if (checkControl ('first_name','pattern')) {
-    <p class="error-msg">Nombre inválido</p>
+    <p class="error-msg fw-semibold mt-1">Nombre invàlido</p>
     }
   </div>
 
@@ -24,12 +24,13 @@
       <input type="text" class="form-control" id="last_name" formControlName="last_name" placeholder="de Cervantes Saavedra" maxlength="45"  required>
     </div>
     @if (checkControl ('last_name','required')) {
-    <p class="error-msg">Campo obligatorio</p>
+    <p class="error-msg fw-semibold mt-1">Campo obligatorio</p>
     }
     @if (checkControl ('last_name','pattern')) {
-    <p class="error-msg">Nombre invàlido</p>
+    <p class="error-msg fw-semibold mt-1">Nombre invàlido</p>
     }
   </div>
+
 <!-- Username -->
   <div class="row g-2">
     <div class="col-md-3 label">
@@ -42,13 +43,13 @@
       </div>   
     </div>
     @if (this.usernameExists){
-    <p class="error-msg">Uix, alguien ya ha cojido este nombre de usuario!</p>
+    <p class="error-msg fw-semibold mt-1">Uix, alguien ya ha cojido este nombre de usuario!</p>
     }
     @if (checkControl ('username','required')) {
-    <p class="error-msg">Campo obligatorio</p>
+    <p class="error-msg fw-semibold mt-1">Campo obligatorio</p>
     }
     @if (checkControl ('username','pattern')) {
-    <p class="error-msg">Debe contener por lo menos 4 números, letras o carácteres especiales sin espacios</p>
+    <p class="error-msg fw-semibold mt-1">Debe contener por lo menos 4 números, letras o carácteres especiales sin espacios</p>
     }
   </div>
 
@@ -83,10 +84,10 @@
       <input type="text" class="form-control" id="email" formControlName="email" placeholder="miguel_de_cervantes@email.es"  maxlength="45" required>
     </div>
     @if (checkControl ('email','required')) {
-    <p class="error-msg">Campo obligatorio</p>
+    <p class="error-msg fw-semibold mt-1">Campo obligatorio</p>
     }
     @if (checkControl ('email','pattern')) {
-    <p class="error-msg">Correo invàlido</p>
+    <p class="error-msg fw-semibold mt-1">Correo invàlido</p>
     }
 
   </div>
@@ -100,7 +101,7 @@
       <div class="col-md-9">
         <input type="password" class="form-control" id="password" formControlName="password"  maxlength="30" required>
         @if (checkControl ('password','required')) {
-          <p class="error-msg">Campo obligatorio</p>
+          <p class="error-msg fw-semibold mt-1">Campo obligatorio</p>
         }
       </div>
     </div>
@@ -114,11 +115,11 @@
         <input type="password" class="form-control" id="password_confirm" formControlName="password_confirm" required>
       </div>
       @if (inputForm.hasError('passwordControl')){
-      <p class="error-msg">Las contraseñas no coinciden</p>
+      <p class="error-msg fw-semibold mt-1">Las contraseñas no coinciden</p>
       }
     </div>}
 
-  <div class="row g-1 mt-4  g-3">
+  <div class="row g-1 mt-4 g-3">
   <!-- Form de registro: enlace a login y botón submit -->
   @if (!isUpdate) {
     <div class="col-12 col-md-8">
@@ -128,19 +129,20 @@
       
       <input class="btn btn-outline-light btn-lg" type="submit" [disabled]="!inputForm.valid" value="Regístrate" >
     </div>
+
   } @else {
     <!-- Form de update: botón al modal change-pwd-modal y validar datos-->
-    <div class="col-12 col-lg-4  col-sm-0 mt-2 mt-md-0 pe-0">
+    <div class="col-12 col-lg-4 col-sm-0 mt-2 mt-md-0 pe-0">
     </div>
     <div class="col-12 col-lg-4 col-md-6  col-sm-6 mt-2 mt-md-0 pe-0">
-      <button  type="button" class="btn btn-outline-warning w-100" data-bs-toggle="modal" data-bs-target="#changePwdModal"> Modificar contraseña </button>
+      <button type="button" class="btn btn-outline-warning btn-lg px-6 py-1 rounded-3 mt-2 text-center" data-bs-toggle="modal" data-bs-target="#changePwdModal"> Modificar contraseña </button>
       <app-change-pwd-modal></app-change-pwd-modal>
     </div>
     <div class="col-12 col-lg-4 col-md-6  col-sm-6 mt-2 mt-md-0 pe-0">
       <input  type="submit"  class="btn btn-outline-light btn-lg px-5 py-1 rounded-3 mt-2"[disabled]="!inputForm.valid" value="Actualizar" >
     </div>
     <div class="text-end">
-      <p class="fs-6 text-primary unsubscribe" (click)="unsubscribe()">Darse de Baja</p>
+      <a class="fs-6 fw-semibold text-danger unsubscribe" (click)="unsubscribe()">Darse de Baja</a>
     </div>
   }
 </div>

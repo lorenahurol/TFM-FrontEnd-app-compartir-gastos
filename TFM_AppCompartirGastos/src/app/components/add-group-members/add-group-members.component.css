@@ -11,9 +11,9 @@
   border-radius: 1.5rem;
 }
 
-
-.card {
+.pill {
   display: flex;
+  background-color: #f0f0f0;
   flex-direction: row;
   gap: 8px;
   border-radius: 20px;
@@ -40,8 +40,6 @@
   background-color: #f0f0f0;
   color: var(--background-color);
 }
-
-
 
 label {
   align-content: center;

@@ -42,3 +42,24 @@
 .btn.btn-outline-light:hover {
     font-weight: 500;
 }
+
+.notification {
+    background:tomato;
+    border-radius: 10px;
+    padding: 0 5px;
+    font-size: 1rem;
+}
+
+.invitation-icons {
+    padding-top: 3px;
+    font-size: 1.2rem;
+}
+
+.dropdown-menu{
+    background-color: var(--secondary-accent-solid);
+}
+
+.invitations-font{
+    color: var(--font-color);
+    font-family: var(--p-font);
+}

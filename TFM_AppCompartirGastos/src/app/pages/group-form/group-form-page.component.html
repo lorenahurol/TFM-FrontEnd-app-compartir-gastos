@@ -1,20 +1,8 @@
-<section class="container mt-3">
-
-<div class="row align-items-start mt-3">
-    <div class="col-md-8">
-        <h3 class="mt-3 mb-3 text-accent">{{typeH3}} Grupo</h3>
+<main class="d-flex justify-content-center align-items-baseline gradient-background vh-100 py-5">
+    <div class="wrapper">
+        <h3 class="custom text-light pt-md-4 pb-3 text-center">{{typeH3}} Grupo</h3>
         <!-- Cambiar el titulo de la pagina de forma dinamica (Crear/Actualizar) -->
-        <app-group-form (typeH2)="typeH2 = $event" (typeH3)="typeH3 = $event">>
-        </app-group-form>
+        <app-group-form (typeH2)="typeH2 = $event" (typeH3)="typeH3 = $event"></app-group-form>
     </div>
-    
-
-    <!-- <div class="image col-md-4">
-        <h2 class="mt-3 mb-3">{{typeH2}} grupo</h2>
-        <img src="https://placehold.co/600x900" alt="">
-    </div> -->
-</div>
-
-</section>
-
+</main>
 

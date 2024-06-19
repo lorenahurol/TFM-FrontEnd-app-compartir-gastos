@@ -1,0 +1,24 @@
+.card-color {
+    background-color: var(--gradient-card-green);
+}
+
+label {
+    align-content: center;
+    font-size: var(--p-size);
+    font-family: var(--p-font);
+    color: var(--font-color);
+}
+
+input.ng-invalid.ng-touched {
+    border-bottom: 2px solid tomato;
+}
+
+
+input.ng-valid.ng-touched {
+    border-bottom: 2px solid rgb(37, 134, 190)
+}
+
+.error-msg {
+    font-size: small;
+    color: tomato;
+}

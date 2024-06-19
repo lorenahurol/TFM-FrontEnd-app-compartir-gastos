@@ -6,6 +6,7 @@ import { AlertModalService } from '../../services/alert-modal.service';
 import { InvitationsService } from '../../services/invitations.service';
 import { IInvitation } from '../../interfaces/iinvitation.interface';
 import {MatIconModule} from '@angular/material/icon';
+import { GroupsService } from '../../services/groups.service';
 
 @Component({
   selector: 'app-navbar',
@@ -21,10 +22,12 @@ export class NavbarComponent {
   authService = inject(AuthService);
   invitationsService = inject(InvitationsService);
   alertModalService = inject(AlertModalService);
+  groupsService = inject(GroupsService)
 
   isLoggedIn: boolean = false;
   userId: number = 1;
   invitations: any[] = [];
+  processedInvitations: any[] = [];
 
   navigate(destination: string) {
     this.router.navigate(['/landing']).then(() => {
@@ -55,7 +58,17 @@ export class NavbarComponent {
   async loadInvitations() {
     try {
       const invitations = await this.invitationsService.getInvitationsByUser(this.userId);
-      this.invitations = invitations;
+      this.invitations = invitations
+      // Carga los nombres de los grupos de las invitaciones y los añade a los objetos del array para poderlos enseñar en el dropdown
+      this.processedInvitations = await Promise.all(
+        this.invitations.map(async invitation => {
+        const group = await this.groupsService.getGroupById (invitation.group_id)
+        return {
+          ...invitation,
+          description: group.description
+        }
+      })
+    )
     } catch (error) {
       console.error("Error loading invitations");
     }
@@ -65,7 +78,7 @@ export class NavbarComponent {
   async handleInvitation(invitationId: number, action: 'accept' | 'reject') {
     try {
       // Llamar al servicio para aceptar o rechazar la invitación
-      let invitation: IInvitation = this.invitations.find(invitation => invitation.id === invitationId);
+      let invitation: IInvitation = this.processedInvitations.find(invitation => invitation.id === invitationId);
       if (action === 'accept') {
         invitation.accepted = 1;
       } else if (action === 'reject') {
@@ -75,13 +88,13 @@ export class NavbarComponent {
       // Invitacion aceptada:
 
       // Actualizar la lista de invitaciones
-      this.invitations = this.invitations.filter(invitation => invitation.id !== invitationId);
+      this.processedInvitations = this.processedInvitations.filter(invitation => invitation.id !== invitationId);
 
       if (action === "accept") {
         this.alertModalService.newAlertModal({
           icon: 'done_all',
           title: 'Invitación aceptada',
-          body: `Invitación ${invitationId} aceptada correctamente.`,
+          body: `La invitación al grupo ha sido aceptada correctamente.`,
           acceptAction: false,
           backAction: true
         })

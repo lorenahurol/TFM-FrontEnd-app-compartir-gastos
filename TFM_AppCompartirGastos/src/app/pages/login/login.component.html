@@ -2,13 +2,13 @@
   <div class="wrapper">
 
     <h3 class="custom text-light pt-md-4 pb-3 text-center">Inicia Sesión</h3>
-    <form action="" class="card card-color row g-1 p-3" novalidate="true" #loginForm="ngForm" (ngSubmit)="getDataForm(loginForm)">  
+    <form class="card card-color row g-1 p-4" novalidate="true" #loginForm="ngForm" (ngSubmit)="getDataForm(loginForm)">  
       <div class="mb-3">
-        <label for="mail">Email:</label>
+        <label for="mail" class="form-label">Email:</label>
         <input type="email" class="form-control" id="mail" name="mail" ngModel>
       </div>
       <div class="mb-3">
-        <label for="password">Password:</label>
+        <label for="password" class="form-label">Password:</label>
         <input type="password" class="form-control" id="password" name="password" ngModel>
       </div>
       <div class="mb-3 form-check">
@@ -21,5 +21,6 @@
       <input type="submit" class="btn btn-outline-light btn-lg px-5 py-1 rounded-3 mt-2"  value="Enviar">
     </form>
   </div>
+
 </div>
 
