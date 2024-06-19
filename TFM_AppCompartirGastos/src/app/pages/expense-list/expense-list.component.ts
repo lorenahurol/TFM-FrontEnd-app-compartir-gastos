@@ -184,7 +184,8 @@ export class ExpenseListComponent {
 
 
   formatDate(date: Date): string {
-    return dayjs(date).format('DD/MM/YYYY');
+    let datetext: string = dayjs(date).format('DD/MM/YYYY');
+    return datetext.replaceAll("/", " / ");
   }
 
   formatAmount(amount: number): string {
