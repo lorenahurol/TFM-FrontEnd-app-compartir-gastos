@@ -1,57 +1,49 @@
-<section class="background row align-items-start gradient-background py-4">
-    <div class="container p-2">
-        <div class="row justify-content-center">
-    
-            <div class="card card-color row g-1 class card p-3 shadow">
-                <div class="card-body">
-                    <h3 class="custom text-light pt-md-2 text-center">
-                        {{tipo}} GASTO
-                    </h3>
-                </div>
+<main class="d-flex justify-content-center align-items-baseline gradient-background vh-100 py-5">
+    <div class="wrapper">
+        <h3 class="custom text-light pt-md-4 pb-3 text-center">{{tipo}} GASTO</h3>
 
-                <form class="" [formGroup]="expenseForm" (ngSubmit)="getDataForm()">
-                    <div class="my-2">
-                        <label for="description" class="form-label">Descripción</label>
-                            <input type="text" class="form-control" id="description" formControlName="description" placeholder="Descripción">
-                            @if (checkControl('description','required')) {
-                            <p class="error-msg">Campo obligatorio</p>
-                            }
-                    </div>
-
-                    <div class="my-2 amount-field">
-                        <label for="amount" class="form-label">Cantidad (€)</label>
-                        <input type="number" class="form-control" id="amount" formControlName="amount" placeholder="Cantidad">
-                        @if (checkControl ('amount','required')) {
-                        <p class="error-msg">Campo obligatorio</p>
-                        }
-                    </div>
-
-                    <div class="my-2 date-field">
-                        <label for="date" class="form-label">Fecha</label>
-                        <input type="date" class="form-control" id="date" formControlName="date">
-                        @if (checkControl ('date','required')) {
-                        <p class="error-msg">Campo obligatorio</p>
-                        }
-                    </div>
-
-                    <div class="my-2">
-                        <label for="payer_user_id" class="form-label">Usuario pagador</label>
-                        <select class="form-control" name="payer_user_id" id="payer_user_id" formControlName="payer_user_id">
-                            <option value="" disabled selected>- Selecciona un usuario -</option>
-                            @for (user of arrUsers; track user.id){
-                                <option [value]="user.id">{{ user.firstname }}</option>
-                            }
-                        </select>
-                        @if (checkControl ('payer_user_id','required')) {
-                        <p class="error-msg">Campo obligatorio</p>
-                        }
-                    </div>
-
-                    <input type="submit" value="{{btnText}}" class="btn btn-outline-light my-2" [disabled]="!expenseForm.valid || !expenseForm.dirty"/>
-                    <button class="btn btn-dark my-2" (click)="backExpensesGroup" >Volver</button>
-                </form>
+        <form class="card card-color row g-1 p-4" [formGroup]="expenseForm" (ngSubmit)="getDataForm()">
+            <div class="mb-3">
+                <label for="description" class="form-label">Descripción</label>
+                <input type="text" class="form-control" id="description" formControlName="description"
+                    placeholder="Descripción">
+                @if (checkControl('description','required')) {
+                <p class="error-msg fw-semibold mt-1">Campo obligatorio</p>
+                }
             </div>
-        </div>
-    </div>
+        
+            <div class="mb-3 amount-field">
+                <label for="amount" class="form-label">Cantidad (€)</label>
+                <input type="number" class="form-control" id="amount" formControlName="amount" placeholder="Cantidad">
+                @if (checkControl ('amount','required')) {
+                <p class="error-msg fw-semibold mt-1">Campo obligatorio</p>
+                }
+            </div>
+        
+            <div class="mb-3 date-field">
+                <label for="date" class="form-label">Fecha</label>
+                <input type="date" class="form-control" id="date" formControlName="date">
+                @if (checkControl ('date','required')) {
+                <p class="error-msg fw-semibold mt-1">Campo obligatorio</p>
+                }
+            </div>
+        
+            <div class="mb-3">
+                <label for="payer_user_id" class="form-label">Usuario pagador</label>
+                <select class="form-control" name="payer_user_id" id="payer_user_id" formControlName="payer_user_id">
+                    <option value="" disabled selected>- Selecciona un usuario -</option>
+                    @for (user of arrUsers; track user.id){
+                    <option [value]="user.id">{{ user.firstname }}</option>
+                    }
+                </select>
+                @if (checkControl ('payer_user_id','required')) {
+                <p class="error-msg fw-semibold mt-1">Campo obligatorio</p>
+                }
+            </div>
 
-</section>
+            <input type="submit" value="{{btnText}}" class="btn btn-outline-light btn-lg px-5 py-1 rounded-3 mt-2"
+                [disabled]="!expenseForm.valid || !expenseForm.dirty" />
+            <button class="btn btn-dark btn-lg px-5 py-1 rounded-3 mt-2" (click)="backExpensesGroup()">Volver</button>
+        </form>
+    </div>
+</main>

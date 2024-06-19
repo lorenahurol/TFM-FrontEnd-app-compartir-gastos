@@ -2,6 +2,22 @@
     width: 100%;
 }
 
+.wrapper {
+    max-width: 900px;
+    width: 100%;
+}
+
+.card-color {
+    background-color: var(--gradient-card-green);
+}
+
+label {
+    align-content: center;
+    font-size: var(--p-size);
+    font-family: var(--p-font);
+    color: var(--font-color);
+}
+
 input.ng-invalid.ng-touched {
     border-bottom: 2px solid tomato;
 }
@@ -16,40 +32,10 @@ input.ng-valid.ng-touched{
     color: tomato;
 }
 
-.bg-primary {
-    background-color: #263746 !important;
-    opacity: 0.8;
-}
-  
-.card {
-    max-width: 650px;
-}
-
-.card-body {
-    text-align: center;
-}
-
-.section-container {
-    align-items: center;
-    background-color: var(--gradient-background);
-}
-
-
 .date-field {
     width: 150px;
 }
 
 .amount-field {
     width: 150px;
-}
-
-label {
-  align-content: center;
-  font-size: var(--p-size);
-  font-family: var(--p-font);
-  color: var(--font-color);
-}
-
-.card-color {
-  background-color: var(--gradient-card-green);
 }

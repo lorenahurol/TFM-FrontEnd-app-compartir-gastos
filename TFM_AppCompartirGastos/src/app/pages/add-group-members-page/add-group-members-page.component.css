@@ -1,18 +1,4 @@
-.background {
-    background: var(--gradient-background);
-}
-
-
-
-img {
-    max-width: 100%;
-    margin: 0 auto;
-    display: block;
-    filter: brightness(70%);
-}
-
-@media (max-width: 768px) {
-    .image {
-        display: none
-    }
+.wrapper {
+    max-width: 900px;
+    width: 100%;
 }

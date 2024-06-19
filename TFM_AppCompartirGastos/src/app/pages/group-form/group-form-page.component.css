@@ -1,9 +1,4 @@
-img {
+.wrapper {
+    max-width: 900px;
     width: 100%;
-}
-
-@media (max-width: 768px) {
-    .image {
-        display: none
-    }
 }

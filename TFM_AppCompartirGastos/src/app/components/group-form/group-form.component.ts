@@ -205,4 +205,10 @@ async ngOnInit(): Promise<void> {
       });
     }
   }
+
+// Boton Volver:
+  backHome() {
+    this.router.navigate([`/home`]);
+  }
+  
 };
