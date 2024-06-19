@@ -39,13 +39,9 @@ export class NavbarComponent {
     });
     const token = localStorage.getItem("login_token");
     if (token) {
-      /* En caso de recarga mantenemos el isLoggedIn a true, ya que el observable se pierde */
-      this.isLoggedIn = true;
       try {
         const tokenVerification = await this.authService.verifyToken(token);
         if (tokenVerification && tokenVerification.id) {
-          // this.authService.loginSubject(true)
-          // this.isLoggedIn = true;
           this.userId = tokenVerification.id;
           this.loadInvitations();
         }
