@@ -10,10 +10,10 @@
   <mat-dialog-actions align="end">
     <!-- botón que simplemente cierra el modal. Se enseña solo si modalData.backAction == true -->
     @if (modalData.backAction){
-      <button class="me-2 mb-2" mat-flat-button color="basic" mat-dialog-close >Volver</button>
+      <button class="me-2 mb-2" mat-flat-button mat-dialog-close >Volver</button>
     }
     <!-- botón que lanza un evento utilizable en acciones posteriores y cierra el modal. Se enseña solo si modalData.acceptAction == true -->
     @if (modalData.acceptAction){
-    <button class="me-2 mb-2" mat-flat-button color="basic" (click)="modalAcceptFunction()" >Aceptar</button>
+    <button class="me-2 mb-2" mat-flat-button (click)="modalAcceptFunction()" >Aceptar</button>
     }
   </mat-dialog-actions>

@@ -2,22 +2,56 @@
 .modal-title_block{ 
   display: flex; 
   align-items: center;
-  border-bottom: 2px solid #6c757d;;
-  padding: 0 24px
+  border-bottom: 1px solid var(--font-color);
+  padding: 0 24px; 
 } 
 
 .title {
   margin-bottom: 5px;
-  color: #0d6efd
+  color: var(--primary-accent);
 }
 
 .material-symbols-outlined {
   display: inline;
-  font-size: 1.4rem;
-  color: #0d6efd;
+  font-size: 1.6rem;
+  color: var(--primary-accent);
 }
 
-/* .button span{
-  background-color: white;
-  border: #6c757d;
+::ng-deep .mat-mdc-dialog-panel {
+  border-radius: 20px;
+}
+
+::ng-deep .mdc-dialog__surface {
+  --mdc-dialog-container-color: rgb(53, 0, 59);
+  --mdc-dialog-container-shape: 20px
+}
+::ng-deep .mdc-dialog__content {
+  --mdc-dialog-supporting-text-font: var(--p-font);
+  --mdc-dialog-supporting-text-color:var(--font-color)
+}
+
+::ng-deep .mdc-dialog__content {
+  --mdc-dialog-supporting-text-font: var(--p-font)
+}
+
+::ng-deep .mat-mdc-unelevated-button:not(:disabled){
+  --mdc-filled-button-container-color: none;
+  border: 1px solid var(--font-color);
+  --mdc-filled-button-label-text-font:var(--p-font);
+  --mdc-filled-button-label-text-color: var(--font-color);
+  border-radius: 10px;
+}
+
+::ng-deep .mat-mdc-unelevated-button:not(:disabled) :hover{
+  --mdc-filled-button-container-color:  red;
+}
+
+/* ::ng-deep .mdc-dialog--open{
+  border: 1px solid var(--primary-accent);
+  border-radius:20px
 } */
+
+::ng-deep .mdc-dialog__container{
+  border: 1px solid var(--primary-accent);
+  border-radius:20px
+}
