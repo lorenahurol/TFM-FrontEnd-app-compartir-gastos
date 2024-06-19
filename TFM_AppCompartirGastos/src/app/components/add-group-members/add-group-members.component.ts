@@ -182,6 +182,11 @@ export class AddGroupMembersComponent {
 
   async usernameSuggestions(currentUsername: string) {
     this.arrUsernameSuggestions = await this.usersService.getUsernames(currentUsername);
+    /* filtrar aquellos que ya se han seleccionado (arrInvitedUsers) */
+    this.arrUsernameSuggestions = this.arrUsernameSuggestions.filter(
+      (user) =>
+        !this.arrInvitedUsers.some((invitedUser) => invitedUser.username === user.username)
+    );
   }
 
 }
