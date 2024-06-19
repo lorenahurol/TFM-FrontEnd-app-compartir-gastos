@@ -13,6 +13,7 @@ export const authGuard: CanActivateFn = async (route, state) => {
   if (token) {
     const response = await(authServices.verifyToken(token))
     if (response.error) return false
+    authServices.loginSubject(true);
     return true
   } else {
       const alertModal = alertModalService.newAlertModal({

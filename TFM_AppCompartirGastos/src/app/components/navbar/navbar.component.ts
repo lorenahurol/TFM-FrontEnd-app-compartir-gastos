@@ -112,7 +112,6 @@ export class NavbarComponent {
  
 
   logout() {
-    this.authService.loginSubject(false);
     this.authService.logout()
     this.isLoggedIn = false; 
     this.router.navigate(['/login'])
