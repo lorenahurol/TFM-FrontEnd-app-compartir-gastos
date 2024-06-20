@@ -23,7 +23,7 @@ export class MessengerComponent {
 
   msgService = inject(MessagesService);
   userService = inject(UsersService);
-  
+  refreshIntervalId: any;
 
   arrGroups: IGroup [] = [];
   userActived!: IUser;
@@ -39,6 +39,10 @@ export class MessengerComponent {
     this.scrollContainer.nativeElement.scrollTop = this.scrollContainer.nativeElement.scrollHeight;
   }
 
+  ngOnInit() {
+    this.refreshIntervalId = setInterval(() => this.refreshMessages(), 2000);
+  }
+
   async ngOnChanges() {
     try {
       if (this.groupId !== undefined) {
@@ -48,6 +52,26 @@ export class MessengerComponent {
         for (let msg of this.arrMessages) {
           msg.username = this.getUserName(msg.user_id);
         }
+      }
+    } catch (error: HttpErrorResponse | any) {
+      if (error.error.error === 'No hay mensajes') {
+        this.arrMessages = [];
+      }
+      console.log(error);
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.refreshIntervalId) {
+      clearInterval(this.refreshIntervalId);
+    }
+  }
+
+  async refreshMessages() {
+    try {
+      this.arrMessages = await this.msgService.getMessagesByGroupId(this.groupId);
+      for (let msg of this.arrMessages) {
+        msg.username = this.getUserName(msg.user_id);
       }
     } catch (error: HttpErrorResponse | any) {
       if (error.error.error === 'No hay mensajes') {
