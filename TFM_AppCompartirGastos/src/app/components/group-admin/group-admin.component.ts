@@ -85,6 +85,7 @@ export class GroupAdminComponent {
         acceptAction: true,
         backAction: false,
       });
+
     } else if(member.id == group.creator_user_id)
       {
         this.alertModalService.newAlertModal({
@@ -94,11 +95,10 @@ export class GroupAdminComponent {
           acceptAction: true,
           backAction: false,
         });
-      }
-    else{
+      }else{
 
       //Model de confirmacion
-      const alertModal =this.alertModalService.newAlertModal({
+      const alertModal = this.alertModalService.newAlertModal({
         icon: 'notifications',
         title: 'Eliminar miembro',
         body: `Esta seguro que desea eliminar el usuario del grupo`,
@@ -108,26 +108,30 @@ export class GroupAdminComponent {
 
       //Si acepta se procede al borrado
       alertModal?.componentInstance.sendModalAccept.subscribe(
-        (isAccepted) => {
+        async (isAccepted) => {
           if (isAccepted) {
-            this.userService.deleteMember(Number(this.groupId),member.id);
-            this.alertModalService.newAlertModal({
+            this.userService.deleteMember(Number(this.groupId), member.id);
+            const alertModal2 = this.alertModalService.newAlertModal({
               icon: 'notifications',
               title: 'Miembro eliminado',
               body: `Se ha eliminado correctamente al usuario del grupo`,
               acceptAction: true,
               backAction: false,
             });
+            
+            alertModal2?.componentInstance.sendModalAccept.subscribe(
+              async (isAccepted) => {
+                if (isAccepted) { 
+                  //Se recargan los datos
+                  this.userService.getUsersByGroup(Number(this.groupId)).then(users => {
+                    this.arrUsers = users;
+                    location.reload();
+                  });
+                }
+              })
           }
         }
       );
-
-      //Se recargan los datos
-      this.arrUsers = await this.userService.getUsersByGroup(Number(this.groupId));
-      
-      setTimeout(function () {
-        location.reload();
-      }, 2000);
 
     }
   }
