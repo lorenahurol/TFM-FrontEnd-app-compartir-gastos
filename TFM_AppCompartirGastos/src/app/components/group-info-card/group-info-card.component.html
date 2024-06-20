@@ -12,15 +12,10 @@
                 }
             </button>
             @if (!isGroupHome()) {
-            <button class="btn btn-outline-light py-3 px-2 ms-md-4" (click)="goToGroup(infoGroup.group_id)" title="Ver grupo">
-                <mat-icon fontIcon="find_in_page"></mat-icon>
+            <button class="btn btn-outline-light d-flex d-inline-block" (click)="goToGroup(infoGroup.group_id)" title="Ver grupo">
+                <span class="me-3">Entrar</span><mat-icon fontIcon="groups" class="fs-4"></mat-icon>
             </button>
             }
-        <!-- @if (!isGroupHome()) {
-        <button class="btn btn-outline-light mx-2" (click)="goToGroup(infoGroup.group_id)">
-            <mat-icon fontIcon="find_in_page"></mat-icon>
-        </button>
-        } -->
     </h4>
 
     <div id="flush-collapseOne{{infoGroup.group_id}}" class="accordion-collapse collapse"

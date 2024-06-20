@@ -31,16 +31,12 @@ export class ChangePwdModalComponent {
     this.passwordForm = new FormGroup(
       {
         password: new FormControl(null, [Validators.required]),
-        password_confirm: new FormControl(null, [Validators.required]),
-      },
-      [this.commonFunc.passwordControl]
+        password_confirm: new FormControl(null, [Validators.required],),
+      }, { validators: this.commonFunc.passwordControl }
     );
   }
 
-  checkControl(
-    formControlName: string,
-    validatorName: string
-  ): boolean | undefined {
+  checkControl(formControlName: string, validatorName: string): boolean | undefined {
     return (
       this.passwordForm.get(formControlName)?.hasError(validatorName) &&
       this.passwordForm.get(formControlName)?.touched
@@ -48,24 +44,28 @@ export class ChangePwdModalComponent {
   }
 
   async UpdatePassword() {
+    if (this.passwordForm.valid) {
     const password = { password: this.passwordForm.value.password };
     const pwdResponse = await this.usersServices.updatePassword(password);
-    if (pwdResponse.success) {
-      this.alertModalService.newAlertModal({
-        icon: 'done_all',
-        title: 'Genial!',
-        body: 'Contraseña actualizada correctamente ',
-        acceptAction: true,
-        backAction: false,
-      });
-    } else {
-      this.alertModalService.newAlertModal({
-        icon: 'warning',
-        title: 'Atención!',
-        body: 'Se ha verificado un error durante la actualización',
-        acceptAction: true,
-        backAction: false,
-      });
+      
+      if (pwdResponse.success) {
+        this.alertModalService.newAlertModal({
+          icon: 'done_all',
+          title: 'Genial!',
+          body: 'Contraseña actualizada correctamente ',
+          acceptAction: true,
+          backAction: false,
+        });
+
+      } else {
+        this.alertModalService.newAlertModal({
+          icon: 'warning',
+          title: 'Atención!',
+          body: 'Error durante la actualización',
+          acceptAction: true,
+          backAction: false,
+        });
+      }
     }
   }
 }
