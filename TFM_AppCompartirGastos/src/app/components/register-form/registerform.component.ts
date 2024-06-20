@@ -365,6 +365,5 @@ export class RegisterFormComponent {
         }
       }
     );
-
   }
 }

@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UsersService } from '../../services/users.service';
 import { AuthService } from '../../services/auth.service';
 import { CommonFunctionsService } from '../../common/utils/common-functions.service';
@@ -76,4 +76,5 @@ export class ChangePwdModalComponent {
       });
     }
   }
+
 }

@@ -29,16 +29,14 @@
   list-style: none;
 }
 
-body {
-  min-height: 100%;
+
+header,
+body,
+footer {
   background: var(--background-color);
 }
 
-header,
-main,
-footer {
-  margin: 0;
-  padding: 0;
+main {
   background: var(--background-color);
 }
 
@@ -169,6 +167,14 @@ p {
     'GRAD' 0,
     'opsz' 24
 }
+
+.modal-backdrop {
+    /* bug fix - no overlay */    
+    display: none;
+}
+
+
+
 
 
 

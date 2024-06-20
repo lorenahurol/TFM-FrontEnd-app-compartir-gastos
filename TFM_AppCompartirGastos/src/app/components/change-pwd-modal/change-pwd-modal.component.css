@@ -19,3 +19,17 @@ input.ng-valid.ng-touched{
     font-size: small;
     color: tomato;
 }
+
+.modal {
+  z-index: 1055;
+}
+
+.modal-backdrop {
+  z-index: 1050;
+}
+
+.modal.fade.show {
+  display: block;
+}
+
+
