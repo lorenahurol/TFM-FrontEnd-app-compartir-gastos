@@ -168,14 +168,7 @@ p {
     'opsz' 24
 }
 
+/* Elimina backdrop de los modales de bootstrap - bug fix  */
 .modal-backdrop {
-    /* bug fix - no overlay */    
     display: none;
 }
-
-
-
-
-
-
-

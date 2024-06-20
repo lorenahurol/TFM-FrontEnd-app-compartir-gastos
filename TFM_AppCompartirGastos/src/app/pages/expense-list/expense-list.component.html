@@ -4,7 +4,6 @@
             <div class="d-flex justify-content-between align-items-center pt-3 pb-3">
                 <h4 class="mb-0 text-center flex-grow-1 ">GASTOS DEL GRUPO</h4>
                 @if (isAdmin) {
-                    <!-- <i class="bi bi-plus-circle-fill me-3 h3" [routerLink]="['/home/expenses/'+groupId+'/add']" title="Añade un nuevo gasto"></i> -->
                     <button class="btn btn-outline-light my-2 me-3" [routerLink]="['/home/expenses/'+groupId+'/add']" title="Añade un nuevo gasto">
                         <mat-icon fontIcon="add_card" ></mat-icon>
                     </button>
@@ -14,20 +13,18 @@
                 @if (arrExpenses.length > 0) {
                     <thead>
                         <tr>
-                            <!-- <th scope="col">#</th> -->
                             <th scope="col">Descripción</th>
-                            <th scope="col">Pagado por</th>
-                            <th scope="col" class="amount">Cantidad</th>
+                            <th scope="col">Pagador</th>
+                            <th scope="col" class="amount">Importe</th>
                             <th scope="col" class="date-text">Fecha</th>
                             @if (isAdmin) {
-                                <th scope="col" class="action-field">Acciones</th>
+                                <th scope="col" class="action-field">Admin</th>
                             }
                         </tr>
                     </thead>
                     <tbody>
                     @for(expense of arrExpenses; track expense.id) {
                     <tr class="align-middle">
-                        <!-- <th scope="row">{{expense.id}}</th> -->
                         <td>{{ expense.description }}</td>
                         <td>{{ getUserName(expense.payer_user_id) }}</td>
                         <td class="amount">{{ formatAmount(expense.amount) }}</td>

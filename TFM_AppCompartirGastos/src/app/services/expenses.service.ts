@@ -29,7 +29,6 @@ export class ExpensesService {
    * Método para obtener todos los gastos del grupo
    */
     getExpensesGroupingByUser(groupId: number) {
-
       return lastValueFrom(this.httpClient.get<any>(`${this.API_URL}/expenses/bygroup/actives/totalexpensesbyuser/${groupId}`));
     }
 

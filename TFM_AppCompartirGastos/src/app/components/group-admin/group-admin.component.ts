@@ -7,7 +7,6 @@ import { GroupsService } from '../../services/groups.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AlertModalService } from '../../services/alert-modal.service';
 import { MatIconModule } from '@angular/material/icon';
-import { ImemberGroup } from '../../interfaces/imember-group';
 import { IExpense } from '../../interfaces/iexpense.interface';
 import { ExpensesService } from '../../services/expenses.service';
 import { IGroup } from '../../interfaces/igroup.interface';
@@ -35,7 +34,6 @@ export class GroupAdminComponent {
   expenseService = inject(ExpensesService);
 
   ngOnInit() {
-
     this.activatedRoute.params.subscribe(async (params: any) => {
       if (params.groupId) {
         this.groupId = params.groupId;
@@ -47,7 +45,6 @@ export class GroupAdminComponent {
         }
       }
     });
-
   }
 
   async getIsAdmin() {
@@ -71,13 +68,11 @@ export class GroupAdminComponent {
     }
   }
 
-  editUser(member: IUser)
-  {
+  editUser(member: IUser) {
     this.router.navigate([`/home/members/${this.groupId}/${member.id}`]);
   }
 
-  async deleteUser(member: IUser)
-  {
+  async deleteUser(member: IUser) {
     const expensesUser: Array<IExpense> = await this.expenseService.getExpensesByGroup(Number(this.groupId));
 
     const group: IGroup = await this.groupService.getGroupById(Number(this.groupId));
@@ -137,12 +132,11 @@ export class GroupAdminComponent {
     }
   }
 
-  async deleteGroup(){
+  async deleteGroup() {
     const expensesGroup: Array<IExpense> = await this.expenseService.getExpensesByGroup(Number(this.groupId));
 
     const group: IGroup = await this.groupService.getGroupById(Number(this.groupId));
-    if(expensesGroup.length > 0)
-    {
+    if(expensesGroup.length > 0) {
       this.alertModalService.newAlertModal({
         icon: 'notifications',
         title: 'Problema al eliminar',
@@ -150,8 +144,7 @@ export class GroupAdminComponent {
         acceptAction: true,
         backAction: false,
       });
-    } 
-    else{
+    } else {
 
       //Model de confirmacion
       const alertModal =this.alertModalService.newAlertModal({
@@ -184,6 +177,5 @@ export class GroupAdminComponent {
       )
     };
   }
-
 
 }

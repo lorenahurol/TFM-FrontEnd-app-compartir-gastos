@@ -8,7 +8,7 @@ import { UsersService } from '../../services/users.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { GroupsService } from '../../services/groups.service';
 import { IRoles } from '../../interfaces/iroles.interface';
-import { CommonFunctionsService } from '../../common/utils/common-functions.service';
+import { CommonFunctionsService } from '../../services/common-functions.service';
 import { AlertModalService } from '../../services/alert-modal.service';
 import { ImemberGroup } from '../../interfaces/imember-group';
 import {MatIconModule} from '@angular/material/icon';

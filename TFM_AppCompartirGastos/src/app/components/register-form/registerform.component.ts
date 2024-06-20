@@ -4,8 +4,8 @@ import { UsersService } from '../../services/users.service';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ChangePwdModalComponent } from '../change-pwd-modal/change-pwd-modal.component';
-import { CommonFunctionsService } from '../../common/utils/common-functions.service';
-import { AlertModalComponent, IAlertData } from '../alert-modal/alert-modal.component';
+import { CommonFunctionsService } from '../../services/common-functions.service';
+import { AlertModalComponent } from '../alert-modal/alert-modal.component';
 import { AlertModalService } from '../../services/alert-modal.service';
 import { EmailsService, IEmailData } from '../../services/emails.service';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs'
@@ -138,7 +138,7 @@ export class RegisterFormComponent {
     this.arrInternationalCodes = this.usersServices.getAllInternationalCodes();
 
     /** 
-     * Función de debounce para reducir llamadas a ls API desde checkusername. Espera 300ms desde el ultimo evento de input y elimina las llamadas duplicadas antes de llamar a checkUsername
+     * Función de debounce para reducir llamadas a la API desde checkusername. Espera 300ms desde el ultimo evento de input y elimina las llamadas duplicadas antes de llamar a checkUsername
      */
     this.usernameInputSubject
       .pipe(

@@ -4,7 +4,7 @@ import { IUserGroups } from '../../interfaces/iuser-groups.interface';
 import { ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
 import { GroupsService } from '../../services/groups.service';
 import { UsersService } from '../../services/users.service';
-import { CommonFunctionsService } from '../../common/utils/common-functions.service';
+import { CommonFunctionsService } from '../../services/common-functions.service';
 import { IUser } from '../../interfaces/iuser.interface';
 import { ExpensesService } from '../../services/expenses.service';
 import { IExpense } from '../../interfaces/iexpense.interface';
@@ -32,7 +32,7 @@ export class GroupDashboardComponent {
   groupId: string = '';
   user: IUser | any;
   userId: number | any;
-  activeTab: string = 'expenses'; // puede tomar los valores 'expenses', 'payments', 'admin', 'messages'
+  activeTab: string = 'expenses'; // Pesaña activa. Puede tomar los valores 'expenses', 'payments', 'admin', 'messages'
 
   async ngOnInit() {
     this.activatedRoute.params.subscribe(async (params: any) => {
