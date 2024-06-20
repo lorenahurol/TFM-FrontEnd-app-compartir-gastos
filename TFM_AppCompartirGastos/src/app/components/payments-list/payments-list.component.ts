@@ -6,7 +6,7 @@ import { IUser } from '../../interfaces/iuser.interface';
 import { ExpensesService } from '../../services/expenses.service';
 import { UsersService } from '../../services/users.service';
 import { GroupsService } from '../../services/groups.service';
-import { CommonFunctionsService } from '../../common/utils/common-functions.service';
+import { CommonFunctionsService } from '../../services/common-functions.service';
 import { AlertModalService } from '../../services/alert-modal.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { IRoles } from '../../interfaces/iroles.interface';

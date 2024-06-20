@@ -4,7 +4,7 @@ import { IUserGroups } from '../../interfaces/iuser-groups.interface';
 import { ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
 import { GroupsService } from '../../services/groups.service';
 import { UsersService } from '../../services/users.service';
-import { CommonFunctionsService } from '../../common/utils/common-functions.service';
+import { CommonFunctionsService } from '../../services/common-functions.service';
 import { IUser } from '../../interfaces/iuser.interface';
 import { ExpensesService } from '../../services/expenses.service';
 import { IExpense } from '../../interfaces/iexpense.interface';

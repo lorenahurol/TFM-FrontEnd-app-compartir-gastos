@@ -3,7 +3,7 @@ import { IUserGroups } from '../../interfaces/iuser-groups.interface';
 import { GroupsService } from '../../services/groups.service';
 import { IRoles } from '../../interfaces/iroles.interface';
 import { Router, RouterLink } from '@angular/router';
-import { CommonFunctionsService } from '../../common/utils/common-functions.service';
+import { CommonFunctionsService } from '../../services/common-functions.service';
 import { ImemberGroup } from '../../interfaces/imember-group';
 import { ExpensesService } from '../../services/expenses.service';
 import { IExpense } from '../../interfaces/iexpense.interface';

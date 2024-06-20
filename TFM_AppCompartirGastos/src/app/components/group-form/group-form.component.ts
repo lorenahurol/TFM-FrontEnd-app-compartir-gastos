@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IGroup } from '../../interfaces/igroup.interface';
 import { AlertModalService } from '../../services/alert-modal.service';
 import { AuthService } from '../../services/auth.service';
-import { CommonFunctionsService } from '../../common/utils/common-functions.service';
+import { CommonFunctionsService } from '../../services/common-functions.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
