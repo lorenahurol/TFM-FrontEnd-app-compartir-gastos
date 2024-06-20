@@ -24,6 +24,7 @@ export class MessengerComponent {
   msgService = inject(MessagesService);
   userService = inject(UsersService);
   refreshIntervalId: any;
+  autoRefresh = false;
 
   arrGroups: IGroup [] = [];
   userActived!: IUser;
@@ -37,10 +38,6 @@ export class MessengerComponent {
 
   scrollToBottom(): void {
     this.scrollContainer.nativeElement.scrollTop = this.scrollContainer.nativeElement.scrollHeight;
-  }
-
-  ngOnInit() {
-    this.refreshIntervalId = setInterval(() => this.refreshMessages(), 2000);
   }
 
   async ngOnChanges() {
@@ -78,6 +75,16 @@ export class MessengerComponent {
         this.arrMessages = [];
       }
       console.log(error);
+    }
+  }
+
+  toggleAutoRefresh() {
+    if (this.autoRefresh) {
+      this.refreshIntervalId = setInterval(() => this.refreshMessages(), 2000);
+    } else {
+      if (this.refreshIntervalId) {
+        clearInterval(this.refreshIntervalId);
+      }
     }
   }
 

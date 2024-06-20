@@ -42,5 +42,11 @@
             <!-- deshabilitar el botón si groupId es undefined, null o 0 -->
             <button type="button" class="btn btn-outline-light mt-1 w-100" [disabled]="groupId === undefined || groupId === null || groupId === 0" (click)="sendMessage()">Enviar</button>
         </div>
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="autoRefreshToggle" [(ngModel)]="autoRefresh" (ngModelChange)="toggleAutoRefresh()">
+            <label class="form-check-label text-light" for="autoRefreshToggle">
+                Autorrefresco
+            </label>
+        </div>
     </div>
 </div>
