@@ -1,17 +1,20 @@
 
 .nav-link {
     color: var(--primary-accent);
-    border-color: var(--font-color);  
+    border-color: var(--font-color);
+    font-size: var(--p-size);
+    font-family: var(--p-font);
 }
 
 .nav-link:hover {
-    background-color: var(--secondary-accent);
+    cursor: pointer;
+    color: rgb(10, 10, 10);
+    background-color: var(--primary-accent);
 }
 
 .nav-link::selection {
-    color: var(--primary-accent);
-    border-color: var(--font-color);
-    font-weight: bold;  
+    background-color: var(--secondary-accent);
+    color: var(--font-color);
 }
 
 .nav-tabs{

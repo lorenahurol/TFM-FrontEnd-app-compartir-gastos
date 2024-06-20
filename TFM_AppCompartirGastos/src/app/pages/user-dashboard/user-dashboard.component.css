@@ -20,6 +20,11 @@
     background-color: var(--primary-accent);
 }
 
+.nav-link.active {
+    background-color: var(--secondary-accent);
+    color: var(--font-color);
+}
+
 .btn-outline-light{
     background-color: var(--secondary-accent);
     border-color: var(--secondary-accent);
