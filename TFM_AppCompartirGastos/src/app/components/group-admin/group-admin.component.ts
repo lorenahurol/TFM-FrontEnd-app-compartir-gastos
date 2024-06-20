@@ -7,7 +7,6 @@ import { GroupsService } from '../../services/groups.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AlertModalService } from '../../services/alert-modal.service';
 import { MatIconModule } from '@angular/material/icon';
-import { ImemberGroup } from '../../interfaces/imember-group';
 import { IExpense } from '../../interfaces/iexpense.interface';
 import { ExpensesService } from '../../services/expenses.service';
 import { IGroup } from '../../interfaces/igroup.interface';
@@ -35,7 +34,6 @@ export class GroupAdminComponent {
   expenseService = inject(ExpensesService);
 
   ngOnInit() {
-
     this.activatedRoute.params.subscribe(async (params: any) => {
       if (params.groupId) {
         this.groupId = params.groupId;
@@ -47,7 +45,6 @@ export class GroupAdminComponent {
         }
       }
     });
-
   }
 
   async getIsAdmin() {
@@ -71,13 +68,11 @@ export class GroupAdminComponent {
     }
   }
 
-  editUser(member: IUser)
-  {
+  editUser(member: IUser) {
     this.router.navigate([`/home/members/${this.groupId}/${member.id}`]);
   }
 
-  async deleteUser(member: IUser)
-  {
+  async deleteUser(member: IUser) {
     const expensesUser: Array<IExpense> = await this.expenseService.getExpensesByGroup(Number(this.groupId));
 
     const group: IGroup = await this.groupService.getGroupById(Number(this.groupId));
@@ -90,6 +85,7 @@ export class GroupAdminComponent {
         acceptAction: true,
         backAction: false,
       });
+
     } else if(member.id == group.creator_user_id)
       {
         this.alertModalService.newAlertModal({
@@ -99,11 +95,10 @@ export class GroupAdminComponent {
           acceptAction: true,
           backAction: false,
         });
-      }
-    else{
+      }else{
 
       //Model de confirmacion
-      const alertModal =this.alertModalService.newAlertModal({
+      const alertModal = this.alertModalService.newAlertModal({
         icon: 'notifications',
         title: 'Eliminar miembro',
         body: `Esta seguro que desea eliminar el usuario del grupo`,
@@ -113,36 +108,39 @@ export class GroupAdminComponent {
 
       //Si acepta se procede al borrado
       alertModal?.componentInstance.sendModalAccept.subscribe(
-        (isAccepted) => {
+        async (isAccepted) => {
           if (isAccepted) {
-            this.userService.deleteMember(Number(this.groupId),member.id);
-            this.alertModalService.newAlertModal({
+            this.userService.deleteMember(Number(this.groupId), member.id);
+            const alertModal2 = this.alertModalService.newAlertModal({
               icon: 'notifications',
               title: 'Miembro eliminado',
               body: `Se ha eliminado correctamente al usuario del grupo`,
               acceptAction: true,
               backAction: false,
             });
+            
+            alertModal2?.componentInstance.sendModalAccept.subscribe(
+              async (isAccepted) => {
+                if (isAccepted) { 
+                  //Se recargan los datos
+                  this.userService.getUsersByGroup(Number(this.groupId)).then(users => {
+                    this.arrUsers = users;
+                    location.reload();
+                  });
+                }
+              })
           }
         }
       );
 
-      //Se recargan los datos
-      this.arrUsers = await this.userService.getUsersByGroup(Number(this.groupId));
-      
-      setTimeout(function () {
-        location.reload();
-      }, 2000);
-
     }
   }
 
-  async deleteGroup(){
+  async deleteGroup() {
     const expensesGroup: Array<IExpense> = await this.expenseService.getExpensesByGroup(Number(this.groupId));
 
     const group: IGroup = await this.groupService.getGroupById(Number(this.groupId));
-    if(expensesGroup.length > 0)
-    {
+    if(expensesGroup.length > 0) {
       this.alertModalService.newAlertModal({
         icon: 'notifications',
         title: 'Problema al eliminar',
@@ -150,8 +148,7 @@ export class GroupAdminComponent {
         acceptAction: true,
         backAction: false,
       });
-    } 
-    else{
+    } else {
 
       //Model de confirmacion
       const alertModal =this.alertModalService.newAlertModal({
@@ -184,6 +181,5 @@ export class GroupAdminComponent {
       )
     };
   }
-
 
 }

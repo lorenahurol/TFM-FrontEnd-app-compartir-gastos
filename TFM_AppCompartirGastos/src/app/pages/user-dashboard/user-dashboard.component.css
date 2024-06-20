@@ -29,3 +29,11 @@
     font-size:large;
     color: var(--primary-accent);
 }
+
+.temporary-button {
+    width: 66px;
+}
+
+.no-groups-wrapper{
+    align-items: center;
+}

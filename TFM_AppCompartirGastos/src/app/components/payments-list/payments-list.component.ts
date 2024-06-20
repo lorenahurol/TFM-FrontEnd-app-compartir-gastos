@@ -6,7 +6,7 @@ import { IUser } from '../../interfaces/iuser.interface';
 import { ExpensesService } from '../../services/expenses.service';
 import { UsersService } from '../../services/users.service';
 import { GroupsService } from '../../services/groups.service';
-import { CommonFunctionsService } from '../../common/utils/common-functions.service';
+import { CommonFunctionsService } from '../../services/common-functions.service';
 import { AlertModalService } from '../../services/alert-modal.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { IRoles } from '../../interfaces/iroles.interface';
@@ -120,7 +120,7 @@ export class PaymentsListComponent {
       {
         this.percentNoEquitable += member.percent;
         let xcredit = (member.percent * totalE) - member.totalEx;
-        totalNoEquitable += xcredit;
+        totalNoEquitable -= xcredit;
         member.credit = - xcredit;
       }
     }
@@ -130,12 +130,12 @@ export class PaymentsListComponent {
 
     if(equitableMembers.length > 0)
     {
-      let avegareExpenses: number = (totalE - totalNoEquitable) / equitableMembers.length ;
+      let averageExpenses: number = (totalE - totalNoEquitable) / equitableMembers.length;
       this.percentEquitable += " (" + ((100 - this.percentNoEquitable*100) / equitableMembers.length).toFixed(2).toString().replace('.', ',') + "%)";
 
       for(let member of equitableMembers)
       {
-        let xcredit = avegareExpenses - member.totalEx;
+        let xcredit = averageExpenses - member.totalEx;
         totalNoEquitable += xcredit;
         member.credit = - xcredit;
       }
@@ -165,15 +165,6 @@ export class PaymentsListComponent {
         strPercent = strPercent.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') +  ' %';
       }
       return strPercent;
-  }
-
-  formatEquitable(equitable: boolean): string {
-    let strEquitable: string = "No";
-    if(equitable)
-      {
-        strEquitable = "Si"
-      }
-      return strEquitable;
   }
 
   getUserName(userId: number): string {

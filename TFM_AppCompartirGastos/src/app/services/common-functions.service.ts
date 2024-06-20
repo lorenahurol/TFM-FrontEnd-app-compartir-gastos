@@ -1,13 +1,13 @@
 import { Injectable, inject } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
-import { UsersService } from '../../services/users.service';
-import { AlertModalComponent, IAlertData } from '../../components/alert-modal/alert-modal.component';
-import { AlertModalService } from '../../services/alert-modal.service';
+import { AuthService } from './auth.service';
+import { UsersService } from './users.service';
+import { AlertModalComponent, IAlertData } from '../components/alert-modal/alert-modal.component';
+import { AlertModalService } from './alert-modal.service';
 import { MatDialogRef } from '@angular/material/dialog';
-import { ImemberGroup } from '../../interfaces/imember-group';
-import { ExpensesService } from '../../services/expenses.service';
-import { ITokenVerification } from '../../interfaces/itoken-verification.interface';
+import { ImemberGroup } from '../interfaces/imember-group';
+import { ExpensesService } from './expenses.service';
+import { ITokenVerification } from '../interfaces/itoken-verification.interface';
 
 @Injectable({
   providedIn: 'root',

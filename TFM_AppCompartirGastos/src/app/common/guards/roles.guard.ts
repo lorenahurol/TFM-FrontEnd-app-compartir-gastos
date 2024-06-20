@@ -23,7 +23,7 @@ export const rolesGuard: CanActivateFn = async (route, state) => {
     isGranted = false;
   }
 
-  /* VALIDACIONES DE ACCESO PARA GASTOS ('EXPENSES') */
+  /* VALIDACIONES DE ACCESO PARA LAS RUTAS DE GASTOS ('expenses') */
   if (route.url[0].path.includes('expenses')) {
 
     roles = await groupService.getUserRolesByGroup();
@@ -50,7 +50,7 @@ export const rolesGuard: CanActivateFn = async (route, state) => {
     
       }
     }
-    /* Comprobaciones para rutas de grupos */
+    /* VALIDACIONES DE ACCESO PARA LAS RUTAS DE GRUPOS ('groups') */
   } else if (route.url[0].path.includes('groups')) {
   
     roles = await groupService.getUserRolesByGroup();
@@ -75,7 +75,7 @@ export const rolesGuard: CanActivateFn = async (route, state) => {
       redirectTo = '/home'
       isGranted = false;
     }
-    
+    /* VALIDACIONES DE ACCESO PARA LAS RUTAS AL FORO ('messages') */
   } else if (route.url[0].path.includes('messages')) {
     roles = await groupService.getUserRolesByGroup();
     if (roles.membergroups.includes(groupId)) {
@@ -85,6 +85,7 @@ export const rolesGuard: CanActivateFn = async (route, state) => {
       redirectTo = '/home';
       isGranted = false;
     }
+    /* VALIDACIONES DE ACCESO PARA LA RUTAS DE EDICIÓN DE GRUPO ('groupform') */
   } else if (route.url[0].path.includes('groupform')) {
     roles = await groupService.getUserRolesByGroup();
 
@@ -93,7 +94,7 @@ export const rolesGuard: CanActivateFn = async (route, state) => {
       isGranted = true;
     } 
   } else {
-    // Si pasa por aquí, la ruta no es de gastos ('expenses') ni de grupos ('groups') ni de groupform
+    // Si pasa por aquí, la ruta no es conocida para este GUARD
     message = 'Está intentando acceder a una ruta desconocida';
     redirectTo = '/home'
     isGranted = false;

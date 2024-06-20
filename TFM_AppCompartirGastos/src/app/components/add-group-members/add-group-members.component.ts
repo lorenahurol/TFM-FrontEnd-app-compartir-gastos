@@ -50,6 +50,12 @@ export class AddGroupMembersComponent {
 
   constructor() {}
 
+
+  /**
+   * Lógica de ejecución al iniciar el componente. Se obtiene el token del localStorage y se verifica si es válido.
+   * Se obtiene el id del grupo a través de los parámetros de la URL, se comprueba si el usuario es admin del grupo.
+   * Se suscribe a los cambios del input de username para obtener sugerencias de usuarios.
+   */
   async ngOnInit(): Promise<void> {
     const token = localStorage.getItem('token');
     if (token) {
@@ -64,16 +70,15 @@ export class AddGroupMembersComponent {
       }
     });
     await this.getIsAdmin();
-    this.usernameInputSubject
-      .pipe(
-        debounceTime(200),
-        distinctUntilChanged()
-      )
-      .subscribe((currentUsername) => {
+    this.usernameInputSubject.pipe(debounceTime(200), distinctUntilChanged()).subscribe((currentUsername) => {
         this.usernameSuggestions(currentUsername);
       });
   }
 
+  /**
+   * Método para obtener los datos del formulario y enviar la invitación
+   * @param invitationForm formulario de la invitación
+   */
   async getDataForm(invitationForm: any) {
     
     if (this.arrInvitedUsers.length > 0 && this.isAdmin) {
@@ -138,6 +143,9 @@ export class AddGroupMembersComponent {
     }
   }
 
+  /**
+   * Método para verificar si el usuario es administrador del grupo
+   */
   async getIsAdmin() {
     try {
       const roles = await this.groupsService.getUserRolesByGroup();
@@ -158,6 +166,13 @@ export class AddGroupMembersComponent {
     }
   }
 
+  /**
+   * Método para añadir o quitar usuarios de la lista de invitados
+   * @param invitationForm formulario de la invitación
+   * @param event evento del botón
+   * @param selectedUser usuario seleccionado
+   * @param action acción a realizar (añadir o quitar)
+   */
   editInvitations(invitationForm: any, event: any, selectedUser: IUsername, action: string) {
     event.preventDefault();
     if (action === 'add') {
@@ -174,12 +189,20 @@ export class AddGroupMembersComponent {
     }
   }
 
+  /**
+   * Método para obtener las sugerencias de usuarios a partir del input de username
+   * @param event evento del input
+   */
   onUsernameInput(event: any) {
     const currentUsername = event.target.value;
     if (currentUsername.length > 0) this.usernameInputSubject.next(currentUsername);
     if (currentUsername.length == 0) this.arrUsernameSuggestions = [];
   }
 
+  /**
+   * Método para obtener sugerencias de usuarios a partir del input de username, se llama en el evento onInit del componente
+   * @param currentUsername username actual
+   */
   async usernameSuggestions(currentUsername: string) {
     this.arrUsernameSuggestions = await this.usersService.getUsernames(currentUsername);
     /* filtrar aquellos que ya se han seleccionado (arrInvitedUsers) */
