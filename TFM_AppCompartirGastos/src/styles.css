@@ -170,6 +170,7 @@ p {
     'opsz' 24
 }
 
-
-
-
+/* Elimina backdrop de los modales de bootstrap  */
+.modal-backdrop {
+    display: none;
+}
