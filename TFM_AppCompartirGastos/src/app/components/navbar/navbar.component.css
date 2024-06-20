@@ -17,6 +17,10 @@
     padding: 0.5rem 1rem;
 }
 
+.nav-item{
+    align-self: center;
+}
+
 .navbar-nav .nav-item .btn {
     padding: 0.5rem 1rem;
     line-height: 1.5;
@@ -63,3 +67,45 @@
     color: var(--font-color);
     font-family: var(--p-font);
 }
+
+/* Media queries - Text sizes for desktop */
+@media (max-width: 990px) {
+    #cfunciona{
+        display: none;
+    }
+
+    #nosotros{
+        display: none;
+    }
+
+    .navbar-nav {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 5px;
+
+    }
+
+  }
+
+  .hide{
+    margin-left: 5px;
+    align-items: center;
+  }
+
+  @media (max-width: 450px) {
+    #logo{
+        display: none;
+    }
+
+    .hide{
+        display: none;
+    }
+
+  }
+
+  @media (max-width: 780px) {
+    .hide{
+        display: none;
+    }
+
+  }

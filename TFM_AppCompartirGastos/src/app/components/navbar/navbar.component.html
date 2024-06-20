@@ -1,33 +1,33 @@
 <nav class="navbar navbar-expand-lg">
     <div class="container py-2">
-        <a class="navbar-brand fw-bold fs-3" [routerLink]="['/landing']">Explit</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        <a id="logo" class="navbar-brand fw-bold fs-3" [routerLink]="['/landing']">Explit</a>
+        <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
-        </button>
+        </button> -->
 
-        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+        <div class="justify-content-end" id="navbarSupportedContent">
             <ul class="navbar-nav mb-2 mb-lg-0">
                 @if (!isLoggedIn) {
-                <li class="nav-item">
+                <li class="nav-item" id="cfunciona">
                     <a class="nav-link active text-light fs-5" aria-current="page"
                         (click)="navigate('instructions')">¿Cómo funciona?</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" id="nosotros">
                     <a class="nav-link fs-5" (click)="navigate('about')">Sobre nosotros</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" id="acceso">
                     <button class="btn btn-lg btn-outline-light px-4 ms-md-4" [routerLink]="['/login']">Acceso</button>
                 </li>
                 } @else {
                 <li class="nav-item" title="Inicio">
                     <a class="nav-link fs-5" [routerLink]="['/home']">
-                        <mat-icon fontIcon="home"></mat-icon>
+                        <mat-icon fontIcon="home"></mat-icon><span class="hide">Home</span>
                     </a>
                 </li>
                 <li class="nav-item dropdown fs-5" title="Notificación de invitaciones">
                     <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <mat-icon fontIcon="notifications" ></mat-icon>
+                        <mat-icon fontIcon="notifications" ></mat-icon> <span class="hide">Invitaciones</span>
                         @if(processedInvitations.length > 0){
                             <span class="notification">{{processedInvitations.length}}</span>
                         }
@@ -71,12 +71,12 @@
                 </li>
                 <li class="nav-item" title="Foro">
                     <a class="nav-link fs-5" [routerLink]="['/home/messages']">
-                        <mat-icon fontIcon="forum"></mat-icon>
+                        <mat-icon fontIcon="forum"></mat-icon> <span class="hide">Foro</span>
                     </a>
                 </li>
                 <li class="nav-item" title="Ajustes de usuario">
                     <a class="nav-link fs-5" [routerLink]="['/home', 'users', 'update']">
-                        <mat-icon fontIcon="person_edit"></mat-icon>
+                        <mat-icon fontIcon="person_edit"></mat-icon> <span class="hide">Cuenta</span>
                     </a>
                 </li>
 
