@@ -2,10 +2,8 @@ import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UsersService } from '../../services/users.service';
 import { AuthService } from '../../services/auth.service';
-import { CommonFunctionsService } from '../../common/utils/common-functions.service';
+import { CommonFunctionsService } from '../../services/common-functions.service';
 import { AlertModalService } from '../../services/alert-modal.service';
-import { MatDialogRef } from '@angular/material/dialog';
-import { AlertModalComponent, IAlertData } from '../alert-modal/alert-modal.component';
 
 @Component({
   selector: 'app-change-pwd-modal',
@@ -16,7 +14,6 @@ import { AlertModalComponent, IAlertData } from '../alert-modal/alert-modal.comp
 })
 export class ChangePwdModalComponent {
   alertModalService = inject(AlertModalService);
-  alertModal: MatDialogRef<AlertModalComponent, any> | undefined;
 
   usersServices = inject(UsersService);
   authServices = inject(AuthService);
@@ -40,11 +37,6 @@ export class ChangePwdModalComponent {
     );
   }
 
-  // Instancia el modal alert-modal-component para alertas
-  openAlertModal(modalData: IAlertData): void {
-    this.alertModal = this.alertModalService.open(modalData);
-  }
-
   checkControl(
     formControlName: string,
     validatorName: string
@@ -59,7 +51,7 @@ export class ChangePwdModalComponent {
     const password = { password: this.passwordForm.value.password };
     const pwdResponse = await this.usersServices.updatePassword(password);
     if (pwdResponse.success) {
-      this.openAlertModal({
+      this.alertModalService.newAlertModal({
         icon: 'done_all',
         title: 'Genial!',
         body: 'Contraseña actualizada correctamente ',
@@ -67,7 +59,7 @@ export class ChangePwdModalComponent {
         backAction: false,
       });
     } else {
-      this.openAlertModal({
+      this.alertModalService.newAlertModal({
         icon: 'warning',
         title: 'Atención!',
         body: 'Se ha verificado un error durante la actualización',
