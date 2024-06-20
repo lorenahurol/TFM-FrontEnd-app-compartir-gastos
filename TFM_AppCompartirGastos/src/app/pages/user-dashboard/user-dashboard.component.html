@@ -56,8 +56,10 @@
               <div class="d-flex flex-column no-groups-wrapper">
                 <p class="text-center mt-5">No tenemos ningún grupo para mostrarte.</p>
                 <p class="text-center">¿Quieres crear uno?</p>
-                <button class="btn btn-outline-light mt-3 temporary-button" [routerLink]="['/home/groupform/new']"  title="Crea un nuevo grupo">
-                <mat-icon fontIcon="group_add"></mat-icon>
+                <button class="btn btn-outline-light d-flex d-inline-block" [routerLink]="['/home/groupform/new']"
+                  title="Nuevo grupo">
+                  <span>Nuevo Grupo</span>
+                  <mat-icon fontIcon="group_add" class="ms-2"></mat-icon>
                 </button>
               </div>
             }
