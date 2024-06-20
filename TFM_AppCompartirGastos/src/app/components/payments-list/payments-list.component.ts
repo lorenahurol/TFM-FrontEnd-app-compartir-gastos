@@ -120,7 +120,7 @@ export class PaymentsListComponent {
       {
         this.percentNoEquitable += member.percent;
         let xcredit = (member.percent * totalE) - member.totalEx;
-        totalNoEquitable += xcredit;
+        totalNoEquitable -= xcredit;
         member.credit = - xcredit;
       }
     }
@@ -130,12 +130,12 @@ export class PaymentsListComponent {
 
     if(equitableMembers.length > 0)
     {
-      let avegareExpenses: number = (totalE - totalNoEquitable) / equitableMembers.length ;
+      let averageExpenses: number = (totalE - totalNoEquitable) / equitableMembers.length;
       this.percentEquitable += " (" + ((100 - this.percentNoEquitable*100) / equitableMembers.length).toFixed(2).toString().replace('.', ',') + "%)";
 
       for(let member of equitableMembers)
       {
-        let xcredit = avegareExpenses - member.totalEx;
+        let xcredit = averageExpenses - member.totalEx;
         totalNoEquitable += xcredit;
         member.credit = - xcredit;
       }
