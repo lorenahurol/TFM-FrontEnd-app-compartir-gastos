@@ -67,8 +67,8 @@ export class NavbarComponent {
           ...invitation,
           description: group.description
         }
-      })
-    )
+        })
+      )
     } catch (error) {
       console.error("Error loading invitations");
     }
@@ -91,13 +91,23 @@ export class NavbarComponent {
       this.processedInvitations = this.processedInvitations.filter(invitation => invitation.id !== invitationId);
 
       if (action === "accept") {
-        this.alertModalService.newAlertModal({
+        const alertModal = this.alertModalService.newAlertModal({
           icon: 'done_all',
           title: 'Invitación aceptada',
           body: `La invitación al grupo ha sido aceptada correctamente.`,
-          acceptAction: false,
-          backAction: true
+          acceptAction: true,
+          backAction: false
         })
+
+        alertModal?.componentInstance.sendModalAccept.subscribe(
+          (isAccepted) => {
+            if (isAccepted) {
+              location.reload();
+            }
+          }
+      );
+
+
       } else if (action === 'reject') {
         this.alertModalService.newAlertModal({
           icon: 'done_all',

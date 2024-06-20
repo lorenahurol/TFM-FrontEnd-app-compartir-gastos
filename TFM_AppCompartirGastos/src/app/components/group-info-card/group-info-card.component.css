@@ -2,6 +2,12 @@
     width: 150px;
 }
 
+.details {
+    cursor: pointer;
+    color: var(--font-color);
+    font-weight: 400;
+}
+
 .date-text {
     text-align: center;
 }

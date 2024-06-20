@@ -1,11 +1,12 @@
 import { Component, Input, inject } from '@angular/core';
 import { IUserGroups } from '../../interfaces/iuser-groups.interface';
 import { Router } from '@angular/router';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
   selector: 'app-group-info-card',
   standalone: true,
-  imports: [],
+  imports: [MatIconModule],
   templateUrl: './group-info-card.component.html',
   styleUrl: './group-info-card.component.css'
 })
