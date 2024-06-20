@@ -40,7 +40,7 @@
                 placeholder="Introduce nuevo mensaje..." [disabled]="groupId === undefined || groupId === null || groupId === 0"></textarea>
             </div>
             <!-- deshabilitar el botón si groupId es undefined, null o 0 -->
-            <button type="button" class="btn btn-outline-light mt-3" [disabled]="groupId === undefined || groupId === null || groupId === 0" (click)="sendMessage()">Enviar</button>
+            <button type="button" class="btn btn-outline-light mt-1 w-100" [disabled]="groupId === undefined || groupId === null || groupId === 0" (click)="sendMessage()">Enviar</button>
         </div>
     </div>
 </div>
