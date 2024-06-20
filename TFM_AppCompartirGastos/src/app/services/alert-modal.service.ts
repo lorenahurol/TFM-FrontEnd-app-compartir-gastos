@@ -17,7 +17,7 @@ export class AlertModalService {
     return this.alertModal.open(AlertModalComponent, {
       data: modalData,
       width: '300px',
-      height: '200px',
+      height: '250px',
       enterAnimationDuration: '200ms',
       exitAnimationDuration: '200ms',
       disableClose: true,

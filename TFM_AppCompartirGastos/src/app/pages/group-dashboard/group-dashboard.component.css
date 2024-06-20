@@ -3,6 +3,10 @@
     border-color: var(--font-color);  
 }
 
+.nav-link:hover {
+    background-color: var(--secondary-accent);
+}
+
 .nav-link::selection {
     color: var(--primary-accent);
     border-color: var(--font-color);

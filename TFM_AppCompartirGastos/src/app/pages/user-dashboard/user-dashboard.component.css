@@ -2,6 +2,11 @@
 .nav-link {
     color: var(--primary-accent);
     border-color: var(--font-color);  
+    cursor: pointer;
+}
+
+.nav-link:hover {
+    background-color: var(--secondary-accent);
 }
 
 .btn-outline-light{
@@ -13,4 +18,12 @@
 .text-center{
     font-size:large;
     color: var(--primary-accent);
+}
+
+.temporary-button {
+    width: 66px;
+}
+
+.no-groups-wrapper{
+    align-items: center;
 }

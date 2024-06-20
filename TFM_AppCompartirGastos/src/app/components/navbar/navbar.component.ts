@@ -121,8 +121,21 @@ export class NavbarComponent {
   }
 
   logout() {
-    this.authService.logout()
-    this.isLoggedIn = false; 
-    this.router.navigate(['/login'])
+    const alertModal = this.alertModalService.newAlertModal({
+      icon: 'shield_question',
+      title: 'Cierre de sesión',
+      body: '¿Estás seguro que quieres cerrar sesión?',
+      acceptAction: true,
+      backAction: true,
+    });
+    alertModal?.componentInstance.sendModalAccept.subscribe(
+      (isAccepted) => {
+        if (isAccepted) {
+          this.authService.logout()
+          this.isLoggedIn = false; 
+          this.router.navigate(['/login'])
+        }
+      }
+    );
   }
 }
