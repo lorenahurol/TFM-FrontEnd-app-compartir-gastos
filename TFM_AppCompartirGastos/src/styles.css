@@ -36,6 +36,16 @@ footer {
   background: var(--background-color);
 }
 
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+footer {
+  margin-top: auto;
+}
+
 main {
   background: var(--background-color);
 }
