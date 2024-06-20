@@ -111,18 +111,21 @@
     } @else {
     <!-- Form de update: botón al modal change-pwd-modal y validar datos-->
     <div class="row justify-content-end g-3">
-    <div class="col-12 col-md-4 mt-2 mt-md-0 pe-0">
-      <button type="button" class="btn btn-outline-warning btn-lg px-6 py-1 rounded-3 mt-2"
-        data-bs-toggle="modal" data-bs-target="#changePwdModal"> Modificar contraseña </button>
-      <app-change-pwd-modal></app-change-pwd-modal>
-    </div>
-    <div class="col-12 col-md-4 mt-2 mt-md-0 pe-0">
-      <input type="submit" class="btn btn-outline-light btn-lg px-5 py-1 rounded-3 mt-2" [disabled]="!inputForm.valid"
-        value="Actualizar">
-    </div>
-    <div class="text-end pt-3">
-      <a class="fs-6 fw-semibold text-danger unsubscribe" (click)="unsubscribe()">Darse de Baja</a>
-    </div>
+      <div class="col-12 col-md-4 mt-2 mt-md-0 pe-0">
+        <a class="btn btn-outline-light btn-lg px-5 py-1 rounded-3 mt-2" [routerLink]="['/home']">Volver</a>
+      </div>  
+      <div class="col-12 col-md-4 mt-2 mt-md-0 pe-0">
+        <button type="button" class="btn btn-outline-warning btn-lg px-6 py-1 rounded-3 mt-2"
+          data-bs-toggle="modal" data-bs-target="#changePwdModal"> Modificar contraseña </button>
+        <app-change-pwd-modal></app-change-pwd-modal>
+      </div>
+      <div class="col-12 col-md-4 mt-2 mt-md-0 pe-0">
+        <input type="submit" class="btn btn-outline-light btn-lg px-5 py-1 rounded-3 mt-2" [disabled]="!inputForm.valid"
+          value="Actualizar">
+      </div>
+      <div class="text-end pt-3">
+        <a class="fs-6 fw-semibold text-danger unsubscribe" (click)="unsubscribe()">Darse de Baja</a>
+      </div>
     </div>
     }
   </div>
