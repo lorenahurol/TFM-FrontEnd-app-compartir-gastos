@@ -102,9 +102,7 @@ export class NavbarComponent {
         alertModal?.componentInstance.sendModalAccept.subscribe(
           (isAccepted) => {
             if (isAccepted) {
-              this.router.navigateByUrl(`/login`, { skipLocationChange: true }).then(() => {
-                this.router.navigate([`/home`])
-            })
+              location.reload();
             }
           }
       );
