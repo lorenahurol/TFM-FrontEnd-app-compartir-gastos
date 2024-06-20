@@ -138,7 +138,7 @@ export class RegisterFormComponent {
     this.arrInternationalCodes = this.usersServices.getAllInternationalCodes();
 
     /** 
-     * Función de debounce para reducir llamadas a ls API desde checkusername. Espera 300ms desde el ultimo evento de input y elimina las llamadas duplicadas antes de llamar a checkUsername
+     * Función de debounce para reducir llamadas a la API desde checkusername. Espera 300ms desde el ultimo evento de input y elimina las llamadas duplicadas antes de llamar a checkUsername
      */
     this.usernameInputSubject
       .pipe(

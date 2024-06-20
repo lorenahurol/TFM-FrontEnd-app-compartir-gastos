@@ -167,15 +167,6 @@ export class PaymentsListComponent {
       return strPercent;
   }
 
-  formatEquitable(equitable: boolean): string {
-    let strEquitable: string = "No";
-    if(equitable)
-      {
-        strEquitable = "Si"
-      }
-      return strEquitable;
-  }
-
   getUserName(userId: number): string {
     const user: IUser | undefined = this.arrUsers.find(
       (user) => user.id === userId

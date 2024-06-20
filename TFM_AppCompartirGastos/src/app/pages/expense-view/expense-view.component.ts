@@ -92,10 +92,5 @@ export class ExpenseViewComponent {
       this.expenseForm.get(formControlName)?.touched
     );
   }
-
-  backExpensesGroup()
-  {
-    this.router.navigate([`/home/groups/${this.groupId}`]);
-  }
   
 }

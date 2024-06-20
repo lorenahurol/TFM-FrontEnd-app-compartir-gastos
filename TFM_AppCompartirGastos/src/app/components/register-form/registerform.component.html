@@ -60,17 +60,21 @@
     </div>
  </div>
 
- <!-- Email -->
-  <div class="mb-3">
-    <label for="email" class="form-label">Correo electrónico: *</label>
-    <input type="text" class="form-control" id="email" formControlName="email" placeholder="tucorreoelectronico@email.es"
-      maxlength="45" required>
-      @if (checkControl ('email','required')) {
-      <p class="error-msg fw-semibold mt-1">Campo obligatorio</p>
-      }
-      @if (checkControl ('email','pattern')) {
-      <p class="error-msg fw-semibold mt-1">Correo invàlido</p>
-      }
+<!-- email -->
+  <div class="row g-2">
+    <div class="col-md-3 label">
+      <label for="email" class="form-label mb-0">Correo electrónico *</label>
+    </div>
+    <div class="col-md-9">
+      <input type="text" class="form-control" id="email" formControlName="email" placeholder="miguel_de_cervantes@email.es"  maxlength="55" required>
+    </div>
+    @if (checkControl ('email','required')) {
+    <p class="error-msg fw-semibold mt-1">Campo obligatorio</p>
+    }
+    @if (checkControl ('email','pattern')) {
+    <p class="error-msg fw-semibold mt-1">Correo invàlido</p>
+    }
+
   </div>
 
   <!-- Si no está actualizando, mostrar campos de password -->

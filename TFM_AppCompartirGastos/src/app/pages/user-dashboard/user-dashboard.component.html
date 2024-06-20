@@ -54,7 +54,13 @@
           <app-group-info-card [infoGroup]="infoGroup"></app-group-info-card>
           }
         }@else {
-          <p class="text-center mt-5">No hay grupos de esta categoría</p>
+          <div class="d-flex flex-column no-groups-wrapper">
+            <p class="text-center mt-5">No tenemos ningún grupo para mostrarte.</p>
+            <p class="text-center">¿Quieres crear uno?</p>
+            <button class="btn btn-outline-light mt-3 temporary-button" [routerLink]="['/home/groupform/new']"  title="Crea un nuevo grupo">
+            <mat-icon fontIcon="group_add"></mat-icon>
+            </button>
+          </div>
         }
       </div>
     </div>

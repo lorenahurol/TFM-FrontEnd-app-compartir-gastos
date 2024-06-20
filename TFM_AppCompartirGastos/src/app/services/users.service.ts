@@ -112,7 +112,7 @@ export class UsersService {
     );
   }
 
-  /**
+/**
  * Fetches usernames based on a provided filter string.
  *
  * @param {string} filter - The filter string to be used for searching usernames.
@@ -165,7 +165,7 @@ export class UsersService {
     );
   }
 
-    /**
+  /**
    * Unsubscribes a user using a DELETE request to the `/users/:UserId` endpoint.
    *
    * @param {RegisterBody} password - The updated user data object conforming to the `RegisterBody` interface.
@@ -174,12 +174,14 @@ export class UsersService {
    */
   unsubscribe(userId: number) {
     return lastValueFrom(this.httpClient.delete <any> (`${this.API_URL}/users/${userId}`))
-  /**
-   * @param {group_id}
-   * @param {user_id}
-   */
   }
 
+  /**
+   * Deletes a user using a DELETE request to the `/users/:UserId` endpoint.
+   * @param group_id 
+   * @param user_id 
+   * @returns 
+   */
   deleteMember(group_id: number, user_id: number)
   {
     return lastValueFrom(
@@ -187,6 +189,12 @@ export class UsersService {
     );
   }
 
+  /**
+   * Get member by user_id and group_id
+   * @param group_id 
+   * @param user_id 
+   * @returns 
+   */
   getMemberByUserIdByGroupId(group_id: number, user_id: number)
   {
     return lastValueFrom(
@@ -194,7 +202,11 @@ export class UsersService {
     );
   }
 
-
+/**
+ * Updates a member using a PUT request to the `/members/:group_id/:user_id` endpoint.
+ * @param newMember - The data with the new member to be updated
+ * @returns 
+ */
   updateMember(newMember: ImemberGroup) {
     return lastValueFrom(
       this.httpClient.put<ImemberGroup>(`${this.API_URL}/members/${newMember.group_id}/${newMember.user_id}`, newMember)

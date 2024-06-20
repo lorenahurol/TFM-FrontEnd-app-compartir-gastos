@@ -18,13 +18,24 @@
     <div id="flush-collapseOne{{infoGroup.group_id}}" class="accordion-collapse collapse"
         data-bs-parent="#infoGroupAccordion">
         <div class="accordion-body">
-            <div class="card gradient-background">
-                <div class="p-5">
-                    <div class="row mt-3 g-4 justify-content-center">
-                        <p class="text-light">Usuario Creador: <span>{{infoGroup.creator_user}}</span></p>
-                        <p class="text-light">Categoría: <span>{{infoGroup.category}}</span></p>
-                        <hr>
-                    </div>
+            <div class="card">
+                <div class="pt-3 pb-3">
+
+                    <table class="table table-bordered table-dark">
+                        <tbody>
+                            <tr>
+                                <th class="px-3 label-info-table payments-field" scope="row">Usuario creador</th>
+                                <th class="px-3 label-info-table payments-field" scope="row">Categoría</th>
+                                
+                            </tr>
+                            <tr class="table-secondary">
+                                <td class="px-3 payments-field">{{infoGroup.creator_user}}</td>
+                                <td class="px-3 payments-field">{{infoGroup.category}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pt-3 pb-3">
                     @if (infoGroup !== undefined && infoGroup.thereAreExpenses) {
                         <table class="table table-striped table-striped-columns table-rounded">
                             <thead>

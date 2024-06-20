@@ -20,6 +20,11 @@ export class EmailsService {
 
   constructor() { }
 
+  /**
+   * Función que se encarga de enviar un email a través de la API
+   * @param emailData Objeto con los datos del email a enviar
+   * @returns 
+   */
   sendEmail(emailData: IEmailData) {
     try {
       return lastValueFrom(
