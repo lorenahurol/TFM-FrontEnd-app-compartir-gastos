@@ -210,7 +210,7 @@ export class PaymentsListComponent {
         alertModal?.componentInstance.sendModalAccept.subscribe(
           (isAccepted) => {
             if (isAccepted) {
-              this.settleExpensesExecution()
+              this.settleExpensesExecution();
             }
             }
           );      
@@ -223,11 +223,11 @@ export class PaymentsListComponent {
     // Crea el array de pagos (el valor del pago es el inverso del crédito)
     let arrPayments = this.arrMembers.map(user => {
       return {user_id: user.user_id, credit: -user.credit, group_id: user.group_id}
-      })
+      });
     
     // Borrado lógico de la tabla de gastos y creación en la tabla de pagos
-    const deactivateResponse = await this.expenseService.deactivateExpenses({ groupId: this.groupId })
-    const createPayment = await this.paymentsService.addPayment ( arrPayments )
+    const deactivateResponse = await this.expenseService.deactivateExpenses({ groupId: this.groupId });
+    const createPayment = await this.paymentsService.addPayment ( arrPayments );
     
 
     if (deactivateResponse.success && createPayment.success) {
@@ -241,23 +241,24 @@ export class PaymentsListComponent {
       this.router.navigateByUrl(`/home`, { skipLocationChange: true }).then(() => {
         this.router.navigate([`/home/groups/${this.groupId}`])
       })
-      this.sendEmails()
+      this.sendEmails();
+      location.reload();
     }
   }
 
   async sendEmails() {
     // rellena el array de destiniatarios de correo con los usuarios del grupo
-    let arrBcc: number[] = []
-    this.arrMembers.forEach(user => arrBcc.push(user.user_id))
+    let arrBcc: number[] = [];
+    this.arrMembers.forEach(user => arrBcc.push(user.user_id));
     
     // recupera el nombre del grupo
-    const groupData = await this.groupService.getAllInfoGroupById(this.groupId)
+    const groupData = await this.groupService.getAllInfoGroupById(this.groupId);
     const emailData: IEmailData = {
       bcc: arrBcc,
       selectedTemplate: "settleExpenses",
       groupName: groupData.description,
       balance: this.arrMembers
-    }
-    await this.emailsService.sendEmail (emailData)
+    };
+    await this.emailsService.sendEmail (emailData);
   }
 }
