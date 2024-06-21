@@ -44,7 +44,8 @@
 }
 
 .notification {
-    background: tomato;
+    background: var(--secondary-accent-solid);
+    margin-left: 5px;
     border-radius: 10px;
     padding: 0 5px;
     font-size: 1rem;

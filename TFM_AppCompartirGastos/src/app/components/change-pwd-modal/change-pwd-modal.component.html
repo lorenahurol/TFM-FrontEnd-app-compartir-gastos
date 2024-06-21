@@ -39,7 +39,7 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Volver</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="clearText()">Volver</button>
         <button type="button" class="btn btn-danger" data-bs-dismiss="modal" [disabled]="!passwordForm.valid"
           (click)="UpdatePassword()">Actualizar</button>
       </div>

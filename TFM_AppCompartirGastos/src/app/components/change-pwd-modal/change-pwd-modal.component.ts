@@ -68,4 +68,12 @@ export class ChangePwdModalComponent {
       }
     }
   }
+
+  clearText()
+  {
+    this.passwordForm.get('password')?.setValue("");
+    this.passwordForm.get('password_confirm')?.setValue("");
+  }
+
+  
 }

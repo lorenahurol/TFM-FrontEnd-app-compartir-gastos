@@ -9,7 +9,7 @@
                         @if (msg.user_id === userId) {
                             <li class="clearfix">
                                 <div class="message-data">
-                                    <span class="message-data-time float-right small">{{dateFormat(msg.timestamp)}} - <mark><strong> YO </strong></mark></span><br>
+                                    <span class="message-data-time float-right small">{{dateFormat(msg.timestamp)}} - <span class="user-text border border-1 rounded py-1 px-1"><strong> YO </strong></span></span><br>
                                     <div class="message my-message float-right"> {{msg.message}} </div><br>
                                 </div>
                             </li>
@@ -40,7 +40,13 @@
                 placeholder="Introduce nuevo mensaje..." [disabled]="groupId === undefined || groupId === null || groupId === 0"></textarea>
             </div>
             <!-- deshabilitar el botón si groupId es undefined, null o 0 -->
-            <button type="button" class="btn btn-outline-light mt-1 w-100" [disabled]="groupId === undefined || groupId === null || groupId === 0" (click)="sendMessage()">Enviar</button>
+            <button type="button" class="btn btn-outline-light mt-1 w-100 bi bi-send btn-lg" [disabled]="groupId === undefined || groupId === null || groupId === 0" (click)="sendMessage()"> Enviar</button>
+        </div>
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="autoRefreshToggle" [(ngModel)]="autoRefresh" (ngModelChange)="toggleAutoRefresh()">
+            <label class="form-check-label text-light" for="autoRefreshToggle">
+                Autorrefresco
+            </label>
         </div>
     </div>
 </div>

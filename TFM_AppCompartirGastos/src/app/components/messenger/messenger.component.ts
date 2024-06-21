@@ -23,7 +23,8 @@ export class MessengerComponent {
 
   msgService = inject(MessagesService);
   userService = inject(UsersService);
-  
+  refreshIntervalId: any;
+  autoRefresh = false;
 
   arrGroups: IGroup [] = [];
   userActived!: IUser;
@@ -54,6 +55,36 @@ export class MessengerComponent {
         this.arrMessages = [];
       }
       console.log(error);
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.refreshIntervalId) {
+      clearInterval(this.refreshIntervalId);
+    }
+  }
+
+  async refreshMessages() {
+    try {
+      this.arrMessages = await this.msgService.getMessagesByGroupId(this.groupId);
+      for (let msg of this.arrMessages) {
+        msg.username = this.getUserName(msg.user_id);
+      }
+    } catch (error: HttpErrorResponse | any) {
+      if (error.error.error === 'No hay mensajes') {
+        this.arrMessages = [];
+      }
+      console.log(error);
+    }
+  }
+
+  toggleAutoRefresh() {
+    if (this.autoRefresh) {
+      this.refreshIntervalId = setInterval(() => this.refreshMessages(), 2000);
+    } else {
+      if (this.refreshIntervalId) {
+        clearInterval(this.refreshIntervalId);
+      }
     }
   }
 
