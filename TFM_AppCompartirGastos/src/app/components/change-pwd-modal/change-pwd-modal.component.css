@@ -2,8 +2,11 @@
   width: 100%;
 }
 
-.label {
+label {
   align-content: center;
+  font-size: var(--p-size);
+  font-family: var(--p-font);
+  color: var(--font-color);
 }
 
 input.ng-invalid.ng-touched {
@@ -32,4 +35,15 @@ input.ng-valid.ng-touched{
   display: block;
 }
 
+.custom-border {
+  border: 1px solid var(--primary-accent);
+}
+
+form, .modal-background {
+  background-color: rgb(53, 0, 59) !important;
+}
+
+.modal-title {
+  color: var(--primary-accent);
+}
 
