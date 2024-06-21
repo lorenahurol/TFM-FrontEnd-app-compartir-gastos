@@ -1,8 +1,9 @@
+<!-- Home de usuario -->
 <main class="gradient-background min-vh-100">
   <div class="container py-5">
     <div class="row">
       <!-- Welcome -->
-      <div id="welcome" class="col-md-6 mb-4">
+      <section id="welcome" class="col-md-6 mb-4">
         <div class="card card-box-2 wrapper p-4">
           <div class="row justify-content-md-start justify-content-center align-items-center">
             <div class="col-md-12">
@@ -17,7 +18,7 @@
           <div class="row justify-content-center mt-3">
             <div class="col-md-12 d-flex align-items-center justify-content-center">
               <div class="text-md-start text-center">
-                <button class="btn btn-outline-light d-md-none d-flex align-items-center">
+                <button class="btn btn-outline-light d-md-none d-flex align-items-center"  [routerLink]="['/home/groupform/new']" title="Nuevo grupo">
                   <span>Nuevo Grupo</span>
                   <mat-icon fontIcon="group_add" class="ms-2"></mat-icon>
                 </button>
@@ -25,11 +26,11 @@
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
         <!-- Instructions -->
         <div id="instructions" class="col-md-6 mb-4">
-          <div id="carouselInCard" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+          <div id="carouselInCard" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
             <div class="carousel-inner">
                 <div class="carousel-item active">
                   <div class="card card-box-1 wrapper p-4">
@@ -53,7 +54,7 @@
 
               <!-- Boton estilo bento para desktop -->
               <div class="ms-auto me-4">
-              <button class="btn btn-outline-light btn-lg d-none d-md-flex align-items-center justify-content-center mt-2 w-100">
+              <button class="btn btn-outline-light btn-lg d-none d-md-flex align-items-center justify-content-center mt-2 w-100" [routerLink]="['/home/groupform/new']" title="Nuevo grupo">
                 <span>Nuevo Grupo</span>
                 <mat-icon fontIcon="group_add" class="ms-2"></mat-icon>
               </button>
@@ -65,7 +66,7 @@
 
     
     <!-- Contenido del home -->
-    <div class="card card-box-1 p-3">
+    <section class="card card-box-1 p-3">
       <div class="d-flex flex-column">
         <div class="mt-3">
           <ul class="nav nav-tabs">
@@ -103,6 +104,6 @@
           </div>
         </div>
       </div>
-    </div>
+    </section>
   </div>
 </main>
