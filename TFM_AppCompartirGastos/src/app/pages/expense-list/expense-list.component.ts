@@ -193,7 +193,7 @@ export class ExpenseListComponent {
   }
 
   formatAmount(amount: number): string {
-    let strAmount: string = amount.toString();
+    let strAmount: string = amount.toFixed(2).toString();
     strAmount = strAmount.replace('.', ',');
     strAmount = strAmount.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
     return strAmount + ' €';

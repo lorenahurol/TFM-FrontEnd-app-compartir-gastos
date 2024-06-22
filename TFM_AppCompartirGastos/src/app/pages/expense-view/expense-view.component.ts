@@ -60,6 +60,7 @@ export class ExpenseViewComponent {
           // Asignar los valores al form
           this.expenseForm.setValue(expense);
           this.expenseForm.get('date')?.setValue(dayjs(expense.date).format('YYYY-MM-DD'));
+          this.expenseForm.get('amount')?.setValue(expense.amount.toFixed(2));
         } catch (error) {
           console.error(error);
         }
