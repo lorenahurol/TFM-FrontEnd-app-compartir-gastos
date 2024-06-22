@@ -9,24 +9,40 @@
                     </button>
                 }
             </div>
-    <table class="table table-striped">
+    <table class="table table-striped table-rounded text-center align-middle">
         @if (arrMembers.length > 0) {
             <thead>
                 <tr>
                     <!-- <th scope="col">#</th> -->
-                    <th scope="col">Miembro</th>
-                    <th scope="col" class="amount">Gastos</th>
-                    <th scope="col" class="amount">Participación</th>
-                    <th scope="col" class="amount">Saldo</th>
+                    <th scope="col" class="d-none d-md-table-cell">Miembro</th>
+                    <th scope="col" class="d-none d-md-table-cell amount">Gastos</th>
+                    <th scope="col" class="d-none d-md-table-cell amount">Participación</th>
+                    <th scope="col" class="d-none d-md-table-cell amount">Saldo</th>
                 </tr>
             </thead>
             <tbody>
             @for(member of arrMembers; track member.user_id) {
-            <tr class="align-middle">
-                <td>{{ getUserName(member.user_id) }}
-                <td class="amount">{{ formatAmount(member.totalEx) }}</td> 
-                <td class="amount">{{ formatPercent(member.percent) }}</td>
-                <td class="amount">{{ formatAmount(member.credit) }}</td>
+            <!-- Columnas en mobile y filas en desktop -->
+            <tr class="d-flex d-md-table-row flex-column flex-md-row table-secondary table-striped-column">
+                <td class="align-middle">
+                    <span class="fw-bold d-md-none me-2 d-inline-block">Miembro:</span>
+                    <span>{{ getUserName(member.user_id) }}</span>
+                </td>
+
+                <td class="align-middle">
+                    <span class="fw-bold d-md-none me-2 d-inline-block amount">Gastos:</span>
+                    <span>{{ formatAmount(member.totalEx) }}</span>
+                </td>
+
+                <td class="align-middle">
+                    <span class="fw-bold d-md-none me-2 d-inline-block amount">Participación:</span>
+                    <span>{{ formatPercent(member.percent) }}</span>
+                </td>
+
+                <td class="align-middle">
+                    <span class="fw-bold d-md-none me-2 d-inline-block amount">Saldo:</span>
+                    <span>{{ formatAmount(member.credit) }}</span>
+                </td>
             }
             </tbody>
         } @else {
