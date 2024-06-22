@@ -101,11 +101,18 @@ body{
 .chat .chat-history .my-message {
 
     border-radius: 6px 0px 6px 6px;
+    word-wrap: break-word;
+    word-break: break-word;
+    max-width: 80%;
 }
 
 .chat .chat-history .other-message {
     border-radius: 0px 6px 6px 6px;
+    word-wrap: break-word;
+    word-break: break-word;
+    max-width: 80%;
 }
+
 
 textarea {
     border-radius: 0 0 10px 10px ;
