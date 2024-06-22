@@ -1,16 +1,32 @@
-<div class="container overflow-auto">
+<main id="messages-page" class="gradient-background py-5 min-vh-100">
+<div class="wrapper my-3 overflow-auto">
     <!-- Desplegable para seleccionar el grupo -->
-    <div class="form-group my-3">
-        <label for="groupSelect">Selecciona un grupo:</label>
-        <select class="form-control" id="groupSelect" (change)="changeGroup($event.target)">ç
-            @if (groupId === undefined || groupId === null || groupId === 0) {
-                <option value="0"> - Selecciona un grupo - </option>
-            }
-            @for (infoGroup of arrInfoGroups; track infoGroup.group_id) {
-                <option [selected]="isGroupId(infoGroup.group_id)" [value]="infoGroup.group_id">{{infoGroup.description}}</option>
-            }
-        </select>
-    </div>
+    <section id="forum" class="col-md-12 mb-4">
+        <div class="card card-box-1 wrapper p-4">
+            <h3 class="custom text-light d-flex mt-3">Foro de mensajería</h3>
+            <p class="text-light">¡Bienvenido al foro de mensajería! Aquí puedes conectarte y comunicarte fácilmente con otros miembros.</p> 
+            <p class="text-light pb-3">Selecciona uno de tus grupos para ver y enviar mensajes.</p>
+        
+            <form>
+                    <label for="groupSelect" class="d-none">Selecciona un grupo:</label>
+                    <select class="form-control" id="groupSelect" (change)="changeGroup($event.target)">ç
+                        @if (groupId === undefined || groupId === null || groupId === 0) {
+                        <option value="0"> - Selecciona un grupo - </option>
+                        }
+                        @for (infoGroup of arrInfoGroups; track infoGroup.group_id) {
+                        <option [selected]="isGroupId(infoGroup.group_id)" [value]="infoGroup.group_id">{{infoGroup.description}}
+                        </option>
+                        }
+                    </select>
+            </form>
 
-    <app-messenger [userId]="userId" [groupId]="groupId" ></app-messenger>
+        </div>
+    </section>
+
+    <!-- Mensajes -->
+    <div class="card card-box-2">
+        <app-messenger [userId]="userId" [groupId]="groupId" ></app-messenger>
+    </div>
 </div>
+</main>
+

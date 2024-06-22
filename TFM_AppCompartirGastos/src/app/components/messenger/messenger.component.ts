@@ -8,11 +8,12 @@ import { FormsModule } from '@angular/forms';
 import dayjs from 'dayjs';
 import { UsersService } from '../../services/users.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-messenger',
   standalone: true,
-  imports: [RouterLink, FormsModule],
+  imports: [RouterLink, FormsModule, MatIconModule],
   templateUrl: './messenger.component.html',
   styleUrl: './messenger.component.css'
 })

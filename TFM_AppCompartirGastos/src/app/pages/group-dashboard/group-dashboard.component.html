@@ -43,7 +43,12 @@
           <app-group-admin></app-group-admin>
         </div>
         <div class="tab-pane" [class.active]="this.activeTab === 'messages'" id="messages-tabpanel" role="tabpanel" aria-labelledby="messages-tab">
-          <app-messenger [userId]="userId" [groupId]="getGroup()"></app-messenger>
+          <div class="mt-2 p-2">
+            <div class="card card-background text-white">
+              <h4 class="p-4 mt-auto mb-auto text-uppercase">{{group?.description}}</h4>
+            </div>
+            <app-messenger [userId]="userId" [groupId]="getGroup()"></app-messenger>
+          </div>
         </div>
 
         <router-outlet></router-outlet>

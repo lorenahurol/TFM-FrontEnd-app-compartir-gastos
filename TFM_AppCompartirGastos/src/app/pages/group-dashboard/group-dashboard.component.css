@@ -6,6 +6,10 @@
     background-color: var(--gradient-card-green);
 }
 
+.card-background {
+    background-color: rgba(10, 10, 10, 0.8);
+}
+
 .custom-padding {
     padding-left: 0.2rem;
 }
