@@ -7,17 +7,17 @@
                     @for (msg of arrMessages; track msg.id) {
                         <div clas="row">
                         @if (msg.user_id === userId) {
-                            <li class="clearfix">
+                            <li class="clearfix ">
                                 <div class="message-data">
                                     <span class="message-data-time float-right small">{{dateFormat(msg.timestamp)}} - <span class="user-text border border-1 rounded py-1 px-1"><strong> YO </strong></span></span><br>
-                                    <div class="message my-message float-right"> {{msg.message}} </div><br>
+                                    <div class=" my-message bg-white float-right mt-2 px-2 py-2 mb-3"> {{msg.message}} </div><br>
                                 </div>
                             </li>
                         } @else {
                             <li class="clearfix">
-                                <div class="message-data">
+                                <div class="message-data ">
                                     <span class="message-data-time small">{{dateFormat(msg.timestamp)}} - <b>{{msg.username}}</b></span><br>
-                                    <div class="message other-message"> {{msg.message}} </div><br>
+                                    <div class=" message other-message "> {{msg.message}} </div><br>
                                 </div>
                             </li>
                         }

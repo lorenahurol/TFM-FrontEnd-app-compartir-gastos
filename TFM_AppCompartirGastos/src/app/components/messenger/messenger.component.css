@@ -95,6 +95,7 @@ body{
     border-radius: 7px;
     display: inline-block;
     position: relative;
+
 }
 
 .chat .chat-history .message:after {
@@ -108,13 +109,14 @@ body{
     pointer-events: none;
     border-bottom-color: #fff;
     border-width: 10px;
-    margin-left: -10px
+    margin-left: -10px;
 }
 
+
 .chat .chat-history .my-message {
-    background: #efefef;
-    margin-top: 10px;
-    margin-bottom: 20px;
+
+    border-radius: 6px 0px 6px 6px;
+
 }
 
 .chat .chat-history .my-message:after {
@@ -133,7 +135,8 @@ body{
 
 .chat .chat-history .other-message {
     background: #e8f1f3;
-    text-align: right
+    text-align: right;
+    border-radius: 6px 0px 6px 6px;
 }
 
 .chat .chat-history .other-message:after {
