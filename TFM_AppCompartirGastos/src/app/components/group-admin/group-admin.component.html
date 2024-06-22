@@ -15,24 +15,33 @@
                 </button>
             }
         </div>
-        <table class="table table-striped">
+        <table class="table table-striped table-rounded text-center align-middle">
             <thead>
                 <tr>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">username</th>
+                    <th scope="col" class="d-none d-md-table-cell">Nombre</th>
+                    <th scope="col" class="d-none d-md-table-cell">username</th>
                     @if (isAdmin) {
-                        <th scope="col" class="action-field">Admin</th>
+                        <th scope="col" class="d-none d-md-table-cell action-field">Admin</th>
                     }
                 </tr>
             </thead>
             <tbody>
                 @for (member of arrUsers; track member.id) {
-                    <tr>
-                        <td>{{ member.firstname }} {{ member.lastname }}</td>
-                        <td>{{ member.username }}</td>
+                    <!-- Columnas en mobile y filas en desktop -->
+                    <tr class="d-flex d-md-table-row flex-column flex-md-row table-secondary table-striped-column">
+                        <td class="align-middle">
+                            <span class="fw-bold d-md-none me-2 d-inline-block"> Nombre:</span>
+                            <span>{{ member.firstname }} {{ member.lastname }}</span>
+                        </td>
+                        <td class="align-middle">
+                            <span class="fw-bold d-md-none me-2 d-inline-block"> Username:</span>
+                            <span>{{ member.username }}</span>
+                        </td>
                         @if (isAdmin) {
-                            <td class="action-field">
-                                <div>
+                            <td class="align-middle">
+                                <span class="fw-bold d-md-none">Administrar:</span>
+                                <span class="action-field">
+                                <div id="container_actions" class="d-flex flex-row justify-content-center align-items-center gap-2 gap-md-3 mt-2 mt-md-0">
                                     <button class="border-0 icon-button" (click)="editUser(member)">
                                         <mat-icon fontIcon="edit" ></mat-icon>
                                     </button>
@@ -40,6 +49,7 @@
                                         <mat-icon fontIcon="delete"></mat-icon>
                                     </button>
                                 </div>
+                                </span>
                             </td>
                         }
                     </tr>
