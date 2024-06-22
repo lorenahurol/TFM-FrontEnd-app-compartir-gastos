@@ -84,6 +84,10 @@ export class EditMemberComponent {
       if(this.memberForm.value.percent > 0){
         percent = Number(this.memberForm.value.percent) / 100.0;
       }
+      else{
+        equitable = true;
+        percent = 0;
+      }
       
     }
 
