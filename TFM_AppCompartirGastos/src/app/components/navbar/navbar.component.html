@@ -28,14 +28,14 @@
                             <span class="notification">{{processedInvitations.length}}</span>
                         }
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-end" title="Invitaciones">
+                    <ul class="dropdown-menu w-auto" title="Invitaciones">
                         <li>
                             <div class="modal-body">
                                 <div class="invitation">
                                     @if(processedInvitations.length > 0){
                                     <span class="invitations-font">Invitaciones</span>
                                         @for(inv of processedInvitations; track inv.id) {
-                                        <div class="d-flex flex-grow-1 mt-1">
+                                        <div class="d-flex mt-3 justify-content-center align-items-center">
                                             <button class="btn btn-success btn-sm py-0 px-1 me-1 mb-1"
                                                 (click)="handleInvitation(inv.id, 'accept')" title="Aceptar">
                                             <mat-icon fontIcon="check" class="invitation-icons"></mat-icon>
@@ -44,7 +44,10 @@
                                                 (click)="handleInvitation(inv.id, 'reject')"  title="Rechazar">
                                             <mat-icon fontIcon="cancel" class="invitation-icons"></mat-icon>
                                             </button>
+                                            <!--
                                             <span class="ms-1 invitations-font">{{inv.description.substring(0,11)}}...</span>
+                                            -->
+                                            <span class="ms-1 invitations-font">{{inv.description}}</span>
                                         </div>
 
                                         }

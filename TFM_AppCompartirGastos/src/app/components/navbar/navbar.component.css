@@ -27,9 +27,24 @@
     align-items: center;
 }
 
+.nav-item.dropdown {
+    position: relative;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: auto;
+    transform: none;
+
+    background-color: var(--secondary-accent-solid);
+}
+
 .dropdown-menu li {
     padding: 5px;
 }
+
 
 .navbar-toggler {
     border-color: var(--font-color);
@@ -53,11 +68,7 @@
 
 .invitation-icons {
     padding-top: 3px;
-    font-size: 1.2rem;
-}
-
-.dropdown-menu {
-    background-color: var(--secondary-accent-solid);
+    font-size: 1.3rem;
 }
 
 .invitations-font {
@@ -87,6 +98,7 @@
     .hide {
         display: none;
     }
+
 }
 
 @media (max-width: 450px) {
