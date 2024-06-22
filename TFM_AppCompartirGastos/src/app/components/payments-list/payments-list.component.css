@@ -1,5 +1,4 @@
- 
-.card {
+ .card {
     border: 0;
 }
 
@@ -10,6 +9,10 @@
 
 .card-text {
     font-size: 0.8rem;
+}
+
+.card-background {
+    background-color: rgba(10, 10, 10, 0.8);
 }
 
 

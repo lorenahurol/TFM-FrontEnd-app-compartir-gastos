@@ -1,4 +1,3 @@
-  
 .card {
     border: 0;
 }
@@ -11,6 +10,9 @@
     font-size: 0.8rem;
 }
 
+.card-background {
+    background-color: rgba(10, 10, 10, 0.8);
+}
 
 .bi{
     font-family: var(--p-font);
@@ -27,11 +29,12 @@
     background-color: transparent;
 }
 
+
 @media (max-width: 500px) {
 #container_actions{
     text-align: center;
     display:flex;
     flex-direction: column;
 
-}
+} 
 }

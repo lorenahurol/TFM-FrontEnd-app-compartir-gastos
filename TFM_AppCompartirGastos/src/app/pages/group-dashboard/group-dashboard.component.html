@@ -1,12 +1,17 @@
 <!-- Página de grupo -->
 <main id="group-dashboard" class="gradient-background py-5 min-vh-100">
+<h3 class="custom text-light d-flex mt-3">{{group.description}}</h3>
+
+<!-- Desplegable Group Info -->
 <section id="group-info" class="card card-box-1 p-3 mb-3">
 <div class="accordion mt-2" id="infoGroupAccordion">
   <app-group-info-card [infoGroup]="group"></app-group-info-card>
 </div>
 </section>
 
-<ul class="nav nav-tabs">
+<!-- Contenido del dashboard -->
+<section class="card card-box-2 py-3">
+<ul class="nav nav-tabs custom-padding">
     <li class="nav-item">
       <a class="nav-link" [class.active]="this.activeTab === 'expenses'" id="expenses-tab" data-bs-toggle="tab" href="#expenses-tabpanel" role="tab" 
         (click)="changeTab('expenses')" aria-controls="expenses-tabpanel" [attr.aria-selected]="this.activeTab === 'expenses' ">Gastos</a>
@@ -25,7 +30,7 @@
     </li>
 </ul>
   
-  <div class="tab-content">
+  <div class="tab-content px-3">
     <div class="tab-pane" [class.active]="this.activeTab === 'expenses'" id="expenses-tabpanel" role="tabpanel" aria-labelledby="expenses-tab">
       <app-expense-list></app-expense-list>
 
@@ -42,4 +47,5 @@
 
     <router-outlet></router-outlet>
   </div>
+</section>
 </main>

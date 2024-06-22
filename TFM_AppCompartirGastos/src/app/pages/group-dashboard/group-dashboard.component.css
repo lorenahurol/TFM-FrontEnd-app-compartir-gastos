@@ -2,6 +2,15 @@
     background-color: var(--gradient-card-purple);
 }
 
+.card-box-2 {
+    background-color: var(--gradient-card-green);
+}
+
+.custom-padding {
+    padding-left: 0.2rem;
+
+}
+
 .nav-link {
     color: var(--primary-accent);
     border-color: var(--font-color);
