@@ -1,15 +1,17 @@
 <div class="signup-view mt-4 overflow-auto">
     <section class=" mt-2">
-        <div class="card card-background text-white mb-3">
-            <div class="d-flex justify-content-between align-items-center pt-3 pb-3">
-                <h4 class="mb-0 text-center flex-grow-1 ">SALDO POR USUARIO</h4>
+        <div class="card card-background text-white">
+            <div class="d-flex flex-column flex-md-row align-items-center justify-content-between p-4">
+                <h4>SALDO POR USUARIO</h4>
                 @if (isAdmin) {
-                    <button class="btn btn-outline-light my-2 me-3" (click)="settleExpenses()" title="Saldar las cuentas del grupo">
-                        <mat-icon fontIcon="payments" ></mat-icon>
+                    <button class="btn btn-outline-light btn-sm d-flex align-items-center" (click)="settleExpenses()" title="Saldar las cuentas del grupo">
+                        <span>Saldar cuentas</span>
+                        <mat-icon fontIcon="payments" class="ms-2"></mat-icon>
                     </button>
                 }
             </div>
-    <table class="table table-striped table-rounded text-center align-middle">
+    <div class="table-container p-2">
+    <table class="table table-striped table-rounded text-center align-middle rounded overflow-hidden">
         @if (arrMembers.length > 0) {
             <thead>
                 <tr>
@@ -53,4 +55,5 @@
             </thead>
         }
     </table>
+    </div>
 

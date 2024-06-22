@@ -15,7 +15,9 @@
     background-color: rgba(10, 10, 10, 0.8);
 }
 
-
-.action-field {
-    text-align: center;
+table th {
+    background-color: var(--gradient-card-green);
+    color: var(--font-color);
+    font-family: var(--p-font);
+    font-size: var(--p-size);
 }

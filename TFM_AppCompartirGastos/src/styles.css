@@ -155,21 +155,6 @@ p {
   opacity: 0.8;
 }
 
-/*
-.amount {
-  text-align: right;
-  padding-right: 1em;
-  white-space: nowrap;
-}
-
-.date-text {
-  text-align: center;
-}
-
-.action-field {
-  text-align: center;
-} */
-
 /* Material Symbols styles */
 .material-symbols-outlined {
   font-variation-settings:

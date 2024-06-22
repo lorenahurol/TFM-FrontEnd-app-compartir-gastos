@@ -1,15 +1,17 @@
 <div class="signup-view mt-4 overflow-auto">
     <section class=" mt-2">
-        <div class="card card-background text-white mb-3">
-            <div class="d-flex justify-content-between align-items-center pt-3 pb-3">
-                <h4 class="mb-0 text-center flex-grow-1 ">GASTOS DEL GRUPO</h4>
+        <div class="card card-background text-white">
+            <div class="d-flex flex-column flex-md-row align-items-center justify-content-between p-4">
+                <h4>GASTOS DEL GRUPO</h4>
                 @if (isAdmin) {
-                    <button class="btn btn-outline-light my-2 me-3" [routerLink]="['/home/expenses/'+groupId+'/add']" title="Añade un nuevo gasto">
-                        <mat-icon fontIcon="add_card" ></mat-icon>
+                    <button class="btn btn-outline-light btn-sm d-flex align-items-center" [routerLink]="['/home/expenses/'+groupId+'/add']" title="Añade un nuevo gasto">
+                        <span>Añadir gasto</span>
+                        <mat-icon fontIcon="add_card" class="ms-2"></mat-icon>
                     </button>
                     }
             </div>
-            <table class="table table-striped table-rounded text-center align-middle">
+            <div class="table-container p-2">
+            <table class="table table-striped table-rounded text-center align-middle rounded overflow-hidden">
                 @if (arrExpenses.length > 0) {
                     <thead>
                         <tr>
@@ -45,7 +47,7 @@
                         @if (isAdmin) {
                             <td class="align-middle">
                                 <span class="fw-bold d-md-none">Administrar:</span>
-                                <span class="action-field">
+                                <span>
                                 <div id="container_actions" class="d-flex flex-row justify-content-center align-items-center gap-2 gap-md-3 mt-2 mt-md-0">
                                     <button class="border-0 icon-button" (click)="editExpense(expense.id)">
                                         <mat-icon fontIcon="edit" class="fs-4"></mat-icon>
@@ -60,7 +62,7 @@
                     </tr>
                     }
                     </tbody>
-                } @else {
+                }  @else {
                     <thead>
                         <tr>
                             <strong>NO HAY GASTOS ACTIVOS</strong>
@@ -69,6 +71,7 @@
                 }
             </table>
         </div>
-    </section>
+    </div>
+</section>
     
 </div>

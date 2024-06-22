@@ -49,7 +49,7 @@
     font-weight: 700;
 }
 
-.table th {
+table th {
     background-color: var(--gradient-card-green);
     color: var(--font-color);
     font-family: var(--p-font);

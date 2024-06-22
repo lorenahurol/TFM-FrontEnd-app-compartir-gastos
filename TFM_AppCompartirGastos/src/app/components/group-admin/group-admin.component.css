@@ -6,15 +6,18 @@
     text-align: center;
 }
 
-.card-text {
-    font-size: 0.8rem;
-}
 
 .card-background {
     background-color: rgba(10, 10, 10, 0.8);
 }
 
-
 .icon-button {
     background-color: transparent;
+}
+
+table th {
+    background-color: var(--gradient-card-green);
+    color: var(--font-color);
+    font-family: var(--p-font);
+    font-size: var(--p-size);
 }
