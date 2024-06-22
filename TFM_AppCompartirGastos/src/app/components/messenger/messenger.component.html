@@ -16,8 +16,8 @@
                         } @else {
                             <li class="clearfix">
                                 <div class="message-data ">
-                                    <span class="message-data-time small">{{dateFormat(msg.timestamp)}} - <b>{{msg.username}}</b></span><br>
-                                    <div class=" message other-message "> {{msg.message}} </div><br>
+                                    <span class="message-data-time small"> <span class="border border-1 rounded py-1 px-1"><strong>{{msg.username}}</strong></span> - {{dateFormat(msg.timestamp)}}</span><br>
+                                    <div class=" message other-message bg-white mt-2 px-2 py-2 mb-3"> {{msg.message}} </div><br>
                                 </div>
                             </li>
                         }

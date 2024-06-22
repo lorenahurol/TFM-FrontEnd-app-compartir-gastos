@@ -98,55 +98,14 @@ body{
 
 }
 
-.chat .chat-history .message:after {
-    bottom: 100%;
-    left: 7%;
-    border: solid transparent;
-    content: " ";
-    height: 0;
-    width: 0;
-    position: absolute;
-    pointer-events: none;
-    border-bottom-color: #fff;
-    border-width: 10px;
-    margin-left: -10px;
-}
-
-
 .chat .chat-history .my-message {
 
     border-radius: 6px 0px 6px 6px;
-
-}
-
-.chat .chat-history .my-message:after {
-    bottom: 100%;
-    left: 30px;
-    border: solid transparent;
-    content: " ";
-    height: 0;
-    width: 0;
-    position: absolute;
-    pointer-events: none;
-    border-bottom-color: #efefef;
-    border-width: 10px;
-    margin-left: -10px
 }
 
 .chat .chat-history .other-message {
-    background: #e8f1f3;
-    text-align: right;
-    border-radius: 6px 0px 6px 6px;
+    border-radius: 0px 6px 6px 6px;
 }
-
-.chat .chat-history .other-message:after {
-    border-bottom-color: #e8f1f3;
-    left: 93%
-}
-
-/* .chat .chat-message {
-    padding: 20px
-} */
 
 textarea {
     border-radius: 0 0 10px 10px ;
