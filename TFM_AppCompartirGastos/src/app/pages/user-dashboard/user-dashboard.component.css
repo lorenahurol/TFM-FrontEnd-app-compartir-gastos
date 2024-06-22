@@ -3,13 +3,25 @@
     width: 100%;
 }
 
-.card-color {
+.card-box-1 {
+    background-color: var(--gradient-card-purple);
+}
+
+.card-box-2 {
     background-color: var(--gradient-card-green);
+}
+
+.background {
+    background-color: rgba(10, 10, 10, 0.4)
+}
+
+.container-home {
+    border: 1px solid var(--secondary-accent);
 }
 
 .nav-link {
     color: var(--primary-accent);
-    border-color: var(--font-color);
+    border-color: rgb(250, 250, 250);
     font-size: var(--p-size);
     font-family: var(--p-font);
 }
@@ -25,20 +37,11 @@
     color: var(--font-color);
 }
 
-.btn-outline-light{
-    background-color: var(--secondary-accent);
-    border-color: var(--secondary-accent);
-}
-
 .text-center{
     font-size:large;
-    color: var(--primary-accent);
+    color: var(--font-color);
 }
 
 .temporary-button {
     width: 66px;
-}
-
-.no-groups-wrapper{
-    align-items: center;
 }

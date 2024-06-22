@@ -1,9 +1,9 @@
 <div class="modal fade" id="changePwdModal" tabindex="-1" aria-labelledby="changePwdModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
+    <div class="modal-content custom-border modal-background">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="changePwdModalLabel">Actualiza tu contraseña</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <h1 class="modal-title fs-5 mt-3" id="changePwdModalLabel">Actualiza tu contraseña</h1>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form class="row g-1 class card p-3 shadow" novalidate [formGroup]="passwordForm" (ngSubmit)="UpdatePassword()">
@@ -39,8 +39,8 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Volver</button>
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" [disabled]="!passwordForm.valid"
+        <button type="button" class="btn btn-dark btn-outline-light" data-bs-dismiss="modal" (click)="clearText()">Volver</button>
+        <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal" [disabled]="!passwordForm.valid"
           (click)="UpdatePassword()">Actualizar</button>
       </div>
     </div>

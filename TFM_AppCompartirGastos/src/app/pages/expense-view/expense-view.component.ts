@@ -5,6 +5,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { IExpense } from '../../interfaces/iexpense.interface';
 import { UsersService } from '../../services/users.service';
 import { IUser } from '../../interfaces/iuser.interface';
+import dayjs from 'dayjs';
 
 @Component({
   selector: 'app-expense-view',
@@ -58,6 +59,8 @@ export class ExpenseViewComponent {
           const expense: IExpense = await this.expensesService.getExpenseById(params.expenseId);
           // Asignar los valores al form
           this.expenseForm.setValue(expense);
+          this.expenseForm.get('date')?.setValue(dayjs(expense.date).format('YYYY-MM-DD'));
+          this.expenseForm.get('amount')?.setValue(expense.amount.toFixed(2));
         } catch (error) {
           console.error(error);
         }

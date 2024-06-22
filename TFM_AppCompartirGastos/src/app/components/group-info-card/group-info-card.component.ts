@@ -33,4 +33,8 @@ export class GroupInfoCardComponent {
   goToGroup(group_id: number) {
     this.router.navigate([`/home/groups/${group_id}`]);
   }
+
+  goToHome() {
+    this.router.navigate([`/home`]);
+  }
 }

@@ -1,3 +1,6 @@
+.card-box-1 {
+    background-color: var(--gradient-card-purple);
+}
 
 .nav-link {
     color: var(--primary-accent);

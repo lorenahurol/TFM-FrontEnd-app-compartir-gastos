@@ -66,6 +66,9 @@ export class ExpenseListComponent {
 
         /* Como sólo el admin puede eliminar, no tiene sentido recgargar con BD */
         this.arrExpenses = this.arrExpenses.filter((expense) => expense.id !== this.expenseId);
+
+        //Recargamos la pagina para actualizar payments
+        location.reload();
       } catch (error: HttpErrorResponse | any) {
         console.error(error);
         this.alertModalService.newAlertModal({
@@ -95,6 +98,7 @@ export class ExpenseListComponent {
       (isAccepted) => {
         if (isAccepted) {
           this.deleteExpense();
+
         }
       }
     );
@@ -189,7 +193,7 @@ export class ExpenseListComponent {
   }
 
   formatAmount(amount: number): string {
-    let strAmount: string = amount.toString();
+    let strAmount: string = amount.toFixed(2).toString();
     strAmount = strAmount.replace('.', ',');
     strAmount = strAmount.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
     return strAmount + ' €';
