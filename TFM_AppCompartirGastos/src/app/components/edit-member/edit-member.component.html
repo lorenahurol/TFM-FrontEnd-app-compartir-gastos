@@ -19,7 +19,7 @@
             <div class="mb-3">
                 @if(!desactivePercent){
                     <label for="percent" class="form-label">Porcentaje: *</label>
-                    <input type="number" class="form-control" id="percent" formControlName="percent" placeholder="0">
+                    <input type="number" class="form-control" id="percent" formControlName="percent" placeholder="0" max="100" min="0">
                         @if (checkControl('percent','required')) {
                         <p class="error-msg fw-semibold mt-1">Campo obligatorio</p>
                         }
