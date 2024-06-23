@@ -45,6 +45,7 @@ export class AddGroupMembersComponent {
   authService = inject(AuthService);
 
   arrInvitedUsers: IUsername[] = [];
+  arrMembers: IUsername[] = []; // miembros del grupo
   arrUsernameSuggestions: IUsername[] = [];
   modalResponseMessage: string = ""
 
@@ -73,6 +74,14 @@ export class AddGroupMembersComponent {
     this.usernameInputSubject.pipe(debounceTime(200), distinctUntilChanged()).subscribe((currentUsername) => {
         this.usernameSuggestions(currentUsername);
       });
+
+    try {
+      // cargamos los miembros del grupo para filtrarlos de las sugerencias
+      this.arrMembers = await this.usersService.getUsersByGroup(Number(this.groupId));
+    } catch (error: any) {
+      console.error(error);
+    }
+    
   }
 
   /**
@@ -209,6 +218,11 @@ export class AddGroupMembersComponent {
     this.arrUsernameSuggestions = this.arrUsernameSuggestions.filter(
       (user) =>
         !this.arrInvitedUsers.some((invitedUser) => invitedUser.username === user.username)
+    );
+    /* filtrar aquellos que ya forman parte del grupo (arrMembers) */
+    this.arrUsernameSuggestions = this.arrUsernameSuggestions.filter(
+      (user) =>
+        !this.arrMembers.some((member) => member.username === user.username)
     );
   }
 
