@@ -21,3 +21,7 @@ table th {
     font-family: var(--p-font);
     font-size: var(--p-size);
 }
+
+.text-xs {
+    font-size: 0.75rem;
+}

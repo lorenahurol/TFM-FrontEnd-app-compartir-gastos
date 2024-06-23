@@ -19,7 +19,12 @@
         <!-- Contenido -->
     <div class="card card-background text-white">
             <div class="d-flex flex-column flex-md-row align-items-center justify-content-between p-4">
+                <div class="col">
                 <h4>MIEMBROS DEL GRUPO</h4>
+                @if (!isAdmin) {
+                <p class="text-accent text-xs">Modo vista: Solo el admin del grupo puede realizar acciones de administración.</p>
+                }
+                </div>
             
                 @if (isAdmin) {
                 <button class="btn btn-outline-light btn-sm d-flex align-items-center" [routerLink]="['/home/groups/'+groupId+'/invitation']" title="Añadir miembro">
@@ -27,6 +32,7 @@
                     <mat-icon fontIcon="group_add" class="ms-2"></mat-icon>
                 </button>
                 }
+
             </div>
 
         <div class="table-container px-2">
