@@ -27,25 +27,25 @@
                     <tbody>
                     @for(expense of arrExpenses; track expense.id) {
                     <!-- Columnas en mobile y filas en desktop -->
-                    <tr class="d-flex d-md-table-row flex-column flex-md-row table-secondary table-striped-column">
-                        <td class="align-middle">
+                    <tr class="d-md-table-row">
+                        <td class="d-flex d-md-table-cell justify-content-between align-items-center">
                             <span class="fw-bold d-md-none me-2 d-inline-block">Descripción:</span>
                             <span>{{ expense.description }}</span>
                         </td>
-                        <td class="align-middle">
+                        <td class="d-flex d-md-table-cell justify-content-between align-items-center">
                             <span class="fw-bold d-md-none me-2 d-inline-block">Pagador:</span>
                             <span>{{ getUserName(expense.payer_user_id) }}</span>
                         </td>
-                        <td class="align-middle">
+                        <td class="d-flex d-md-table-cell justify-content-between align-items-center">
                             <span class="fw-bold d-md-none me-2 d-inline-block">Importe:</span>
                             <span class="amount" >{{ formatAmount(expense.amount) }}</span>
                         </td>
-                        <td class="align-middle">
+                        <td class="d-flex d-md-table-cell justify-content-between align-items-center">
                             <span class="fw-bold d-md-none me-2 d-inline-block">Fecha:</span>
                             <span class="date-text">{{ formatDate(expense.date) }}</span>
                         </td>
                         @if (isAdmin) {
-                            <td class="align-middle">
+                            <td class="d-flex d-md-table-cell justify-content-between align-items-center">
                                 <span class="fw-bold d-md-none">Administrar:</span>
                                 <span>
                                 <div id="container_actions" class="d-flex flex-row justify-content-center align-items-center gap-2 gap-md-3 mt-2 mt-md-0">
