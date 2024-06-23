@@ -144,7 +144,7 @@ export class PaymentsListComponent {
 
     if(equitableMembers.length > 0)
     {
-      let averageExpenses: number = (totalE - totalNoEquitable) / equitableMembers.length;
+      let averageExpenses: number = (totalE - (this.percentNoEquitable*totalE)) / equitableMembers.length;
       this.percentEquitable = "Prop. (" + ((100 - this.percentNoEquitable*100) / equitableMembers.length).toFixed(2).toString().replace('.', ',') + "%)";
 
       for(let member of equitableMembers)
