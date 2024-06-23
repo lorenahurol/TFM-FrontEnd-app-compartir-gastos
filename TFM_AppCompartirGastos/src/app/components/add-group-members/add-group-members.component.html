@@ -36,7 +36,16 @@
     </div>
 
     <div class="mb-3">
-        <input class="btn btn-outline-light btn-lg px-5 py-1 rounded-3 mt-2 w-100" type="submit" value="Enviar">
-        <button type="button" class="btn btn-dark btn-lg px-5 py-1 rounded-3 mt-2 w-100" [routerLink]="['/home/groups/'+groupId]">Volver</button>
+      <div class="row justify-content-center">
+        <div class="col-12 col-md-6">
+          <input class="btn btn-outline-light btn-lg px-5 py-1 rounded-3 mt-2 w-100" type="submit" value="Enviar">
+        </div>
+      </div>
+
+      <div class="row justify-content-center justify-content-md-start mt-4">
+        <div class="col-auto">
+          <a type="button" class="btn btn-dark btn-lg px-3 py-1 rounded-3 mt-2 w-100" [routerLink]="['/home/groups/'+groupId]">Volver</a>
+        </div>
+      </div>
     </div>    
 </form>

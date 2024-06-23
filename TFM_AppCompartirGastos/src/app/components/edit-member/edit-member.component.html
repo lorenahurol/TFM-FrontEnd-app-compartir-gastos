@@ -26,9 +26,19 @@
                 }
             </div>
         
-            <input type="submit" value="Guardar" class="btn btn-outline-light btn-lg px-5 py-1 rounded-3 mt-2"
-                [disabled]="!memberForm.valid || !memberForm.dirty" />
-            <a class="btn btn-dark btn-lg px-5 py-1 rounded-3 mt-2" (click)="backGroup()">Volver</a>
+                <div class="row justify-content-center">
+                    <div class="col-12 col-md-6">
+                        <input type="submit" value="Guardar" class="btn btn-outline-light btn-lg px-5 py-1 rounded-3 mt-2"
+                        [disabled]="!memberForm.valid || !memberForm.dirty" />
+                    </div>
+                </div>
+
+                <div class="row justify-content-center justify-content-md-start mt-4">
+                    <div class="col-auto">
+                        <a class="btn btn-dark btn-lg px-3 py-1 rounded-3 mt-2 w-100" (click)="backGroup()">Volver</a>
+                    </div>
+                </div>
+
         </form>
     </div>
 </main>
