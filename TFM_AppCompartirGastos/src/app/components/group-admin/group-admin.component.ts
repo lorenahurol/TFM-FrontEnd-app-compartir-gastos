@@ -125,7 +125,8 @@ export class GroupAdminComponent {
                   //Se recargan los datos
                   this.userService.getUsersByGroup(Number(this.groupId)).then(users => {
                     this.arrUsers = users;
-                    location.reload();
+                    console.log("aquí se recargaba la página");
+                    //location.reload();
                   });
                 }
               })

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { IExpense } from '../../interfaces/iexpense.interface';
 import { ExpensesService } from '../../services/expenses.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -22,6 +22,8 @@ import {MatIconModule} from '@angular/material/icon';
   styleUrl: './expense-list.component.css',
 })
 export class ExpenseListComponent {
+@Input() activeTab: string | any;
+
   arrExpenses: IExpense[] = [];
   arrUsers: IUser[] = [];
   groupId: string = '';
@@ -55,11 +57,18 @@ export class ExpenseListComponent {
     });
   }
 
+  ngOnChanges() {
+    if (this.activeTab === 'expenses') {
+      console.log('ngOnChanges expenses');
+    }
+  }
+
   editExpense(expenseId: number) {
     this.router.navigate([`/home/expenses/${this.groupId}/edit/${expenseId}`]);
   }
 
   async deleteExpense() {
+    console.log('deleteExpense', this.expenseId);
     if (this.expenseId !== -1) {
       try {
         const exp = await this.expenseService.deleteExpenseById(this.expenseId);
@@ -68,7 +77,8 @@ export class ExpenseListComponent {
         this.arrExpenses = this.arrExpenses.filter((expense) => expense.id !== this.expenseId);
 
         //Recargamos la pagina para actualizar payments
-        location.reload();
+        console.log("aquí se recargaba la página");
+        //location.reload();
       } catch (error: HttpErrorResponse | any) {
         console.error(error);
         this.alertModalService.newAlertModal({

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ImemberGroup } from '../../interfaces/imember-group';
 import { IExpense } from '../../interfaces/iexpense.interface';
@@ -23,6 +23,8 @@ import {MatIconModule} from '@angular/material/icon';
   styleUrl: './payments-list.component.css'
 })
 export class PaymentsListComponent {
+  @Input() activeTab: string | any;
+
   arrExpenses: IExpense[] = [];
   arrUsers: IUser[] = [];
   groupId: number = 0;
@@ -37,10 +39,8 @@ export class PaymentsListComponent {
 
   // manejo de la ventana modal de borrado
   alertModalService = inject(AlertModalService);
-  expenseId_a: number = -1;
   arrMembers: Array<ImemberGroup> = [];
   
-  expenseId: number = -1;
   isAdmin: boolean = false;
   percentEquitable: string = "Prop.";
   percentNoEquitable: number = 0;
@@ -49,6 +49,20 @@ export class PaymentsListComponent {
 
 
   ngOnInit() {
+    this.loadData();
+    this.getPayments();
+  }
+
+  async ngOnChanges() {
+    /* Si se acti*/
+    if (this.activeTab === 'payments') {
+      this.loadData();
+      this.percentNoEquitable = 0;
+      this.getPayments();
+    }
+  }
+
+  async loadData() {
     this.activatedRoute.params.subscribe(async (params: any) => {
       if (params.groupId) {
         this.groupId = +params.groupId;
@@ -60,16 +74,16 @@ export class PaymentsListComponent {
           console.error(error);
         }
       }
-
-      this.getPayments();
     });
   }
+
 
 
    /**
    * Metodo para calcular los pagos
    */
    async getPayments(){
+
     //Recupero todos los gastos del grupo agrupados por usuario
     this.totalExpenses = await this.expenseService.getExpensesGroupingByUser(Number(this.groupId));
     
@@ -131,7 +145,7 @@ export class PaymentsListComponent {
     if(equitableMembers.length > 0)
     {
       let averageExpenses: number = (totalE - totalNoEquitable) / equitableMembers.length;
-      this.percentEquitable += " (" + ((100 - this.percentNoEquitable*100) / equitableMembers.length).toFixed(2).toString().replace('.', ',') + "%)";
+      this.percentEquitable = "Prop. (" + ((100 - this.percentNoEquitable*100) / equitableMembers.length).toFixed(2).toString().replace('.', ',') + "%)";
 
       for(let member of equitableMembers)
       {
@@ -242,7 +256,8 @@ export class PaymentsListComponent {
         this.router.navigate([`/home/groups/${this.groupId}`])
       })
       this.sendEmails();
-      location.reload();
+
+      this.ngOnInit();
     }
   }
 

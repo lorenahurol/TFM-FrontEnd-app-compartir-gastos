@@ -33,11 +33,11 @@
       
       <div class="tab-content px-3">
         <div class="tab-pane" [class.active]="this.activeTab === 'expenses'" id="expenses-tabpanel" role="tabpanel" aria-labelledby="expenses-tab">
-          <app-expense-list></app-expense-list>
+          <app-expense-list [activeTab]="activeTab"></app-expense-list>
 
         </div>
         <div class="tab-pane" [class.active]="this.activeTab === 'payments'" id="payments-tabpanel" role="tabpanel" aria-labelledby="payments-tab">
-          <app-payments-list></app-payments-list>
+          <app-payments-list [activeTab]="activeTab"></app-payments-list>
         </div>
         <div class="tab-pane" [class.active]="this.activeTab === 'admin'" id="admin-tabpanel" role="tabpanel" aria-labelledby="admin-tab">
           <app-group-admin></app-group-admin>
