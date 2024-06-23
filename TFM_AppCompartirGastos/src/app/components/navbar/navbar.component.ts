@@ -1,6 +1,6 @@
 import { ViewportScroller } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { AlertModalService } from '../../services/alert-modal.service';
 import { InvitationsService } from '../../services/invitations.service';
@@ -11,7 +11,7 @@ import { GroupsService } from '../../services/groups.service';
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, MatIconModule],
+  imports: [RouterLink, MatIconModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
