@@ -1,4 +1,4 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { IExpense } from '../../interfaces/iexpense.interface';
 import { ExpensesService } from '../../services/expenses.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -14,6 +14,7 @@ import { ImemberGroup } from '../../interfaces/imember-group';
 import {MatIconModule} from '@angular/material/icon';
 
 
+
 @Component({
   selector: 'app-expense-list',
   standalone: true,
@@ -23,6 +24,7 @@ import {MatIconModule} from '@angular/material/icon';
 })
 export class ExpenseListComponent {
 @Input() activeTab: string | any;
+@Output() updateTotalExpense: EventEmitter<any> = new EventEmitter();
 
   arrExpenses: IExpense[] = [];
   arrUsers: IUser[] = [];
@@ -38,9 +40,12 @@ export class ExpenseListComponent {
   alertModalService = inject(AlertModalService);
   expenseId_a: number = -1;
   arrMembers: Array<ImemberGroup> = [];
+  totalExpenses: number = 0;
   
   expenseId: number = -1;
   isAdmin: boolean = false;
+
+  
 
   ngOnInit() {
     this.activatedRoute.params.subscribe(async (params: any) => {
@@ -49,12 +54,18 @@ export class ExpenseListComponent {
         try {
           this.getIsAdmin();
           this.arrExpenses = await this.expenseService.getExpensesByGroup(params.groupId);
+          this.refreshTotalExpenses();
           this.arrUsers = await this.userService.getUsersByGroup(params.groupId);
         } catch (error) {
           console.error(error);
         }
       }
     });
+  }
+
+  refreshTotalExpenses() {
+    this.totalExpenses = this.arrExpenses.reduce((accumulator, currentValue) => accumulator + currentValue.amount, 0);
+    this.updateTotalExpense.emit(this.totalExpenses);
   }
 
 
@@ -69,6 +80,7 @@ export class ExpenseListComponent {
 
         /* Como sólo el admin puede eliminar, no tiene sentido recgargar con BD */
         this.arrExpenses = this.arrExpenses.filter((expense) => expense.id !== this.expenseId);
+        this.refreshTotalExpenses();
 
       } catch (error: HttpErrorResponse | any) {
         console.error(error);
@@ -99,7 +111,7 @@ export class ExpenseListComponent {
       (isAccepted) => {
         if (isAccepted) {
           this.deleteExpense();
-
+          this.refreshTotalExpenses();
         }
       }
     );

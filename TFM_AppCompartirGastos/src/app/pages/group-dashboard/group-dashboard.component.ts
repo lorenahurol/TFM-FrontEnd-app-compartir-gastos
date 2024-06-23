@@ -28,6 +28,7 @@ export class GroupDashboardComponent {
   userService = inject(UsersService);
   expensesService = inject(ExpensesService);
   commonFunc = inject(CommonFunctionsService);
+  totalExpenses: number = 0;
   group: IUserGroups | any;
   groupId: string = '';
   user: IUser | any;
@@ -73,6 +74,12 @@ export class GroupDashboardComponent {
 
   async getClassTab(tab: string) {
     return this.activeTab === tab ? 'nav-link active' : 'nav-link';
+  }
+
+  onUpdateTotalExpense(totalExpenses: number | any) {
+    // se fuerza a recargar el componente hijo que depende de grupo para que se actualice el total de gastos
+    this.totalExpenses = totalExpenses;
+    this.ngOnInit();
   }
 
   getGroup(): number {

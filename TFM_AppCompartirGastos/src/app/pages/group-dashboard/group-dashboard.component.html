@@ -5,7 +5,7 @@
 <!-- Desplegable Group Info -->
 <section id="group-info" class="card card-box-2 p-3 mb-3">
 <div class="accordion mt-2" id="infoGroupAccordion">
-  <app-group-info-card [infoGroup]="group"></app-group-info-card>
+  <app-group-info-card [infoGroup]="group" [totalExpenses]="totalExpenses"></app-group-info-card>
 </div>
 </section>
 
@@ -33,7 +33,7 @@
       
       <div class="tab-content px-3">
         <div class="tab-pane" [class.active]="this.activeTab === 'expenses'" id="expenses-tabpanel" role="tabpanel" aria-labelledby="expenses-tab">
-          <app-expense-list [activeTab]="activeTab"></app-expense-list>
+          <app-expense-list [activeTab]="activeTab" (updateTotalExpense)="onUpdateTotalExpense($event)"></app-expense-list>
 
         </div>
         <div class="tab-pane" [class.active]="this.activeTab === 'payments'" id="payments-tabpanel" role="tabpanel" aria-labelledby="payments-tab">

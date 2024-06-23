@@ -14,6 +14,7 @@ import { IExpense } from '../../interfaces/iexpense.interface';
 })
 export class GroupInfoCardComponent {
   @Input() infoGroup!: IUserGroups;
+  @Input() totalExpenses!: number;
 
   router = inject(Router);
   expenseService = inject(ExpensesService);
@@ -37,7 +38,10 @@ export class GroupInfoCardComponent {
   async ngOnChanges()
   {
     try{
-      if(this.infoGroup !== undefined){
+      // comprobamos las variables de entrada para actualizar datos
+      if (this.totalExpenses !== undefined) {
+        this.totalGroupExpenses = this.totalExpenses;
+      } else if(this.infoGroup !== undefined){
         let expenses: IExpense [] = await this.expenseService.getExpensesByGroup(this.infoGroup.group_id);
         if(expenses.length > 0){
           this.totalGroupExpenses = expenses.reduce((accumulator,currentValue) => accumulator + currentValue.amount, 0); 
