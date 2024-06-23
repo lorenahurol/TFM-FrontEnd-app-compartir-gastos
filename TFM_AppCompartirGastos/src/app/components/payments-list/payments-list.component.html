@@ -25,23 +25,23 @@
             <tbody>
             @for(member of arrMembers; track member.user_id) {
             <!-- Columnas en mobile y filas en desktop -->
-            <tr class="d-flex d-md-table-row flex-column flex-md-row table-secondary table-striped-column">
-                <td class="align-middle">
+            <tr class="d-md-table-row">
+                <td class="d-flex d-md-table-cell justify-content-between align-items-center">
                     <span class="fw-bold d-md-none me-2 d-inline-block">Miembro:</span>
                     <span>{{ getUserName(member.user_id) }}</span>
                 </td>
 
-                <td class="align-middle">
+                <td class="d-flex d-md-table-cell justify-content-between align-items-center">
                     <span class="fw-bold d-md-none me-2 d-inline-block amount">Gastos:</span>
                     <span>{{ formatAmount(member.totalEx) }}</span>
                 </td>
 
-                <td class="align-middle">
+                <td class="d-flex d-md-table-cell justify-content-between align-items-center">
                     <span class="fw-bold d-md-none me-2 d-inline-block amount">Participación:</span>
                     <span>{{ formatPercent(member.percent) }}</span>
                 </td>
 
-                <td class="align-middle">
+                <td class="d-flex d-md-table-cell justify-content-between align-items-center">
                     <span class="fw-bold d-md-none me-2 d-inline-block amount">Saldo:</span>
                     <span>{{ formatAmount(member.credit) }}</span>
                 </td>
