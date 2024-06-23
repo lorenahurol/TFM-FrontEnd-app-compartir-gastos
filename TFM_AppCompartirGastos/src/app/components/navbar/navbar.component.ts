@@ -7,6 +7,7 @@ import { InvitationsService } from '../../services/invitations.service';
 import { IInvitation } from '../../interfaces/iinvitation.interface';
 import {MatIconModule} from '@angular/material/icon';
 import { GroupsService } from '../../services/groups.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -25,28 +26,28 @@ export class NavbarComponent {
   groupsService = inject(GroupsService)
 
   isLoggedIn: boolean = false;
-  userId: number = 1;
-  invitations: any[] = [];
+  userId: number | any;
+  invitations: IInvitation[] = [];
   processedInvitations: any[] = [];
-
-  navigate(destination: string) {
-    this.router.navigate(['/landing']).then(() => {
-      this.viewportScroller.scrollToAnchor(destination);
-    });
-  }
 
   async ngOnInit(): Promise<void> {
     // subscribe al observable de estado de login
     this.authService.isLoggedIn$.subscribe(isLoggedIn => {
-      this.isLoggedIn = isLoggedIn
+      this.isLoggedIn = isLoggedIn;
+      if (this.isLoggedIn) {
+        this.getLoginUser();
+        this.loadInvitations();  
+      }
     });
+  }
+
+  async getLoginUser() {
     const token = localStorage.getItem("login_token");
     if (token) {
       try {
         const tokenVerification = await this.authService.verifyToken(token);
         if (tokenVerification && tokenVerification.id) {
           this.userId = tokenVerification.id;
-          this.loadInvitations();
         }
       } catch (error) {
         this.isLoggedIn = false;
@@ -55,20 +56,23 @@ export class NavbarComponent {
   }
 
 
+  navigate(destination: string) {
+    this.router.navigate(['/landing']).then(() => {
+      this.viewportScroller.scrollToAnchor(destination);
+    });
+  }
+
+
   async loadInvitations() {
     try {
-      const invitations = await this.invitationsService.getInvitationsByUser(this.userId);
-      this.invitations = invitations
+      this.invitations = await this.invitationsService.getInvitationsByUser(this.userId);
       // Carga los nombres de los grupos de las invitaciones y los añade a los objetos del array para poderlos enseñar en el dropdown
       this.processedInvitations = await Promise.all(
         this.invitations.map(async invitation => {
         const group = await this.groupsService.getGroupById (invitation.group_id)
-        return {
-          ...invitation,
-          description: group.description
-        }
+        return {...invitation, description: group.description}
         })
-      )
+      );
     } catch (error) {
       console.error("Error loading invitations");
     }
