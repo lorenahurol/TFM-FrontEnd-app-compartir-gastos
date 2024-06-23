@@ -41,6 +41,7 @@
                         <thead>
                             <tr>
                                 <th scope="col" class="d-none d-md-table-cell">Gastos total</th>
+                                <th scope="col" class="d-none d-md-table-cell">Mis Gastos</th>
                                 <th scope="col" class="d-none d-md-table-cell">Mi saldo</th>
                             </tr>
                         </thead>
@@ -49,6 +50,10 @@
                             <tr class="d-flex d-md-table-row flex-column flex-md-row table-secondary table-striped-column">
                                 <td>
                                     <span class="fw-bold d-md-none me-5">Gasto total: </span>
+                                    <span class="fs-5">{{formatAmount(totalGroupExpenses)}}</span>
+                                </td>
+                                <td>
+                                    <span class="fw-bold d-md-none me-5">Mis Gastos: </span>
                                     <span class="fs-5">{{formatAmount(infoGroup.totalexpenses)}}</span>
                                 </td>
                                 <td>
