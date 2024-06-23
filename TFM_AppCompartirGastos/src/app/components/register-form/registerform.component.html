@@ -60,7 +60,7 @@
     </div>
  </div>
 
-<!-- email -->
+<!-- Email -->
   <div class="mb-3">
       <label for="email" class="form-label">Correo electrónico *</label>
       <input type="text" class="form-control" id="email" formControlName="email" placeholder="miguel_de_cervantes@email.es"  maxlength="55" required>
@@ -95,14 +95,14 @@
   </div>
 }
   
-  <div class="row my-4 g-1">
+  <div class="row my-4 g-1 justify-content-center align-items-center">
     <!-- Form de registro: enlace a login y botón submit -->
     @if (!isUpdate) {
     <div class="col-12 col-md-8">
       <p class="text-light mb-0">¿Ya tienes una cuenta? <a class="fw-semibold fs-5 text-light"
           [routerLink]="['/login']">Accede</a> </p>
     </div>
-    <div class="col-12 col-md-4 mt-2 mt-md-0 pe-0">
+    <div class="col-12 col-md-4 mt-3 mt-md-0 pe-0">
       <input class="btn btn-outline-light btn-lg" type="submit" [disabled]="!inputForm.valid" value="Regístrate">
     </div>
   
