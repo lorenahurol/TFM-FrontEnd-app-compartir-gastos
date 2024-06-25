@@ -1,13 +1,12 @@
 import { ViewportScroller } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { AlertModalService } from '../../services/alert-modal.service';
 import { InvitationsService } from '../../services/invitations.service';
 import { IInvitation } from '../../interfaces/iinvitation.interface';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { GroupsService } from '../../services/groups.service';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -16,29 +15,50 @@ import { Subscription } from 'rxjs';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
 
   router = inject(Router);
   viewportScroller = inject(ViewportScroller);
   authService = inject(AuthService);
   invitationsService = inject(InvitationsService);
   alertModalService = inject(AlertModalService);
-  groupsService = inject(GroupsService)
+  groupsService = inject(GroupsService);
 
   isLoggedIn: boolean = false;
   userId: number | any;
+  hasInvitations: boolean = false;
   invitations: IInvitation[] = [];
   processedInvitations: any[] = [];
 
   async ngOnInit(): Promise<void> {
-    // subscribe al observable de estado de login
-    this.authService.isLoggedIn$.subscribe(isLoggedIn => {
+    // Check login status on initialization
+    await this.checkLoginStatus();
+
+    // subscribe to login state observable
+    this.authService.isLoggedIn$.subscribe(async isLoggedIn => {
       this.isLoggedIn = isLoggedIn;
       if (this.isLoggedIn) {
-        this.getLoginUser();
-        this.loadInvitations();  
+        await this.getLoginUser();
+        this.loadInvitations();
       }
     });
+  }
+
+  async checkLoginStatus() {
+    const token = localStorage.getItem("login_token");
+    if (token) {
+      try {
+        const tokenVerification = await this.authService.verifyToken(token);
+        if (tokenVerification && tokenVerification.id) {
+          this.userId = tokenVerification.id;
+          this.isLoggedIn = true;
+          this.loadInvitations();
+        }
+      } catch (error) {
+        console.error("Token verification failed", error);
+        this.isLoggedIn = false;
+      }
+    }
   }
 
   async getLoginUser() {
@@ -55,26 +75,25 @@ export class NavbarComponent {
     }
   }
 
-
   navigate(destination: string) {
     this.router.navigate(['/landing']).then(() => {
       this.viewportScroller.scrollToAnchor(destination);
     });
   }
 
-
   async loadInvitations() {
+    if (!this.userId) return;
+
     try {
       this.invitations = await this.invitationsService.getInvitationsByUser(this.userId);
-      // Carga los nombres de los grupos de las invitaciones y los añade a los objetos del array para poderlos enseñar en el dropdown
       this.processedInvitations = await Promise.all(
         this.invitations.map(async invitation => {
-        const group = await this.groupsService.getGroupById (invitation.group_id)
-        return {...invitation, description: group.description}
+          const group = await this.groupsService.getGroupById(invitation.group_id);
+          return { ...invitation, description: group.description };
         })
       );
     } catch (error) {
-      console.error("Error loading invitations");
+      console.error("Error loading invitations", error);
     }
   }
 
@@ -101,7 +120,7 @@ export class NavbarComponent {
           body: `La invitación al grupo ha sido aceptada correctamente.`,
           acceptAction: true,
           backAction: false
-        })
+        });
 
         alertModal?.componentInstance.sendModalAccept.subscribe(
           (isAccepted) => {
@@ -110,8 +129,6 @@ export class NavbarComponent {
             }
           }
       );
-
-
       } else if (action === 'reject') {
         this.alertModalService.newAlertModal({
           icon: 'done_all',
@@ -145,9 +162,9 @@ export class NavbarComponent {
     alertModal?.componentInstance.sendModalAccept.subscribe(
       (isAccepted) => {
         if (isAccepted) {
-          this.authService.logout()
-          this.isLoggedIn = false; 
-          this.router.navigate(['/login'])
+          this.authService.logout();
+          this.isLoggedIn = false;
+          this.router.navigate(['/login']);
         }
       }
     );

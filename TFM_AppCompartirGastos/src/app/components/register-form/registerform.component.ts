@@ -237,7 +237,7 @@ export class RegisterFormComponent {
                 const alertModal = this.alertModalService.newAlertModal({
                 icon: 'mail',
                 title: 'Genial!',
-                body: `Hemos mandado un email a tu correo ${newUser.mail} con las instrucciones`,
+                body: `Hemos enviado un email a tu correo ${newUser.mail} con las instrucciones`,
                 acceptAction: true,
                 backAction: true,
               });
