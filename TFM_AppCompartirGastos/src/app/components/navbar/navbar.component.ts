@@ -15,7 +15,7 @@ import { GroupsService } from '../../services/groups.service';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent  {
 
   router = inject(Router);
   viewportScroller = inject(ViewportScroller);
@@ -31,10 +31,10 @@ export class NavbarComponent implements OnInit {
   processedInvitations: any[] = [];
 
   async ngOnInit(): Promise<void> {
-    // Check login status on initialization
+    // check login status al inicializar
     await this.checkLoginStatus();
 
-    // subscribe to login state observable
+    // subscribe al observable de estado del login
     this.authService.isLoggedIn$.subscribe(async isLoggedIn => {
       this.isLoggedIn = isLoggedIn;
       if (this.isLoggedIn) {
@@ -55,7 +55,7 @@ export class NavbarComponent implements OnInit {
           this.loadInvitations();
         }
       } catch (error) {
-        console.error("Token verification failed", error);
+        console.error("Error en la verificación del token", error);
         this.isLoggedIn = false;
       }
     }
@@ -86,6 +86,7 @@ export class NavbarComponent implements OnInit {
 
     try {
       this.invitations = await this.invitationsService.getInvitationsByUser(this.userId);
+      // Carga los nombres de los grupos de las invitaciones y los añade a los objetos del array para poderlos enseñar en el dropdown
       this.processedInvitations = await Promise.all(
         this.invitations.map(async invitation => {
           const group = await this.groupsService.getGroupById(invitation.group_id);
