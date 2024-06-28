@@ -130,6 +130,8 @@ export class RegisterFormComponent {
             Validators.pattern(/^[\w-.]+@([\w-]+\.)+[a-z]{2,4}$/),
           ]),
         });
+        // Desactiva el campo email para que no sea editable
+        this.inputForm.controls['email'].disable()
       }
     }
     /**
